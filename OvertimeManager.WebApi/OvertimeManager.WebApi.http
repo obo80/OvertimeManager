@@ -1,0 +1,6 @@
+@OvertimeManager.WebApi_HostAddress = http://localhost:5083
+
+GET {{OvertimeManager.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
