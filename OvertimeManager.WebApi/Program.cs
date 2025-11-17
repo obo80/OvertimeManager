@@ -1,4 +1,10 @@
 
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using OvertimeManager.Application.Extensions;
+using OvertimeManager.Infrastructure.Extensions;
+using OvertimeManager.Infrastructure.Persistence;
+
 namespace OvertimeManager.WebApi
 {
     public class Program
@@ -10,6 +16,16 @@ namespace OvertimeManager.WebApi
             // Add services to the container.
 
             builder.Services.AddControllers();
+
+            //add servicess from sub projects
+            builder.Services.AddInfrastructure(builder.Configuration);
+            builder.Services.AddApplication();
+
+            builder.Services.AddDbContext<OvertimeManagerDbContext>(options =>
+                options.UseSqlServer(builder.Configuration
+                .GetConnectionString("OvertimeManagerConnectionString")));
+
+
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
