@@ -8,9 +8,17 @@ namespace OvertimeManager.Domain.Constants
 {
     public static class UserRoles
     {
-        public const string User = "User";
-        public const string Manager = "Manager";
-        public const string HR = "HR";
-        public const string Admin = "Admin";
+        //public const string User = "User";
+        //public const string Manager = "Manager";
+        //public const string HR = "HR";
+        //public const string Admin = "Admin";
+
+        public static List<string> Roles = new List<string>
+        {    
+            "User", 
+            "Manager", 
+            "HR", 
+            "Admin" 
+        };
     }
 }

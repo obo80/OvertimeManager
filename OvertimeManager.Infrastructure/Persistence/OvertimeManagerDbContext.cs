@@ -28,7 +28,7 @@ namespace OvertimeManager.Infrastructure.Persistence
             modelBuilder.Entity<OvertimeRequest>(eb =>
             {
                 eb.Property(r => r.Name).IsRequired();
-                eb.Property(r => r.Reason).IsRequired();
+                eb.Property(r => r.BusinessJustificationReason).IsRequired();
                 eb.Property(r => r.RequesterdByEmployeeId).IsRequired();
                 eb.Property(r => r.RequesedForEmployeeId).IsRequired();
                 eb.Property(r => r.CreatedForDay).IsRequired();
@@ -47,7 +47,7 @@ namespace OvertimeManager.Infrastructure.Persistence
                 eb.Property(e => e.FirstName).IsRequired();
                 eb.Property(e => e.LastName).IsRequired();
                 eb.Property(e => e.RoleId).IsRequired();
-                eb.Property(e => e.ManagerId).IsRequired();
+                //eb.Property(e => e.ManagerId).IsRequired();
 
                 eb.HasOne(e => e.Manager)
                     .WithMany(e => e.Subordinates)

@@ -1,5 +1,4 @@
 ﻿using OvertimeManager.Domain.Constants;
-using OvertimeManager.Domain.Entities.Overtime;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,7 +14,7 @@ namespace OvertimeManager.Domain.Entities.User
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string PasswordHash { get; set; }
+        public string? PasswordHash { get; set; }
 
         public int RoleId { get; set; } 
         public virtual EmployeeRole Role { get; set; }

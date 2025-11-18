@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OvertimeManager.Infrastructure.Persistence;
+using OvertimeManager.Infrastructure.Seeders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace OvertimeManager.Infrastructure.Extensions
             services.AddDbContext<OvertimeManagerDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
-
+            services.AddScoped<OvertimeManagerSeeder>();
         }
     }
 }

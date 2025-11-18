@@ -9,7 +9,7 @@ namespace OvertimeManager.Domain.Entities.Overtime
 {
     public class OvertimeRequestStatus
     {
-        public int Id { get; set; } = 1;
-        public string Status { get; set; } = OvertimeStatus.Waiting;
+        public int Id { get; set; }
+        public string Status { get; set; }
     }
 }

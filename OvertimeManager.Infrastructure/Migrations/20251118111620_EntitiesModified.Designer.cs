@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OvertimeManager.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using OvertimeManager.Infrastructure.Persistence;
 namespace OvertimeManager.Infrastructure.Migrations
 {
     [DbContext(typeof(OvertimeManagerDbContext))]
-    partial class OvertimeManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251118111620_EntitiesModified")]
+    partial class EntitiesModified
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,13 +114,17 @@ namespace OvertimeManager.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ManagerId")
+                    b.Property<int>("ManagerId")
                         .HasColumnType("int");
 
                     b.Property<int>("OvertimeSummaryId")
                         .HasColumnType("int");
 
+                    b.Property<int>("OvertimeSummaryId1")
+                        .HasColumnType("int");
+
                     b.Property<string>("PasswordHash")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RoleId")
@@ -127,7 +134,7 @@ namespace OvertimeManager.Infrastructure.Migrations
 
                     b.HasIndex("ManagerId");
 
-                    b.HasIndex("OvertimeSummaryId");
+                    b.HasIndex("OvertimeSummaryId1");
 
                     b.HasIndex("RoleId");
 
@@ -158,6 +165,9 @@ namespace OvertimeManager.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
 
                     b.Property<double>("SettledOvertimet")
                         .HasColumnType("float");
@@ -197,7 +207,7 @@ namespace OvertimeManager.Infrastructure.Migrations
 
                     b.HasOne("OvertimeManager.Domain.Entities.User.OvertimeSummary", "OvertimeSummary")
                         .WithMany()
-                        .HasForeignKey("OvertimeSummaryId")
+                        .HasForeignKey("OvertimeSummaryId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
