@@ -12,6 +12,10 @@ namespace OvertimeManager.Domain.Entities.Overtime
         public double Multiplier { get; private set; } 
         public double RequestedTime { get; set; }
         public double CompensatedTime { get; private set; }
+        public OvertimeCompensationRequest()
+        {
+            
+        }
 
         public OvertimeCompensationRequest(Constants.MultiplierType multiplierType)
         {

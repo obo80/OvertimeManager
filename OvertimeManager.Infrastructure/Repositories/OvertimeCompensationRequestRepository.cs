@@ -30,8 +30,18 @@ namespace OvertimeManager.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
+        public Task<IEnumerable<OvertimeCompensationRequest>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<OvertimeCompensationRequest?> GetAsyncById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         //public async Task<IEnumerable<OvertimeCompensationRequest>> GetAllAsync()
-        //    => await _dbContext.OvertimeCompensationRequest
+        //    => await _dbContext.OvertimeCompensationRequests
 
         //public async Task<OvertimeCompensationRequest> GetAsyncById(int id)
 

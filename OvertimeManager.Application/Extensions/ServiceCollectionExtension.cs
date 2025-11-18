@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using OvertimeManager.Application.CQRS.Employee.Queries.GetAllEmployees;
+using OvertimeManager.Application.Mappings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,15 +17,16 @@ namespace OvertimeManager.Application.Extensions
         {
             //services.AddScoped<IUserContext, UserContext>();
 
-            //services.AddMediatR(cfg =>
-            //    cfg.RegisterServicesFromAssemblyContaining(typeof(CreateCarWorkshopCommand)));
+            services.AddMediatR(cfg =>
+                cfg.RegisterServicesFromAssemblyContaining(typeof(GetAllEmployeesQuery)));
 
-            ////services.AddAutoMapper(typeof(CarWorkshopMappingProfile));
+            services.AddAutoMapper(typeof(EmployeeMappingProfile));
+            ///
             ////dynamicze wywołanie automappera aby moć użyć konstruktora bez parametrów
             //services.AddScoped(provider => new MapperConfiguration(cfg =>
             //{
             //    var scope = provider.CreateScope();
-            //    var userContext = scope.ServiceProvider.GetRequiredService<IUserContext>();
+            //    var userContext = scope.ServiceProvider.GetRequiredService<IEmp>();
             //    cfg.AddProfile(new CarWorkshopMappingProfile(userContext));
             //}).CreateMapper());
 

@@ -25,7 +25,7 @@ namespace OvertimeManager.Infrastructure.Seeders
             {
                 await SeedRoles();
                 await SeedOvertimeStatus();
-                await SeedEmployee();
+                await SeedEmployees();
                 //await SeedOvetimeSummary();
 
             }
@@ -44,29 +44,51 @@ namespace OvertimeManager.Infrastructure.Seeders
         //    }
         //}
 
-        private async Task SeedEmployee()
+        private async Task SeedEmployees()
         {
-            //adding top manager
-            var chef = new Employee() { FirstName = "Szef", LastName = "Wszystkich Szefów", Email = "Szefuncio@company.com", 
-                RoleId = 2,OvertimeSummary = new OvertimeSummary() };
-            await _dbContext.Employees.AddAsync(chef);
-            await _dbContext.SaveChangesAsync();
+            if (!_dbContext.Employees.Any())
+            {
+                //adding top manager
+                var chef = new Employee()
+                {
+                    FirstName = "Szef",
+                    LastName = "Wszystkich Szefów",
+                    Email = "Szefuncio@company.com",
+                    RoleId = 2,
+                    OvertimeSummary = new OvertimeSummary()
+                };
+                await _dbContext.Employees.AddAsync(chef);
+                await _dbContext.SaveChangesAsync();
 
-            var cheefId = chef.Id;
+                var cheefId = chef.Id;
 
-            //adding managers
-            var manager1 = new Employee() { FirstName = "Piero", LastName = "Menagiero", Email = "Menagiero@company.com", 
-                RoleId = 2,ManagerId = cheefId ,OvertimeSummary = new OvertimeSummary() };
-            var manager2 = new Employee() { FirstName = "Eriko", LastName = "Kierowniko", Email = "Kierowniko@company.com", 
-                RoleId = 2, ManagerId = cheefId, OvertimeSummary = new OvertimeSummary() };
+                //adding managers
+                var manager1 = new Employee()
+                {
+                    FirstName = "Piero",
+                    LastName = "Menagiero",
+                    Email = "Menagiero@company.com",
+                    RoleId = 2,
+                    ManagerId = cheefId,
+                    OvertimeSummary = new OvertimeSummary()
+                };
+                var manager2 = new Employee()
+                {
+                    FirstName = "Eriko",
+                    LastName = "Kierowniko",
+                    Email = "Kierowniko@company.com",
+                    RoleId = 2,
+                    ManagerId = cheefId,
+                    OvertimeSummary = new OvertimeSummary()
+                };
 
-            await _dbContext.AddRangeAsync(manager1, manager2);
-            await _dbContext.SaveChangesAsync();
+                await _dbContext.AddRangeAsync(manager1, manager2);
+                await _dbContext.SaveChangesAsync();
 
-            var manager1Id = manager1.Id;
-            var manager2Id = manager2.Id;
+                var manager1Id = manager1.Id;
+                var manager2Id = manager2.Id;
 
-            var emplooyees = new List<Employee>()
+                var emplooyees = new List<Employee>()
             {
                 new Employee(){FirstName = "Jan", LastName = "Kowalski", Email = "Jan.Kowalski@company.com", RoleId = 1, ManagerId = manager1Id, OvertimeSummary = new OvertimeSummary()},
                 new Employee(){FirstName = "Zdzisiek", LastName = "Obibok", Email = "Zdzisiek.Obibok@company.com", RoleId = 1, ManagerId = manager1Id, OvertimeSummary = new OvertimeSummary()},
@@ -74,8 +96,9 @@ namespace OvertimeManager.Infrastructure.Seeders
                 new Employee(){FirstName = "Koziołek", LastName = "Matołek", Email = "Koziolek.Matolek@company.com", RoleId = 1, ManagerId = manager2Id, OvertimeSummary = new OvertimeSummary()},
                 new Employee(){FirstName = "Edward", LastName = "Nożycoreki", Email = "Edward.Nozycoreki", RoleId = 1, ManagerId = manager2Id, OvertimeSummary = new OvertimeSummary()},
             };
-            await _dbContext.Employees.AddRangeAsync(emplooyees);
-            await _dbContext.SaveChangesAsync();
+                await _dbContext.Employees.AddRangeAsync(emplooyees);
+                await _dbContext.SaveChangesAsync(); 
+            }
         }
 
         private async Task SeedOvertimeStatus()
