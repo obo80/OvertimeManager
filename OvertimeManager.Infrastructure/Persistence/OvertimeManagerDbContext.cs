@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using OvertimeManager.Domain.Entities.Overtime;
 using OvertimeManager.Domain.Entities.User;
+using OvertimeManager.Domain.Interfaces;
 
 namespace OvertimeManager.Infrastructure.Persistence
 {
@@ -11,6 +12,8 @@ namespace OvertimeManager.Infrastructure.Persistence
 
 
         public DbSet<OvertimeRequest> OvertimeRequests { get; set; }
+        public DbSet<OvertimeCompensationRequest> OvertimeCompensationRequests { get; set; }
+
         public DbSet<OvertimeRequestStatus> OvertimeRequestsStatusses { get; set; }
         public DbSet<OvertimeSummary> OvertimeSummaries { get; set; }
 
@@ -33,7 +36,17 @@ namespace OvertimeManager.Infrastructure.Persistence
                 eb.Property(r => r.RequesedForEmployeeId).IsRequired();
                 eb.Property(r => r.CreatedForDay).IsRequired();
                 eb.Property(r => r.RequestedTime).IsRequired();
-                eb.Property(r => r.ApprovalStatusId).IsRequired();    
+                eb.Property(r => r.ApprovalStatusId).IsRequired(); 
+            });
+
+            modelBuilder.Entity<OvertimeCompensationRequest>(eb =>
+            {
+                eb.Property(r => r.RequesterdByEmployeeId).IsRequired();
+                eb.Property(r => r.RequesedForEmployeeId).IsRequired();
+                eb.Property(r => r.CreatedForDay).IsRequired();
+                eb.Property(r => r.RequestedTime).IsRequired();
+                eb.Property(r => r.RequestedTime).IsRequired();
+                eb.Property(r => r.Multiplier).IsRequired();
             });
 
             modelBuilder.Entity<OvertimeRequestStatus>(eb =>

@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using OvertimeManager.Domain.Interfaces;
 using OvertimeManager.Infrastructure.Persistence;
+using OvertimeManager.Infrastructure.Repositories;
 using OvertimeManager.Infrastructure.Seeders;
 using System;
 using System.Collections.Generic;
@@ -20,6 +22,10 @@ namespace OvertimeManager.Infrastructure.Extensions
                 options.UseSqlServer(connectionString));
 
             services.AddScoped<OvertimeManagerSeeder>();
+
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IOvertimeRequestRepository, OvertimeRequestRepository>();
+            services.AddScoped<IOvertimeCompensationRequestRepository, OvertimeCompensationRequestRepository>();
         }
     }
 }
