@@ -11,8 +11,10 @@ namespace OvertimeManager.Domain.Interfaces
     public interface IEmployeeRepository
     {
         Task<IEnumerable<Employee>> GetAllAsync();
+        Task<IEnumerable<Employee>> GetAllByManagerIdAsync(int id);
         Task<Employee?> GetAsyncById(int id);
-        Task Create(Employee employee);
-        Task Commit();
+        Task<int> Create(Employee employee);
+        Task SaveChanges();
+        Task Delete(Employee employee);
     }
 }

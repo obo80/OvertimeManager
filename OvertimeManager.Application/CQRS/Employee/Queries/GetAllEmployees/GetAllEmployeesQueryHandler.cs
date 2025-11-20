@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using OvertimeManager.Application.CQRS.Employee.DTOs;
 using OvertimeManager.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace OvertimeManager.Application.CQRS.Employee.Queries.GetAllEmployees
 {
-    internal class GetAllEmployeesQueryHandler : IRequestHandler<GetAllEmployeesQuery, IEnumerable<EmployeeDto>>
+    internal class GetAllEmployeesQueryHandler : IRequestHandler<GetAllEmployeesQuery, IEnumerable<EmployeeWithOvetimeDataDto>>
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
@@ -19,10 +20,10 @@ namespace OvertimeManager.Application.CQRS.Employee.Queries.GetAllEmployees
             _employeeRepository = employeeRepository;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<EmployeeDto>> Handle(GetAllEmployeesQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<EmployeeWithOvetimeDataDto>> Handle(GetAllEmployeesQuery request, CancellationToken cancellationToken)
         {
             var employees = await _employeeRepository.GetAllAsync();
-            var dtos = _mapper.Map<IEnumerable<EmployeeDto>>(employees);
+            var dtos = _mapper.Map<IEnumerable<EmployeeWithOvetimeDataDto>>(employees);
 
             return dtos;
         }

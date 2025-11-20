@@ -15,7 +15,7 @@ namespace OvertimeManager.Infrastructure.Persistence
         public DbSet<OvertimeCompensationRequest> OvertimeCompensationRequests { get; set; }
 
         public DbSet<OvertimeRequestStatus> OvertimeRequestsStatusses { get; set; }
-        public DbSet<OvertimeSummary> OvertimeSummaries { get; set; }
+        public DbSet<EmployeeOvertimeSummary> OvertimeSummaries { get; set; }
 
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeeRole> EmployeeRoles { get; set; }

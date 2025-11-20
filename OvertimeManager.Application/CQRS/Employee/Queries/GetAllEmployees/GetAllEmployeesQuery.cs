@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using OvertimeManager.Application.CQRS.Employee.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OvertimeManager.Application.CQRS.Employee.Queries.GetAllEmployees
 {
-    public class GetAllEmployeesQuery : IRequest<IEnumerable<EmployeeDto>>
+    public class GetAllEmployeesQuery : IRequest<IEnumerable<EmployeeWithOvetimeDataDto>>
     {
 
     }

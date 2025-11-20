@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OvertimeManager.Domain.Entities.User
 {
-    public class OvertimeSummary
+    public class EmployeeOvertimeSummary
     {
         public int Id { get; set; }
         public double TakenOvertime { get; set; } = 0;      //time added to amount after overtime dome

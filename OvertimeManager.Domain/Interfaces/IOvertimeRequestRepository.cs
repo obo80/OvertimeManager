@@ -1,4 +1,5 @@
 ﻿using OvertimeManager.Domain.Entities.Overtime;
+using OvertimeManager.Domain.Entities.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,8 @@ namespace OvertimeManager.Domain.Interfaces
     {
         Task<IEnumerable<OvertimeRequest>> GetAllAsync();
         Task<OvertimeRequest?> GetAsyncById(int id);
-        Task Create(OvertimeRequest overtimeRequest);
-        Task Commit();
+        Task<int> Create(OvertimeRequest overtimeRequest);
+        Task SaveChanges();
+        Task Delete(OvertimeRequest overtimeRequest);
     }
 }

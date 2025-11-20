@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
+using OvertimeManager.Application.CQRS.Employee.DTOs;
 using OvertimeManager.Application.CQRS.Employee.Queries.GetAllEmployees;
-using OvertimeManager.Application.Mappings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +18,14 @@ namespace OvertimeManager.Application.Extensions
         {
             //services.AddScoped<IUserContext, UserContext>();
 
-            services.AddMediatR(cfg =>
-                cfg.RegisterServicesFromAssemblyContaining(typeof(GetAllEmployeesQuery)));
+            var applicationAssembly = typeof(ServiceCollectionExtension).Assembly;
 
-            services.AddAutoMapper(typeof(EmployeeMappingProfile));
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(applicationAssembly));
+
+            services.AddAutoMapper(applicationAssembly);
+
+            services.AddValidatorsFromAssembly(applicationAssembly)
+                .AddFluentValidationAutoValidation();
             ///
             ////dynamicze wywołanie automappera aby moć użyć konstruktora bez parametrów
             //services.AddScoped(provider => new MapperConfiguration(cfg =>

@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using OvertimeManager.Application.CQRS.Employee.Queries.GetAllEmployees;
+using OvertimeManager.Application.CQRS.Employee.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OvertimeManager.Application.CQRS.Employee.Queries.GetEmployeeById
 {
-    public class GetEmployeeByIdQuery : IRequest<EmployeeDto>
+    public class GetEmployeeByIdQuery : IRequest<EmployeeWithOvetimeDataDto>
     {
         public int Id { get; }
         public GetEmployeeByIdQuery(int id)

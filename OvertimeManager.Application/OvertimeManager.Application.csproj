@@ -20,11 +20,7 @@
 
   <ItemGroup>
     <Folder Include="Common\" />
-    <Folder Include="CQRS\Employee\Commands\" />
-    <Folder Include="CQRS\OvertimeCompensationRequest\Commands\" />
-    <Folder Include="CQRS\OvertimeCompensationRequest\Queries\" />
-    <Folder Include="CQRS\OvertimeRequest\Commands\" />
-    <Folder Include="CQRS\OvertimeRequest\Queries\" />
+    <Folder Include="Mappings\" />
   </ItemGroup>
 
 </Project>

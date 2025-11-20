@@ -11,7 +11,8 @@ namespace OvertimeManager.Domain.Interfaces
     {
         Task<IEnumerable<OvertimeCompensationRequest>> GetAllAsync();
         Task<OvertimeCompensationRequest?> GetAsyncById(int id);
-        Task Create(OvertimeCompensationRequest overtimeRequest);
-        Task Commit();
+        Task<int> Create(OvertimeCompensationRequest overtimeCompensationRequest);
+        Task SaveChanges();
+        Task Delete(OvertimeCompensationRequest overtimeCompensationRequest);
     }
 }

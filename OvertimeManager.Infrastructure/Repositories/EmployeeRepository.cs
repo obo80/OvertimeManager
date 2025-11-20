@@ -19,21 +19,38 @@ namespace OvertimeManager.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task Commit()
+        public async Task SaveChanges()
         {
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task Create(Employee employee)
+        public async Task<int> Create(Employee employee)
         {
             await _dbContext.AddAsync(employee);
             await _dbContext.SaveChangesAsync();
+            return employee.Id;
         }
 
         public async Task<IEnumerable<Employee>> GetAllAsync()
-            => await _dbContext.Employees.ToListAsync();
+            => await _dbContext.Employees
+                .Include(e => e.OvertimeSummary)
+                .ToListAsync();
 
         public async Task<Employee?> GetAsyncById(int id)
-            =>await _dbContext.Employees.FirstOrDefaultAsync(e => e.Id == id);
+            =>await _dbContext.Employees
+                .Include(e => e.OvertimeSummary)
+                .FirstOrDefaultAsync(e => e.Id == id);
+
+        public async Task Delete(Employee employee)
+        {
+            _dbContext.Employees.Remove(employee);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Employee>> GetAllByManagerIdAsync(int id)
+            => await _dbContext.Employees
+            .Where(e => e.ManagerId == id)
+            .Include(e => e.OvertimeSummary)
+            .ToListAsync();
     }
 }

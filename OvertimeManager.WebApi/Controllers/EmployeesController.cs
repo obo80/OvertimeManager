@@ -1,15 +1,20 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using OvertimeManager.Domain.Entities.User;
+using OvertimeManager.Application.CQRS.Employee.Commands.CreateEmployee;
+using OvertimeManager.Application.CQRS.Employee.Commands.DeleteEmployee;
+using OvertimeManager.Application.CQRS.Employee.Commands.UpdateEmployee;
+using OvertimeManager.Application.CQRS.Employee.DTOs;
 using OvertimeManager.Application.CQRS.Employee.Queries.GetAllEmployees;
 using OvertimeManager.Application.CQRS.Employee.Queries.GetEmployeeById;
+using OvertimeManager.Domain.Entities.User;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace OvertimeManager.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Employees")]
     [ApiController]
     public class EmployeesController : ControllerBase
     {
@@ -24,7 +29,7 @@ namespace OvertimeManager.Api.Controllers
 
         // GET: api/Employees
         [HttpGet]
-        public async Task<IActionResult> GetAll ()
+        public async Task<IActionResult> GetAllEmployees ()
         {
             var employees = await _mediator.Send(new GetAllEmployeesQuery());
             return Ok(employees);
@@ -32,7 +37,7 @@ namespace OvertimeManager.Api.Controllers
 
         // GET api/Employees/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetEmployeeById(int id)
         {
             var employee = await _mediator.Send(new GetEmployeeByIdQuery(id));
             return Ok(employee);
@@ -40,25 +45,27 @@ namespace OvertimeManager.Api.Controllers
 
         // POST api/Employees
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] string value)
+        public async Task<IActionResult> CreateEmploye([FromBody] CreateEmployeeCommand command)
         {
-
-
-            return Created();
+            int id = await _mediator.Send(command);
+            return CreatedAtAction(nameof(GetEmployeeById), new { id }, null);
+            //return Created();
         }
 
         // PUT api/Employees/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] string value)
+        public async Task<IActionResult> UpdateEmploye([FromRoute] int id, [FromBody] UpdateEmployeeCommand command)
         {
-
-            return Created();
+            command.Id = id;
+            await _mediator.Send(command);
+            return Ok();
         }
 
         // DELETE api/Employees/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteEmploye([FromRoute] int id)
         {
+            await _mediator.Send(new DeleteEmployeeCommand(id));
             return NoContent();
         }
     }

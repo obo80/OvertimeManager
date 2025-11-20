@@ -16,7 +16,7 @@ namespace OvertimeManager.Domain.Entities.User
         public string LastName { get; set; }
         public string? PasswordHash { get; set; }
 
-        public int RoleId { get; set; } 
+        public int RoleId { get; set; } = 1;        //default role - Employee
         public virtual EmployeeRole Role { get; set; }
 
         public int? ManagerId { get; set; }
@@ -25,6 +25,6 @@ namespace OvertimeManager.Domain.Entities.User
         public virtual ICollection<Employee>? Subordinates { get; set; }
 
         public int OvertimeSummaryId { get; set; }
-        public virtual OvertimeSummary OvertimeSummary { get; set; }
+        public virtual EmployeeOvertimeSummary OvertimeSummary { get; set; }
     }
 }

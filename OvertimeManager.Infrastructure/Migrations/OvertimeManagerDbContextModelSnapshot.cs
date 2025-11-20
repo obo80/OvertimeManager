@@ -36,8 +36,8 @@ namespace OvertimeManager.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("CreatedForDay")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("CreatedForDay")
+                        .HasColumnType("date");
 
                     b.Property<double>("Multiplier")
                         .HasColumnType("float");
@@ -87,8 +87,8 @@ namespace OvertimeManager.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("CreatedForDay")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("CreatedForDay")
+                        .HasColumnType("date");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -178,24 +178,7 @@ namespace OvertimeManager.Infrastructure.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("OvertimeManager.Domain.Entities.User.EmployeeRole", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("EmployeeRoles");
-                });
-
-            modelBuilder.Entity("OvertimeManager.Domain.Entities.User.OvertimeSummary", b =>
+            modelBuilder.Entity("OvertimeManager.Domain.Entities.User.EmployeeOvertimeSummary", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -215,6 +198,23 @@ namespace OvertimeManager.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("OvertimeSummaries");
+                });
+
+            modelBuilder.Entity("OvertimeManager.Domain.Entities.User.EmployeeRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmployeeRoles");
                 });
 
             modelBuilder.Entity("OvertimeManager.Domain.Entities.Overtime.OvertimeCompensationRequest", b =>
@@ -254,7 +254,7 @@ namespace OvertimeManager.Infrastructure.Migrations
                         .HasForeignKey("ManagerId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("OvertimeManager.Domain.Entities.User.OvertimeSummary", "OvertimeSummary")
+                    b.HasOne("OvertimeManager.Domain.Entities.User.EmployeeOvertimeSummary", "OvertimeSummary")
                         .WithMany()
                         .HasForeignKey("OvertimeSummaryId")
                         .OnDelete(DeleteBehavior.Cascade)

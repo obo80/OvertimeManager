@@ -15,7 +15,7 @@ namespace OvertimeManager.Domain.Constants
 
         public static List<string> Roles = new List<string>
         {    
-            "User", 
+            "Employee", 
             "Manager", 
             "HR", 
             "Admin" 

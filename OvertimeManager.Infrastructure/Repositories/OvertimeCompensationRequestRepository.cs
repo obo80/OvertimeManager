@@ -19,15 +19,16 @@ namespace OvertimeManager.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task Commit()
+        public async Task SaveChanges()
         {
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task Create(OvertimeCompensationRequest overtimeRequest)
+        public async Task<int> Create(OvertimeCompensationRequest overtimeRequest)
         {
             await _dbContext.AddAsync(overtimeRequest);
             await _dbContext.SaveChangesAsync();
+            return overtimeRequest.Id;
         }
 
         public Task<IEnumerable<OvertimeCompensationRequest>> GetAllAsync()
@@ -38,6 +39,12 @@ namespace OvertimeManager.Infrastructure.Repositories
         public Task<OvertimeCompensationRequest?> GetAsyncById(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task Delete(OvertimeCompensationRequest overtimeRequest)
+        {
+            _dbContext.OvertimeCompensationRequests.Remove(overtimeRequest);
+            await _dbContext.SaveChangesAsync();
         }
 
         //public async Task<IEnumerable<OvertimeCompensationRequest>> GetAllAsync()
