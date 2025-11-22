@@ -40,7 +40,7 @@ namespace OvertimeManager.Infrastructure.Seeders
                     FirstName = "Szef",
                     LastName = "Wszystkich Szefów",
                     Email = "Szefuncio@company.com",
-                    RoleId = 2,
+                    RoleId = 3,
                     OvertimeSummary = new EmployeeOvertimeSummary()
                 };
                 await _dbContext.Employees.AddAsync(chef);

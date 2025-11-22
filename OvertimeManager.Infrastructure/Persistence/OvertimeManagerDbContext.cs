@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using OvertimeManager.Domain.Entities.Overtime;
 using OvertimeManager.Domain.Entities.User;
-using OvertimeManager.Domain.Interfaces;
 
 namespace OvertimeManager.Infrastructure.Persistence
 {
