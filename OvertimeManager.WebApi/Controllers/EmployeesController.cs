@@ -4,11 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using OvertimeManager.Application.CQRS.Employee.Commands.CreateEmployee;
 using OvertimeManager.Application.CQRS.Employee.Commands.DeleteEmployee;
 using OvertimeManager.Application.CQRS.Employee.Commands.UpdateEmployee;
-using OvertimeManager.Application.CQRS.Employee.DTOs;
 using OvertimeManager.Application.CQRS.Employee.Queries.GetAllEmployees;
 using OvertimeManager.Application.CQRS.Employee.Queries.GetEmployeeById;
-using OvertimeManager.Domain.Entities.User;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

@@ -15,5 +15,7 @@ namespace OvertimeManager.Domain.Interfaces
         Task<int> Create(OvertimeRequest overtimeRequest);
         Task SaveChanges();
         Task Delete(OvertimeRequest overtimeRequest);
+        Task<IEnumerable<OvertimeRequest>> GetAllMyRequestsAsync(int employeeId);
+        Task<IEnumerable<OvertimeRequest>> GetAllManagerSubordinatesRequestsAsync(int managerId);
     }
 }

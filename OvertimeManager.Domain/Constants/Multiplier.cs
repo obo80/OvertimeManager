@@ -6,24 +6,16 @@ using System.Threading.Tasks;
 
 namespace OvertimeManager.Domain.Constants
 {
-    public enum MultiplierType
-    {
-        Normal,
-        Multiplied
-    };
     public static class Multiplier
     {
-        public static double GetMultipliedValue (MultiplierType type)
+        const double Normal = 1.0;
+        const double Multiplied = 1.5;
+        public static double GetMultipliedValue (bool isMultiplied)
         {
-            switch (type)
-            {
-                case MultiplierType.Normal:
-                    return 1.0;
-                case MultiplierType.Multiplied:
-                    return 1.5;
-                default:
-                    return 0.0;
-            }
+            if (isMultiplied) 
+                return Multiplied;
+
+            return Normal;
         }
     }
 }

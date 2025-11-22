@@ -35,6 +35,17 @@ namespace OvertimeManager.Infrastructure.Repositories
         public async Task<IEnumerable<OvertimeRequest>> GetAllAsync()
             => await _dbContext.OvertimeRequests.ToListAsync();
 
+        public async Task<IEnumerable<OvertimeRequest>> GetAllMyRequestsAsync(int employeeId)
+            => await _dbContext.OvertimeRequests
+                .Where(r =>r.RequesedForEmployeeId == employeeId)
+                .ToListAsync();
+
+        public async Task<IEnumerable<OvertimeRequest>> GetAllManagerSubordinatesRequestsAsync(int managerId)
+             => await _dbContext.OvertimeRequests
+                .Where(r => r.RequestedForEmployee !=null && r.RequestedForEmployee.ManagerId == managerId)
+                .ToListAsync();
+
+
         public async Task<OvertimeRequest?> GetAsyncById(int id)
             => await _dbContext.OvertimeRequests.FirstOrDefaultAsync(r => r.Id == id);
 
@@ -43,5 +54,7 @@ namespace OvertimeManager.Infrastructure.Repositories
             _dbContext.OvertimeRequests.Remove(overtimeRequest);
             await _dbContext.SaveChangesAsync();
         }
+
+
     }
 }

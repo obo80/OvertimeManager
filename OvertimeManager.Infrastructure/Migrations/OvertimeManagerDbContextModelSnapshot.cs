@@ -63,7 +63,7 @@ namespace OvertimeManager.Infrastructure.Migrations
 
                     b.HasIndex("RequestedForEmployeeId");
 
-                    b.ToTable("OvertimeCompensationRequests");
+                    b.ToTable("OvertimeCompensationRequests", (string)null);
                 });
 
             modelBuilder.Entity("OvertimeManager.Domain.Entities.Overtime.OvertimeRequest", b =>
@@ -115,7 +115,7 @@ namespace OvertimeManager.Infrastructure.Migrations
 
                     b.HasIndex("RequestedForEmployeeId");
 
-                    b.ToTable("OvertimeRequests");
+                    b.ToTable("OvertimeRequests", (string)null);
                 });
 
             modelBuilder.Entity("OvertimeManager.Domain.Entities.Overtime.OvertimeRequestStatus", b =>
@@ -132,7 +132,7 @@ namespace OvertimeManager.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OvertimeRequestsStatusses");
+                    b.ToTable("OvertimeRequestsStatusses", (string)null);
                 });
 
             modelBuilder.Entity("OvertimeManager.Domain.Entities.User.Employee", b =>
@@ -175,7 +175,7 @@ namespace OvertimeManager.Infrastructure.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("OvertimeManager.Domain.Entities.User.EmployeeOvertimeSummary", b =>
@@ -197,7 +197,7 @@ namespace OvertimeManager.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OvertimeSummaries");
+                    b.ToTable("OvertimeSummaries", (string)null);
                 });
 
             modelBuilder.Entity("OvertimeManager.Domain.Entities.User.EmployeeRole", b =>
@@ -214,7 +214,7 @@ namespace OvertimeManager.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EmployeeRoles");
+                    b.ToTable("EmployeeRoles", (string)null);
                 });
 
             modelBuilder.Entity("OvertimeManager.Domain.Entities.Overtime.OvertimeCompensationRequest", b =>

@@ -17,9 +17,9 @@ namespace OvertimeManager.Domain.Entities.Overtime
             
         }
 
-        public OvertimeCompensationRequest(Constants.MultiplierType multiplierType)
+        public void SetComensation(bool isMultiplied)
         {
-            Multiplier = Constants.Multiplier.GetMultipliedValue(multiplierType); ;
+            Multiplier = Constants.Multiplier.GetMultipliedValue(isMultiplied);
             CompensatedTime = CountComensatedTime(Multiplier, RequestedTime);
         }
 

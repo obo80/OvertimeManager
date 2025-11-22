@@ -1,4 +1,6 @@
 ﻿using MediatR;
+using OvertimeManager.Application.Common;
+using OvertimeManager.Domain.Entities.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,5 +26,14 @@ namespace OvertimeManager.Application.CQRS.OvertimeRequest.Commands.CreateOverti
 
         //public double? ActualTime { get; set; }       
         //public int ApprovalStatusId { get; set; }
+
+        public CreateOvertimeRequestCommand(string authorizationToken, bool isManagerRequest)
+        {
+            RequesterdByEmployeeId = ApplicationUtils.GetUserIdFromClaims(authorizationToken);
+
+            if (!isManagerRequest)
+                RequesedForEmployeeId = RequesterdByEmployeeId;
+
+        }
     }
 }
