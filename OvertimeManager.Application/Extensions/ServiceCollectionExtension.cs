@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNet.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace OvertimeManager.Application.Extensions
@@ -18,6 +19,9 @@ namespace OvertimeManager.Application.Extensions
 
             services.AddValidatorsFromAssembly(applicationAssembly)
                 .AddFluentValidationAutoValidation();
+
+
+            services.AddScoped<IPasswordHasher, PasswordHasher>();
             ///
             ////dynamicze wywołanie automappera aby moć użyć konstruktora bez parametrów
             //services.AddScoped(provider => new MapperConfiguration(cfg =>

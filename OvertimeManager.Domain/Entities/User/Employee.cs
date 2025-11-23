@@ -14,6 +14,9 @@ namespace OvertimeManager.Domain.Entities.User
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        public bool MustChangePassword { get; set; } = true;
+
         public string? PasswordHash { get; set; }
 
         public int RoleId { get; set; } = 1;        //default role - Employee

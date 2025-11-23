@@ -11,6 +11,7 @@
 		<PackageReference Include="FluentValidation" Version="12.1.0" />
 		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
 		<PackageReference Include="MediatR" Version="13.1.0" />
+		<PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.4" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.10" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.15.0" />
 	</ItemGroup>
@@ -20,7 +21,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CQRS\" />
+    <Folder Include="CQRS\Employee\Account\DTOs\" />
+    <Folder Include="CQRS\Employee\Account\Queries\" />
+    <Folder Include="CQRS\Employee\Overtime\Commands\" />
+    <Folder Include="CQRS\Employee\Overtime\DTOs\" />
+    <Folder Include="CQRS\Employee\Overtime\" />
+    <Folder Include="CQRS\Employee\Overtime\Queries\" />
+    <Folder Include="CQRS\Manager\Commands\" />
+    <Folder Include="CQRS\Manager\DTOs\" />
+    <Folder Include="CQRS\Manager\Queries\" />
+    <Folder Include="CQRS\_temp\Commands\" />
+    <Folder Include="CQRS\_temp\DTOs\" />
+    <Folder Include="CQRS\_temp\Queries\" />
     <Folder Include="Mappings\" />
   </ItemGroup>
 

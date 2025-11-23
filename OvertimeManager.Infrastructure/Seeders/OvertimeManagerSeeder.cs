@@ -41,7 +41,8 @@ namespace OvertimeManager.Infrastructure.Seeders
                     LastName = "Wszystkich Szefów",
                     Email = "Szefuncio@company.com",
                     RoleId = 3,
-                    OvertimeSummary = new EmployeeOvertimeSummary()
+                    MustChangePassword = true,
+                    OvertimeSummary = new EmployeeOvertimeSummary()                    
                 };
                 await _dbContext.Employees.AddAsync(chef);
                 await _dbContext.SaveChangesAsync();
@@ -55,6 +56,7 @@ namespace OvertimeManager.Infrastructure.Seeders
                     LastName = "Menagiero",
                     Email = "Menagiero@company.com",
                     RoleId = 2,
+                    MustChangePassword = true,
                     ManagerId = cheefId,
                     OvertimeSummary = new EmployeeOvertimeSummary()
                 };
@@ -64,25 +66,36 @@ namespace OvertimeManager.Infrastructure.Seeders
                     LastName = "Kierowniko",
                     Email = "Kierowniko@company.com",
                     RoleId = 2,
+                    MustChangePassword = true,
+                    ManagerId = cheefId,
+                    OvertimeSummary = new EmployeeOvertimeSummary()
+                };
+                var hrEmployee = new Employee()
+                {
+                    FirstName = "Mariano",
+                    LastName = "Italiano",
+                    Email = "Mariano.Italiano@company.com",
+                    RoleId = 3,
+                    MustChangePassword = true,
                     ManagerId = cheefId,
                     OvertimeSummary = new EmployeeOvertimeSummary()
                 };
 
-                await _dbContext.AddRangeAsync(manager1, manager2);
+                await _dbContext.AddRangeAsync(manager1, manager2, hrEmployee);
                 await _dbContext.SaveChangesAsync();
-
-                var manager1Id = manager1.Id;
-                var manager2Id = manager2.Id;
 
 
                 //adding employees
+                var manager1Id = manager1.Id;
+                var manager2Id = manager2.Id;
+                
                 var emplooyees = new List<Employee>()
             {
-                new Employee(){FirstName = "Jan", LastName = "Kowalski", Email = "Jan.Kowalski@company.com", RoleId = 1, ManagerId = manager1Id, OvertimeSummary = new EmployeeOvertimeSummary()},
-                new Employee(){FirstName = "Zdzisiek", LastName = "Obibok", Email = "Zdzisiek.Obibok@company.com", RoleId = 1, ManagerId = manager1Id, OvertimeSummary = new EmployeeOvertimeSummary()},
-                new Employee(){FirstName = "Stefan", LastName = "Burczymucha", Email = "Stefan.Burczymucha@company.com", RoleId = 1, ManagerId = manager1Id, OvertimeSummary = new EmployeeOvertimeSummary()},
-                new Employee(){FirstName = "Koziołek", LastName = "Matołek", Email = "Koziolek.Matolek@company.com", RoleId = 1, ManagerId = manager2Id, OvertimeSummary = new EmployeeOvertimeSummary()},
-                new Employee(){FirstName = "Edward", LastName = "Nożycoreki", Email = "Edward.Nozycoreki", RoleId = 1, ManagerId = manager2Id, OvertimeSummary = new EmployeeOvertimeSummary()},
+                new Employee(){FirstName = "Jan", LastName = "Kowalski", Email = "Jan.Kowalski@company.com", RoleId = 1, MustChangePassword = true, ManagerId = manager1Id, OvertimeSummary = new EmployeeOvertimeSummary()},
+                new Employee(){FirstName = "Zdzisiek", LastName = "Obibok", Email = "Zdzisiek.Obibok@company.com", RoleId = 1, MustChangePassword = true, ManagerId = manager1Id, OvertimeSummary = new EmployeeOvertimeSummary()},
+                new Employee(){FirstName = "Stefan", LastName = "Burczymucha", Email = "Stefan.Burczymucha@company.com", RoleId = 1, MustChangePassword = true, ManagerId = manager1Id, OvertimeSummary = new EmployeeOvertimeSummary()},
+                new Employee(){FirstName = "Koziołek", LastName = "Matołek", Email = "Koziolek.Matolek@company.com", RoleId = 1, MustChangePassword = true, ManagerId = manager2Id, OvertimeSummary = new EmployeeOvertimeSummary()},
+                new Employee(){FirstName = "Edward", LastName = "Nożycoreki", Email = "Edward.Nozycoreki", RoleId = 1, MustChangePassword = true, ManagerId = manager2Id, OvertimeSummary = new EmployeeOvertimeSummary()},
             };
                 await _dbContext.Employees.AddRangeAsync(emplooyees);
                 await _dbContext.SaveChangesAsync(); 
