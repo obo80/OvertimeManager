@@ -9,5 +9,7 @@ namespace OvertimeManager.Application.CQRS.HR.Employees.Commands.CreateEmployee
         public string LastName { get; set; }
         public int RoleId { get; set; } = 1; //default role for Employee
         public int? ManagerId { get; set; }
+
+
     }
 }

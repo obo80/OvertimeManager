@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace OvertimeManager.Application.CQRS.HR.Employees.Queries.GetEmployeeById
 {
-    public class GetEmployeeByIdQueryHandler : IRequestHandler<GetEmployeeByIdQuery, EmployeeWithOvetimeDataDto>
+    public class GetEmployeeByIdQueryHandler : IRequestHandler<GetEmployeeByIdQuery, HREmployeeWithOvetimeDataDto>
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
@@ -21,10 +21,10 @@ namespace OvertimeManager.Application.CQRS.HR.Employees.Queries.GetEmployeeById
             _mapper = mapper;
         }
 
-        public async Task<EmployeeWithOvetimeDataDto> Handle(GetEmployeeByIdQuery request, CancellationToken cancellationToken)
+        public async Task<HREmployeeWithOvetimeDataDto> Handle(GetEmployeeByIdQuery request, CancellationToken cancellationToken)
         {
             var employee = await _employeeRepository.GetAsyncById(request.Id);
-            var dto = _mapper.Map<EmployeeWithOvetimeDataDto>(employee);
+            var dto = _mapper.Map<HREmployeeWithOvetimeDataDto>(employee);
 
             return dto;
         }

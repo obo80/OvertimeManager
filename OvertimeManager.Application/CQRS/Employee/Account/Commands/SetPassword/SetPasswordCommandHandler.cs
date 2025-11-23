@@ -20,23 +20,23 @@ namespace OvertimeManager.Application.CQRS.Employee.Account.Commands.SetPassword
         }
         public async Task<string> Handle(SetPasswordCommand request, CancellationToken cancellationToken)
         {
-            var authorizationEmail = TokenHelper.GetUserEmailFromClaims(request.GetAuthorizationToken());
+            var authorizationEmail = TokenHelper.GetUserEmailFromClaims(request.AuthorizationToken);
             if (authorizationEmail != request.Email)
             {
                 throw new Domain.Exceptions.UnauthorizedAccessException("You are not authorized to set password for this email.");
             }
 
-            var employee = await _employeeRepository.GetByEmail(request.Email);
+            var employee = await _employeeRepository.GetByEmail(request.Email!);
             if (employee is null)
             {
-                throw new NotFoundException("User not found.", request.Email);
+                throw new NotFoundException("User not found.", request.Email!);
             }
             if (!employee.MustChangePassword)
             {
                 throw new Domain.Exceptions.UnauthorizedAccessException("Password change is not required for this user.");
             }
 
-            var newHashedPassword = _passwordHasher.HashPassword(request.NewPassword);
+            var newHashedPassword = _passwordHasher.HashPassword(request.NewPassword!);
             employee.PasswordHash = newHashedPassword;
             employee.MustChangePassword = false;
 

@@ -1,25 +1,17 @@
-﻿using MediatR;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OvertimeManager.Application.CQRS.HR.Employees.Commands.UpdateEmployee
+namespace OvertimeManager.Application.CQRS.HR.Employees.DTOs
 {
-    public class UpdateEmployeeCommand : IRequest
+    public class UpdateEmployeeDto
     {
-        public int Id { get; set; }
         public string? Email { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public int? RoleId { get; set; }
         public int? ManagerId { get; set; }
-
-        public UpdateEmployeeCommand(int id)
-        {
-            Id = id;
-        }
-
     }
 }

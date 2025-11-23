@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OvertimeManager.Application.CQRS.HR.Employees.Queries.GetEmployeeById
 {
-    public class GetEmployeeByIdQuery : IRequest<EmployeeWithOvetimeDataDto>
+    public class GetEmployeeByIdQuery : IRequest<HREmployeeWithOvetimeDataDto>
     {
         public int Id { get; }
         public GetEmployeeByIdQuery(int id)

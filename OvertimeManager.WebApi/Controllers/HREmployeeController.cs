@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using OvertimeManager.Application.CQRS.HR.Employees.Commands.CreateEmployee;
 using OvertimeManager.Application.CQRS.HR.Employees.Commands.DeleteEmployee;
 using OvertimeManager.Application.CQRS.HR.Employees.Commands.UpdateEmployee;
+using OvertimeManager.Application.CQRS.HR.Employees.DTOs;
 using OvertimeManager.Application.CQRS.HR.Employees.Queries.GetAllEmployees;
 using OvertimeManager.Application.CQRS.HR.Employees.Queries.GetEmployeeById;
 using OvertimeManager.Application.CQRS.HR.Employees.Queries.GetTokenEmployeeById;
@@ -29,21 +30,21 @@ namespace OvertimeManager.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllEmployees()
         {
-            var employees = await _mediator.Send(new GetAllEmployeesQuery());
-            return Ok(employees);
+            var employeesDto = await _mediator.Send(new GetAllEmployeesQuery());
+            return Ok(employeesDto);
         }
 
         // GET api/HR/Employees/{id}
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetEmployeeById(int id)
+        public async Task<IActionResult> GetEmployeeById([FromRoute] int id)
         {
-            var employee = await _mediator.Send(new GetEmployeeByIdQuery(id));
-            return Ok(employee);
+            var employeeDto = await _mediator.Send(new GetEmployeeByIdQuery(id));
+            return Ok(employeeDto);
         }
 
         // GET api/HR/Employees/{id}/GetToken
-        [HttpGet("{id}/GetToken")]
-        public async Task<IActionResult> GetTokenEmployeeById(int id)
+        [HttpGet("{id}/get-token")]
+        public async Task<IActionResult> GetTokenEmployeeById([FromRoute] int id)
         {
             var employeeToken = await _mediator.Send(new GetTokenEmployeeByIdQuery(id));
             //var employeeToken = "MockedEmployeeToken"; // Placeholder for actual token retrieval logic
@@ -53,19 +54,26 @@ namespace OvertimeManager.Api.Controllers
 
         // POST api/HR/Employees
         [HttpPost]
-        public async Task<IActionResult> CreateEmploye([FromBody] CreateEmployeeCommand command)
+        public async Task<IActionResult> CreateEmploye([FromBody] CreateEmployeeDto dto)
         {
+            var command = _mapper.Map<CreateEmployeeCommand>(dto);
+
             int id = await _mediator.Send(command);
             return CreatedAtAction(nameof(GetEmployeeById), new { id }, null);
+
+
         }
 
         // PUT api/HR/Employees
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateEmploye([FromRoute] int id, [FromBody] UpdateEmployeeCommand command)
+        public async Task<IActionResult> UpdateEmploye([FromRoute] int id, [FromBody] UpdateEmployeeDto dto)
         {
-            command.Id = id;
+            var command = new UpdateEmployeeCommand(id);
+            command = _mapper.Map(dto, command);
+            //command =  _mapper.Map<UpdateEmployeeCommand>(dto);
+            //command.Id = id;
             await _mediator.Send(command);
-            return Ok();
+            return Ok(command);
         }
 
         // DELETE api/HR/Employees

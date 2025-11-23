@@ -20,7 +20,7 @@ namespace OvertimeManager.Application.CQRS.Employee.Account.Commands.UpdatePassw
         }
         public async Task<string> Handle(UpdatePasswordCommand request, CancellationToken cancellationToken)
         {
-            var authorizationEmail = TokenHelper.GetUserEmailFromClaims(request.GetAuthorizationToken());
+            var authorizationEmail = TokenHelper.GetUserEmailFromClaims(request.AuthorizationToken);
             if (authorizationEmail != request.Email)
                 throw new Domain.Exceptions.UnauthorizedAccessException("You are not authorized to set password for this email.");
             

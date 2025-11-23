@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CQRS\Employee\Account\DTOs\" />
     <Folder Include="CQRS\Employee\Account\Queries\" />
     <Folder Include="CQRS\Employee\Overtime\Commands\" />
     <Folder Include="CQRS\Employee\Overtime\DTOs\" />
@@ -33,7 +32,6 @@
     <Folder Include="CQRS\_temp\Commands\" />
     <Folder Include="CQRS\_temp\DTOs\" />
     <Folder Include="CQRS\_temp\Queries\" />
-    <Folder Include="Mappings\" />
   </ItemGroup>
 
 </Project>

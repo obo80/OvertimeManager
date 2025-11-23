@@ -17,6 +17,7 @@ namespace OvertimeManager.Application.CQRS.Employee.Account.Commands.SetPassword
             RuleFor(dto => dto.ConfirmedPassword)
                 .NotEmpty().WithMessage("Confirmed password is required")
                 .Equal(dto => dto.NewPassword).WithMessage("Passwords do not match.");
+
         }
     }
 
