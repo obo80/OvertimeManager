@@ -47,7 +47,6 @@ namespace OvertimeManager.Api.Controllers
         public async Task<IActionResult> GetTokenEmployeeById([FromRoute] int id)
         {
             var employeeToken = await _mediator.Send(new GetTokenEmployeeByIdQuery(id));
-            //var employeeToken = "MockedEmployeeToken"; // Placeholder for actual token retrieval logic
             return Ok(employeeToken);
         }
 
@@ -69,11 +68,9 @@ namespace OvertimeManager.Api.Controllers
         public async Task<IActionResult> UpdateEmploye([FromRoute] int id, [FromBody] UpdateEmployeeDto dto)
         {
             var command = new UpdateEmployeeCommand(id);
-            command = _mapper.Map(dto, command);
-            //command =  _mapper.Map<UpdateEmployeeCommand>(dto);
-            //command.Id = id;
+            _mapper.Map(dto, command);
             await _mediator.Send(command);
-            return Ok(command);
+            return Ok();
         }
 
         // DELETE api/HR/Employees

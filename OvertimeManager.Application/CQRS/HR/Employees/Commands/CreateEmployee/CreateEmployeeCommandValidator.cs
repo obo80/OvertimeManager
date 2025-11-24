@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentValidation;
+using OvertimeManager.Application.CQRS.HR.Employees.DTOs;
 
 namespace OvertimeManager.Application.CQRS.HR.Employees.Commands.CreateEmployee
 {
-    public class CreateEmployeeCommandValidator :AbstractValidator<CreateEmployeeCommand>
+    public class CreateEmployeeCommandValidator :AbstractValidator<CreateEmployeeDto>
     {
         public CreateEmployeeCommandValidator()
         {

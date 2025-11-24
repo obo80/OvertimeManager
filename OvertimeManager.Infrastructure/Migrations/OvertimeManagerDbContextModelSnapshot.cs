@@ -42,20 +42,14 @@ namespace OvertimeManager.Infrastructure.Migrations
                     b.Property<double>("Multiplier")
                         .HasColumnType("float");
 
-                    b.Property<int>("RequesedForEmployeeId")
+                    b.Property<int>("RequestedByEmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RequestedByEmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("RequestedForEmployeeId")
+                    b.Property<int>("RequestedForEmployeeId")
                         .HasColumnType("int");
 
                     b.Property<double>("RequestedTime")
                         .HasColumnType("float");
-
-                    b.Property<int>("RequesterdByEmployeeId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -77,7 +71,10 @@ namespace OvertimeManager.Infrastructure.Migrations
                     b.Property<double?>("ActualTime")
                         .HasColumnType("float");
 
-                    b.Property<int>("ApprovalStatusId")
+                    b.Property<DateTime?>("ApprovedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ApprovedByEmployeeId")
                         .HasColumnType("int");
 
                     b.Property<string>("BusinessJustificationReason")
@@ -94,22 +91,22 @@ namespace OvertimeManager.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RequesedForEmployeeId")
+                    b.Property<int>("RequestedByEmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RequestedByEmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("RequestedForEmployeeId")
+                    b.Property<int>("RequestedForEmployeeId")
                         .HasColumnType("int");
 
                     b.Property<double>("RequestedTime")
                         .HasColumnType("float");
 
-                    b.Property<int>("RequesterdByEmployeeId")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApprovedByEmployeeId");
 
                     b.HasIndex("RequestedByEmployeeId");
 
@@ -224,11 +221,13 @@ namespace OvertimeManager.Infrastructure.Migrations
                 {
                     b.HasOne("OvertimeManager.Domain.Entities.User.Employee", "RequestedByEmployee")
                         .WithMany()
-                        .HasForeignKey("RequestedByEmployeeId");
+                        .HasForeignKey("RequestedByEmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("OvertimeManager.Domain.Entities.User.Employee", "RequestedForEmployee")
                         .WithMany()
-                        .HasForeignKey("RequestedForEmployeeId");
+                        .HasForeignKey("RequestedForEmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("RequestedByEmployee");
 
@@ -237,13 +236,21 @@ namespace OvertimeManager.Infrastructure.Migrations
 
             modelBuilder.Entity("OvertimeManager.Domain.Entities.Overtime.OvertimeRequest", b =>
                 {
+                    b.HasOne("OvertimeManager.Domain.Entities.User.Employee", "ApprovedByEmployee")
+                        .WithMany()
+                        .HasForeignKey("ApprovedByEmployeeId");
+
                     b.HasOne("OvertimeManager.Domain.Entities.User.Employee", "RequestedByEmployee")
                         .WithMany()
-                        .HasForeignKey("RequestedByEmployeeId");
+                        .HasForeignKey("RequestedByEmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("OvertimeManager.Domain.Entities.User.Employee", "RequestedForEmployee")
                         .WithMany()
-                        .HasForeignKey("RequestedForEmployeeId");
+                        .HasForeignKey("RequestedForEmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("ApprovedByEmployee");
 
                     b.Navigation("RequestedByEmployee");
 

@@ -23,24 +23,24 @@ namespace OvertimeManager.Application.CQRS.Employee.Account.Commands.SetPassword
             var authorizationEmail = TokenHelper.GetUserEmailFromClaims(request.AuthorizationToken);
             if (authorizationEmail != request.Email)
             {
-                throw new Domain.Exceptions.UnauthorizedAccessException("You are not authorized to set password for this email.");
+                throw new UnauthorizedException("You are not authorized to set password for this email.");
             }
 
-            var employee = await _employeeRepository.GetByEmail(request.Email!);
+            var employee = await _employeeRepository.GetByEmailAsync(request.Email!);
             if (employee is null)
             {
                 throw new NotFoundException("User not found.", request.Email!);
             }
             if (!employee.MustChangePassword)
             {
-                throw new Domain.Exceptions.UnauthorizedAccessException("Password change is not required for this user.");
+                throw new UnauthorizedException("Password change is not required for this user.");
             }
 
             var newHashedPassword = _passwordHasher.HashPassword(request.NewPassword!);
             employee.PasswordHash = newHashedPassword;
             employee.MustChangePassword = false;
 
-            await _employeeRepository.SaveChanges();
+            await _employeeRepository.SaveChangesAsync();
 
             var newToken = _jwtService.GenerateJwtToken(employee);
             return newToken;

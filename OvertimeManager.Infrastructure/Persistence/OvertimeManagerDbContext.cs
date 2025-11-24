@@ -12,7 +12,7 @@ namespace OvertimeManager.Infrastructure.Persistence
         public DbSet<OvertimeRequest> OvertimeRequests { get; set; }
         public DbSet<OvertimeCompensationRequest> OvertimeCompensationRequests { get; set; }
 
-        public DbSet<OvertimeRequestStatus> OvertimeRequestsStatusses { get; set; }
+        //public DbSet<OvertimeRequestStatus> OvertimeRequestsStatusses { get; set; }
         public DbSet<EmployeeOvertimeSummary> OvertimeSummaries { get; set; }
 
         public DbSet<Employee> Employees { get; set; }
@@ -30,26 +30,46 @@ namespace OvertimeManager.Infrastructure.Persistence
             {
                 eb.Property(r => r.Name).IsRequired();
                 eb.Property(r => r.BusinessJustificationReason).IsRequired();
-                eb.Property(r => r.RequesterdByEmployeeId).IsRequired();
-                eb.Property(r => r.RequesedForEmployeeId).IsRequired();
+                eb.Property(r => r.RequestedByEmployeeId).IsRequired();
+                eb.Property(r => r.RequestedForEmployeeId).IsRequired();
                 eb.Property(r => r.CreatedForDay).IsRequired();
                 eb.Property(r => r.RequestedTime).IsRequired();
-                eb.Property(r => r.ApprovalStatusId).IsRequired(); 
+                //eb.Property(r => r.ApprovalStatusId).IsRequired(); 
+
+                eb.HasOne(r => r.RequestedByEmployee)
+                    .WithMany()
+                    .IsRequired(false)
+                    .HasForeignKey(r => r.RequestedByEmployeeId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                eb.HasOne(r => r.RequestedForEmployee)
+                   .WithMany()
+                   .HasForeignKey(r => r.RequestedForEmployeeId)
+                   .IsRequired(false)
+                   .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<OvertimeCompensationRequest>(eb =>
             {
-                eb.Property(r => r.RequesterdByEmployeeId).IsRequired();
-                eb.Property(r => r.RequesedForEmployeeId).IsRequired();
+                eb.Property(r => r.RequestedByEmployeeId).IsRequired();
+                eb.Property(r => r.RequestedForEmployeeId).IsRequired();
                 eb.Property(r => r.CreatedForDay).IsRequired();
                 eb.Property(r => r.RequestedTime).IsRequired();
                 eb.Property(r => r.RequestedTime).IsRequired();
                 eb.Property(r => r.Multiplier).IsRequired();
-            });
 
-            modelBuilder.Entity<OvertimeRequestStatus>(eb =>
-            {
-                eb.Property(s => s.Status).IsRequired();
+                eb.HasOne(r => r.RequestedByEmployee)
+                    .WithMany()
+                    .IsRequired(false)
+                    .HasForeignKey(r => r.RequestedByEmployeeId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                eb.HasOne(r => r.RequestedForEmployee)
+                   .WithMany()
+                   .HasForeignKey(r => r.RequestedForEmployeeId)
+                   .IsRequired(false)
+                   .OnDelete(DeleteBehavior.Restrict);
+
             });
 
             modelBuilder.Entity<Employee>(eb => 

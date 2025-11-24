@@ -23,12 +23,12 @@ namespace OvertimeManager.Infrastructure.Repositories
             _jwtService = jwtService;
         }
 
-        public async Task SaveChanges()
+        public async Task SaveChangesAsync()
         {
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<int> Create(Employee employee)
+        public async Task<int> CreateEmployeeAsync(Employee employee)
         {
             await _dbContext.AddAsync(employee);
             await _dbContext.SaveChangesAsync();
@@ -40,13 +40,13 @@ namespace OvertimeManager.Infrastructure.Repositories
                 .Include(e => e.OvertimeSummary)
                 .ToListAsync();
 
-        public async Task<Employee?> GetAsyncById(int id)
+        public async Task<Employee?> GetByIdAsync(int id)
             => await _dbContext.Employees
                 .Include(e => e.OvertimeSummary)
                 .Include(e => e.Role)
                 .FirstOrDefaultAsync(e => e.Id == id);
 
-        public async Task<Employee?> GetByEmail(string email)
+        public async Task<Employee?> GetByEmailAsync(string email)
         {
             return await _dbContext.Employees
                 .Include(e => e.OvertimeSummary)
@@ -54,7 +54,7 @@ namespace OvertimeManager.Infrastructure.Repositories
                 .FirstOrDefaultAsync(e => e.Email == email);
         }
 
-        public async Task Delete(Employee employee)
+        public async Task DeleteAsync(Employee employee)
         {
             _dbContext.Employees.Remove(employee);
             await _dbContext.SaveChangesAsync();

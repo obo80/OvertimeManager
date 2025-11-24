@@ -17,13 +17,13 @@ namespace OvertimeManager.Domain.Entities.Overtime
             
         }
 
-        public void SetComensation(bool isMultiplied)
+        public void SetCompensation(bool isMultiplied)
         {
             Multiplier = Constants.Multiplier.GetMultipliedValue(isMultiplied);
-            CompensatedTime = CountComensatedTime(Multiplier, RequestedTime);
+            CompensatedTime = CountCompensatedTime(Multiplier, RequestedTime);
         }
 
-        private double CountComensatedTime(double multiplier, double requestedTime)
+        private double CountCompensatedTime(double multiplier, double requestedTime)
         {
             var compensatedTime = requestedTime * multiplier;
             return compensatedTime;

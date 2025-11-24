@@ -12,11 +12,11 @@ namespace OvertimeManager.Domain.Interfaces
     {
         Task<IEnumerable<Employee>> GetAllAsync();
         Task<IEnumerable<Employee>> GetAllByManagerIdAsync(int id);
-        Task<Employee?> GetAsyncById(int id);
-        Task<Employee?> GetByEmail(string email);
-        Task<int> Create(Employee employee);
+        Task<Employee?> GetByIdAsync(int id);
+        Task<Employee?> GetByEmailAsync(string email);
+        Task<int> CreateEmployeeAsync(Employee employee);
         Task<string> GetEmployeeJwt(int id);
-        Task SaveChanges();
-        Task Delete(Employee employee);
+        Task SaveChangesAsync();
+        Task DeleteAsync(Employee employee);
     }
 }

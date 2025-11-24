@@ -23,7 +23,7 @@ namespace OvertimeManager.Application.CQRS.HR.Employees.Queries.GetEmployeeById
 
         public async Task<HREmployeeWithOvetimeDataDto> Handle(GetEmployeeByIdQuery request, CancellationToken cancellationToken)
         {
-            var employee = await _employeeRepository.GetAsyncById(request.Id);
+            var employee = await _employeeRepository.GetByIdAsync(request.Id);
             var dto = _mapper.Map<HREmployeeWithOvetimeDataDto>(employee);
 
             return dto;

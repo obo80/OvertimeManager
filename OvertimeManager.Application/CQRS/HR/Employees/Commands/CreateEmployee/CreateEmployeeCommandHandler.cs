@@ -25,7 +25,7 @@ namespace OvertimeManager.Application.CQRS.HR.Employees.Commands.CreateEmployee
             employee.OvertimeSummary = new Domain.Entities.User.EmployeeOvertimeSummary();
             employee.MustChangePassword = true;
 
-            var id = await _employeeRepository.Create(employee);
+            var id = await _employeeRepository.CreateEmployeeAsync(employee);
             return id;
         }
     }

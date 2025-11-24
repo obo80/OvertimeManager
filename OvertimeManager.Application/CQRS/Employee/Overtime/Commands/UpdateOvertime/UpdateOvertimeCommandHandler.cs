@@ -1,0 +1,50 @@
+﻿using AutoMapper;
+using MediatR;
+using OvertimeManager.Application.CQRS.Employee.Overtime.DTOs;
+using OvertimeManager.Domain.Exceptions;
+using OvertimeManager.Domain.Interfaces;
+
+namespace OvertimeManager.Application.CQRS.Employee.Overtime.Commands.UpdateOvertime
+{
+    class UpdateOvertimeCommandHandler : IRequestHandler<UpdateOvertimeCommand>
+    {
+        private readonly IOvertimeRepository _overtimeRepository;
+        
+
+        public UpdateOvertimeCommandHandler(IOvertimeRepository overtimeRepository)
+        {
+            _overtimeRepository = overtimeRepository;
+        }
+
+        public async Task Handle(UpdateOvertimeCommand request, CancellationToken cancellationToken)
+        {
+            var overtime = await _overtimeRepository.GetByIdAsync(request.OvertimeId);
+            if (overtime == null)
+                throw new NotFoundException("Overtime request not found.", request.OvertimeId.ToString());
+
+            var overtimeEmployeeId = overtime.RequestedForEmployeeId;
+            if (overtimeEmployeeId != request.CurrentEmployeeId)
+                throw new UnauthorizedException("You are not authorized to update this overtime request.");
+
+            if (overtime.Status != "Pending")
+                throw new InvalidOperationException("Only pending overtime requests can be updated.");
+
+            //if condition added to update values only with provided data and left other as they are
+            if (request.Name != null)
+                overtime.Name = request.Name;
+
+            if (request.BusinessJustificationReason != null)
+                overtime.BusinessJustificationReason = request.BusinessJustificationReason;
+
+            if (request.RequestedTime != null)
+                overtime.RequestedTime = (double)request.RequestedTime;
+
+
+            await _overtimeRepository.SaveChangesAsync();
+
+        }
+    }
+
+
+
+}

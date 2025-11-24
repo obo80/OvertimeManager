@@ -20,14 +20,14 @@ namespace OvertimeManager.Application.CQRS.Employee.Account.Commands.Login
         }
         public async Task<string> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            var employee = await _employeeRepository.GetByEmail(request.Email!);
+            var employee = await _employeeRepository.GetByEmailAsync(request.Email!);
             if (employee is null)
                 throw new NotFoundException("User not found.", request.Email!);
 
 
             var passwordVerificationResult = _passwordHasher.VerifyHashedPassword(employee.PasswordHash, request.Password);
             if (passwordVerificationResult == PasswordVerificationResult.Failed)
-                throw new Domain.Exceptions.UnauthorizedAccessException("Current password is incorrect.");
+                throw new UnauthorizedException("Current password is incorrect.");
 
             var token = _jwtService.GenerateJwtToken(employee);
             return token;

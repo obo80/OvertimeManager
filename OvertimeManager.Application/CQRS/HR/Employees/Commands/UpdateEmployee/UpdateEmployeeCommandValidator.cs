@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using OvertimeManager.Application.CQRS.HR.Employees.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OvertimeManager.Application.CQRS.HR.Employees.Commands.UpdateEmployee
 {
-    public class UpdateEmployeeCommandValidator: AbstractValidator<UpdateEmployeeCommand>
+    public class UpdateEmployeeCommandValidator: AbstractValidator<UpdateEmployeeDto>
     {
         public UpdateEmployeeCommandValidator()
         {

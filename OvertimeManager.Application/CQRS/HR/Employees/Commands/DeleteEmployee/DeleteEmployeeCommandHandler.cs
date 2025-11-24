@@ -19,11 +19,11 @@ namespace OvertimeManager.Application.CQRS.HR.Employees.Commands.DeleteEmployee
         }
         public async Task Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
         {
-            var employee = await _employeeRepository.GetAsyncById(request.Id);
+            var employee = await _employeeRepository.GetByIdAsync(request.Id);
             if (employee is null)
                 throw new NotFoundException(nameof(Domain.Entities.User.Employee), request.Id.ToString());
 
-            await _employeeRepository.Delete(employee);
+            await _employeeRepository.DeleteAsync(employee);
         }
     }
 }

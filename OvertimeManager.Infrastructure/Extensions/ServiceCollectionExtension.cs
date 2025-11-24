@@ -24,6 +24,7 @@ namespace OvertimeManager.Infrastructure.Extensions
             services.AddScoped<OvertimeManagerSeeder>();
 
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IOvertimeRepository, OvertimeRepository>();
             //services.AddScoped<IOvertimeRequestRepository, OvertimeRequestRepository>();
             //services.AddScoped<IOvertimeCompensationRequestRepository, OvertimeCompensationRequestRepository>();
 

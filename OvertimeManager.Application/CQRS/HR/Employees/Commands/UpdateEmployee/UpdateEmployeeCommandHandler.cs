@@ -14,7 +14,7 @@ namespace OvertimeManager.Application.CQRS.HR.Employees.Commands.UpdateEmployee
         }
         public async Task Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
         {
-            var employee = await _employeeRepository.GetAsyncById(request.Id);
+            var employee = await _employeeRepository.GetByIdAsync(request.Id);
             if (employee is null)
                 throw new NotFoundException(nameof(Employee), request.Id.ToString());
 
@@ -35,8 +35,7 @@ namespace OvertimeManager.Application.CQRS.HR.Employees.Commands.UpdateEmployee
             if (request.ManagerId != null)
                 employee.ManagerId = request.ManagerId;
 
-
-            await _employeeRepository.SaveChanges();
+            await _employeeRepository.SaveChangesAsync();
         }
     }
 }

@@ -22,16 +22,12 @@
 
   <ItemGroup>
     <Folder Include="CQRS\Employee\Account\Queries\" />
-    <Folder Include="CQRS\Employee\Overtime\Commands\" />
-    <Folder Include="CQRS\Employee\Overtime\DTOs\" />
-    <Folder Include="CQRS\Employee\Overtime\" />
-    <Folder Include="CQRS\Employee\Overtime\Queries\" />
     <Folder Include="CQRS\Manager\Commands\" />
     <Folder Include="CQRS\Manager\DTOs\" />
     <Folder Include="CQRS\Manager\Queries\" />
-    <Folder Include="CQRS\_temp\Commands\" />
-    <Folder Include="CQRS\_temp\DTOs\" />
-    <Folder Include="CQRS\_temp\Queries\" />
+    <Folder Include="CQRS\_template\Commands\" />
+    <Folder Include="CQRS\_template\DTOs\" />
+    <Folder Include="CQRS\_template\Queries\" />
   </ItemGroup>
 
 </Project>

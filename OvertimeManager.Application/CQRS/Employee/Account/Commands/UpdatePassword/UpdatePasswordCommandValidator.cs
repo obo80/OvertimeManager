@@ -1,8 +1,9 @@
 ﻿using FluentValidation;
+using OvertimeManager.Application.CQRS.Employee.Account.DTOs;
 
 namespace OvertimeManager.Application.CQRS.Employee.Account.Commands.UpdatePassword
 {
-    public class UpdatePasswordCommandValidator : AbstractValidator<UpdatePasswordCommand>
+    public class UpdatePasswordCommandValidator : AbstractValidator<UpdatePasswordDto>
     {
         public UpdatePasswordCommandValidator()
         {

@@ -9,10 +9,10 @@ namespace OvertimeManager.Domain.Entities.Overtime
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateOnly CreatedForDay { get; set; }
 
-        public int RequesterdByEmployeeId { get; set; }
+        public int RequestedByEmployeeId { get; set; }
         public virtual Employee? RequestedByEmployee { get; set; }
 
-        public int RequesedForEmployeeId { get; set; }
+        public int RequestedForEmployeeId { get; set; }
         public virtual Employee? RequestedForEmployee { get; set; }
 
 

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace OvertimeManager.Domain.Exceptions
 {
-    public class UnauthorizedAccessException : Exception
+    public class UnauthorizedException : Exception
     {
-        public UnauthorizedAccessException(string message) : base(message)
+        public UnauthorizedException(string message) : base(message)
         {
             
         }

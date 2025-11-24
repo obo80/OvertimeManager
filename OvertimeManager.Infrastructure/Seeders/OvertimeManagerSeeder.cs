@@ -24,7 +24,7 @@ namespace OvertimeManager.Infrastructure.Seeders
             if (await _dbContext.Database.CanConnectAsync())
             {
                 await SeedRoles();
-                await SeedOvertimeStatus();
+                //await SeedOvertimeStatus();
                 await SeedEmployees();
             }
         }
@@ -102,19 +102,6 @@ namespace OvertimeManager.Infrastructure.Seeders
             }
         }
 
-        private async Task SeedOvertimeStatus()
-        {
-            if (!_dbContext.OvertimeRequestsStatusses.Any())
-            {
-                var statusses = new List<OvertimeRequestStatus>();
-                foreach (var overtimeStatus in OvertimeStatus.Status)
-                {
-                    statusses.Add(new OvertimeRequestStatus() { Status = overtimeStatus});
-                }
-                await _dbContext.OvertimeRequestsStatusses.AddRangeAsync(statusses);
-                await _dbContext.SaveChangesAsync();
-            }
-        }
 
         private async Task SeedRoles()
         {

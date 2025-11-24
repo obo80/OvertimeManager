@@ -1,8 +1,9 @@
 ﻿using FluentValidation;
+using OvertimeManager.Application.CQRS.Employee.Account.DTOs;
 
 namespace OvertimeManager.Application.CQRS.Employee.Account.Commands.Login
 {
-    public class LoginCommandValidator : AbstractValidator<LoginCommand>
+    public class LoginCommandValidator : AbstractValidator<LoginDto>
     {
         public LoginCommandValidator()
         {
