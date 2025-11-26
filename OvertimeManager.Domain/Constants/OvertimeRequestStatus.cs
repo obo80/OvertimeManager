@@ -14,7 +14,7 @@ namespace OvertimeManager.Domain.Constants
         Rejected = 4,
         Done = 5
     }
-    public static class OvertimeStatus
+    public static class OvertimeRequestStatus
     {
         //public const string Pending = "Pending";
         //public const string Cancelled = "Cancelled";

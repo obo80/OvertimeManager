@@ -116,18 +116,5 @@ namespace OvertimeManager.Infrastructure.Seeders
                 await _dbContext.SaveChangesAsync();
             }
         }
-
-        private List<string> GetElementsToList(List<string> list)
-        {
-            var result = new List<string>();
-            foreach(var element in list)
-            {
-                result.Add(element);
-            }
-            return result;
-        }
-
-
-
     }
 }

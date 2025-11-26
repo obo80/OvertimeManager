@@ -23,9 +23,9 @@ public class GetOvertimeByIdQueryHandler : IRequestHandler<GetOvertimeByIdQuery,
 
         var overtimeEmployeeId = overtime.RequestedForEmployeeId;
         if (overtimeEmployeeId != request.CurrentEmployeeId)
-            throw new UnauthorizedException("You are not authorized to update this overtime request.");
+            throw new UnauthorizedException("You are not authorized to get this overtime request.");
 
-        var updatedOvertimeDto = _mapper.Map<GetOvertimeDto>(overtime);
-        return updatedOvertimeDto;
+        var getOvertimeDto = _mapper.Map<GetOvertimeDto>(overtime);
+        return getOvertimeDto;
     }
 }

@@ -42,7 +42,7 @@ namespace OvertimeManager.Api.Controllers
             return Ok(employeeDto);
         }
 
-        // GET api/HR/Employees/{id}/GetToken
+        // GET api/HR/Employees/{id}/get-token
         [HttpGet("{id}/get-token")]
         public async Task<IActionResult> GetTokenEmployeeById([FromRoute] int id)
         {

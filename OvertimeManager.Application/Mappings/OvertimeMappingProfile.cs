@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using OvertimeManager.Api.Controllers;
 using OvertimeManager.Application.CQRS.Employee.Overtime.Commands.CreateOvertime;
 using OvertimeManager.Application.CQRS.Employee.Overtime.Commands.UpdateOvertime;
 using OvertimeManager.Application.CQRS.Employee.Overtime.DTOs;
@@ -22,6 +23,7 @@ namespace OvertimeManager.Application.Mappings
             CreateMap<GetOvertimeDto, OvertimeRequest>();
 
             CreateMap<UpdateOvertimeDto, UpdateOvertimeCommand>();
+            CreateMap<SetOvertimeDoneDto, SetOvertimeDoneCommand>();
         }
     }
 }

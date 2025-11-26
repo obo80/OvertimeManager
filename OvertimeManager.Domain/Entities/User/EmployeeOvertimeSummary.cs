@@ -12,5 +12,17 @@ namespace OvertimeManager.Domain.Entities.User
         public double TakenOvertime { get; set; } = 0;      //time added to amount after overtime dome
         public double SettledOvertime { get; set; } = 0;   //time paid or reveived 
         public double UnsettledOvertime { get; set; } = 0;   //current amount of overtime - added new and substracted when settled
+
+        public void AddTakenOvertime(double time)
+        {
+            TakenOvertime += time;
+            UnsettledOvertime += time;
+        }
+
+        public void SettleOvertime(double time)
+        {
+            SettledOvertime += time;
+            UnsettledOvertime -= time;
+        }
     }
 }

@@ -39,13 +39,14 @@ namespace OvertimeManager.Infrastructure.Repositories
         public async Task<IEnumerable<OvertimeRequest>> GetAllAsync()
             => await _dbContext.OvertimeRequests
                 .Include(o => o.RequestedForEmployee)
+                //.Where(o => o.Status == status || String.IsNullOrEmpty(status))
                 .ToListAsync();
 
-        public async Task<IEnumerable<OvertimeRequest>> GetAllByManagerIdAsync(int id)
-            => await _dbContext.OvertimeRequests
-                .Where(o => o.RequestedForEmployee.ManagerId == id)
-                .Include(o => o.RequestedForEmployee)
-                .ToListAsync();
+        public async Task<IEnumerable<OvertimeRequest>> GetAllActiveAsync()
+        => await _dbContext.OvertimeRequests
+            .Include(o => o.RequestedForEmployee)
+            .Where(o => o.Status == "Pending" || o.Status == "Approved")
+            .ToListAsync();
 
 
         public async Task<IEnumerable<OvertimeRequest>> GetAllForEmployeeIdAsync(int id)
@@ -54,6 +55,15 @@ namespace OvertimeManager.Infrastructure.Repositories
                 .Include(o => o.RequestedByEmployee)
                 .Include(o => o.ApprovedByEmployee)
                 .Where(o => o.RequestedForEmployeeId == id)
+                .ToListAsync();
+
+        public async Task<IEnumerable<OvertimeRequest>> GetAllActiveForEmployeeIdAsync(int id)
+            => await _dbContext.OvertimeRequests
+                .Include(o => o.RequestedForEmployee)
+                .Include(o => o.RequestedByEmployee)
+                .Include(o => o.ApprovedByEmployee)
+                .Where(o => o.RequestedForEmployeeId == id)
+                .Where(o => o.Status == "Pending" || o.Status == "Approved")
                 .ToListAsync();
 
         public async Task<OvertimeRequest?> GetByIdAsync(int id)

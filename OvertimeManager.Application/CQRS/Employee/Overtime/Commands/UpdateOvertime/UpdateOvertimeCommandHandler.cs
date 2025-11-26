@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using OvertimeManager.Application.CQRS.Employee.Overtime.DTOs;
+using OvertimeManager.Domain.Constants;
 using OvertimeManager.Domain.Exceptions;
 using OvertimeManager.Domain.Interfaces;
 
@@ -26,7 +27,7 @@ namespace OvertimeManager.Application.CQRS.Employee.Overtime.Commands.UpdateOver
             if (overtimeEmployeeId != request.CurrentEmployeeId)
                 throw new UnauthorizedException("You are not authorized to update this overtime request.");
 
-            if (overtime.Status != "Pending")
+            if (overtime.Status != ((StatusEnum)StatusEnum.Pending).ToString())
                 throw new InvalidOperationException("Only pending overtime requests can be updated.");
 
             //if condition added to update values only with provided data and left other as they are

@@ -44,6 +44,15 @@ namespace OvertimeManager.Api.Controllers
 
             return Ok(overtimeDtos);
         }
+        [HttpGet("active-requests")]
+        public async Task<IActionResult> GetAllMyActiveOvertimes([FromHeader] string authorization)
+        {
+            var currentEmployeeId = TokenHelper.GetUserIdFromClaims(authorization);
+            IEnumerable<GetOvertimeDto> overtimeDtos =
+                await _mediator.Send(new GetAllActiveOvertimesByEmployeIdQuery(currentEmployeeId));
+
+            return Ok(overtimeDtos);
+        }
 
         [HttpGet("requests/{id}")]
         public async Task<IActionResult> GetOvertimeById([FromHeader] string authorization, [FromRoute] int id)
@@ -78,7 +87,7 @@ namespace OvertimeManager.Api.Controllers
             _mapper.Map(dto, overtimeCommand);
 
             await _mediator.Send(overtimeCommand);
-            return Ok();
+            return Ok($"Request id = {id} updated");
         }
 
         [HttpPost("requests/{id}/cancel")]
@@ -89,6 +98,17 @@ namespace OvertimeManager.Api.Controllers
 
             await _mediator.Send(overtimeCommand);
             return Ok($"Request id = {id} cancelled successfully.");
+        }
+
+        [HttpPost("requests/{id}/done")]
+        public async Task<IActionResult> SetOvertimeDone([FromHeader] string authorization, int id, [FromBody] SetOvertimeDoneDto dto)
+        {
+            var currentEmployeeId = TokenHelper.GetUserIdFromClaims(authorization);
+            var overtimeCommand = new SetOvertimeDoneCommand(currentEmployeeId, id);
+            _mapper.Map(dto, overtimeCommand);
+
+            await _mediator.Send(overtimeCommand);
+            return Ok($"Request id = {id} done");
         }
 
     }
