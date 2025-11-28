@@ -29,14 +29,13 @@ namespace OvertimeManager.Application.CQRS.Employee.Overtime.Commands.CreateOver
 
         //public double? ActualTime { get; set; } = null;
 
-        public string Authorization { get; }
+        //public string Authorization { get; }
+        //public int CurrentEmployeeId { get; }
 
-        public CreateOvertimeCommand(string authorization)
+        public CreateOvertimeCommand(int currentEmployeeId)
         {
-            Authorization = authorization;
-            var requestingEmployeeId = TokenHelper.GetUserIdFromClaims(authorization);
-            RequestedByEmployeeId = requestingEmployeeId;
-            RequestedForEmployeeId = requestingEmployeeId;
+            RequestedByEmployeeId = currentEmployeeId;
+            RequestedForEmployeeId = currentEmployeeId;
         }
     }
 }

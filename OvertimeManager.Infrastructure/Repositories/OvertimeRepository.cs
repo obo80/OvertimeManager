@@ -15,17 +15,17 @@ namespace OvertimeManager.Infrastructure.Repositories
     public class OvertimeRepository : IOvertimeRepository
     {
         private readonly OvertimeManagerDbContext _dbContext;
-        private readonly IJwtService _jwtService;
+        //private readonly IJwtService _jwtService;
 
-        public OvertimeRepository(OvertimeManagerDbContext dbContext, IJwtService jwtService)
+        public OvertimeRepository(OvertimeManagerDbContext dbContext)
         {
             _dbContext = dbContext;
-            _jwtService = jwtService;
+            //_jwtService = jwtService;
         }
 
         public async Task<int> CreateOvertimeAsync(OvertimeRequest overtime)
         {
-            await _dbContext.AddAsync(overtime);
+            await _dbContext.OvertimeRequests.AddAsync(overtime);
             await _dbContext.SaveChangesAsync();
             return overtime.Id;
         }
@@ -39,7 +39,6 @@ namespace OvertimeManager.Infrastructure.Repositories
         public async Task<IEnumerable<OvertimeRequest>> GetAllAsync()
             => await _dbContext.OvertimeRequests
                 .Include(o => o.RequestedForEmployee)
-                //.Where(o => o.Status == status || String.IsNullOrEmpty(status))
                 .ToListAsync();
 
         public async Task<IEnumerable<OvertimeRequest>> GetAllActiveAsync()

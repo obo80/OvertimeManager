@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using MediatR;
+﻿using MediatR;
 
 namespace OvertimeManager.Api.Controllers
 {
@@ -16,20 +15,5 @@ namespace OvertimeManager.Api.Controllers
             OvertimeId = id;
         }
 
-    }
-
-    public class SetOvertimeDoneCommandValidator :AbstractValidator<SetOvertimeDoneDto>
-    {
-        public SetOvertimeDoneCommandValidator()
-        {
-            RuleFor(x => x.ActualTime)
-                .Custom((value, context) =>
-                {
-                    if (value.HasValue && value <= 0)
-                    {
-                        context.AddFailure("ActualTime must be greater than zero.");
-                    }
-                });
-        }
     }
 }

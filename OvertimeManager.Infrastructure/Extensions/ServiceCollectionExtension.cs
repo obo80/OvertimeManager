@@ -25,8 +25,8 @@ namespace OvertimeManager.Infrastructure.Extensions
 
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IOvertimeRepository, OvertimeRepository>();
-            //services.AddScoped<IOvertimeRequestRepository, OvertimeRequestRepository>();
-            //services.AddScoped<IOvertimeCompensationRequestRepository, OvertimeCompensationRequestRepository>();
+            services.AddScoped<ICompensationRepository, CompensationRepository>();
+
 
             services.AddScoped<IJwtService, JwtService>();
             #region Authentication

@@ -1,4 +1,5 @@
-﻿using OvertimeManager.Domain.Entities.User;
+﻿using OvertimeManager.Domain.Constants;
+using OvertimeManager.Domain.Entities.User;
 
 namespace OvertimeManager.Domain.Entities.Overtime
 {
@@ -14,9 +15,11 @@ namespace OvertimeManager.Domain.Entities.Overtime
 
         public int RequestedForEmployeeId { get; set; }
         public virtual Employee? RequestedForEmployee { get; set; }
+        public string Status { get; set; } = ((StatusEnum)StatusEnum.Pending).ToString();
 
-
-
+        public DateTime? ApprovedAt { get; set; } = null;
+        public int? ApprovedByEmployeeId { get; set; } = null;
+        public virtual Employee? ApprovedByEmployee { get; set; }
 
     }
 }

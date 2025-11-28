@@ -15,11 +15,7 @@ namespace OvertimeManager.Application.CQRS.Employee.Account.Commands.UpdatePassw
 
         public string? NewPassword { get; set; }
         public string? ConfirmedPassword { get; set; }
-        public string AuthorizationToken { get; }
-        public UpdatePasswordCommand(string authorization)
-        {
-            AuthorizationToken = authorization;
-        }
+
     }
 
 }

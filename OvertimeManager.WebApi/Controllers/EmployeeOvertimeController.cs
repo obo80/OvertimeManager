@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using OvertimeManager.Application.Common;
 using OvertimeManager.Application.CQRS.Employee.Overtime.Commands.CancelOvertime;
 using OvertimeManager.Application.CQRS.Employee.Overtime.Commands.CreateOvertime;
 using OvertimeManager.Application.CQRS.Employee.Overtime.Commands.UpdateOvertime;
@@ -11,6 +9,7 @@ using OvertimeManager.Application.CQRS.Employee.Overtime.DTOs;
 using OvertimeManager.Application.CQRS.Employee.Overtime.Queries.GetAllOvertimesByEmployeId;
 using OvertimeManager.Application.CQRS.Employee.Overtime.Queries.GetCurrentEmployeeOvertimeStatus;
 using OvertimeManager.Application.CQRS.Employee.Overtime.Queries.GetOvertimeById;
+using OvertimeManager.Infrastructure.Authentication;
 
 namespace OvertimeManager.Api.Controllers
 {
@@ -29,6 +28,7 @@ namespace OvertimeManager.Api.Controllers
         }
 
         [HttpGet]
+        [HttpGet("status")]
         public async Task<IActionResult> CurrentEmployeeOvertimeStatus([FromHeader] string authorization)
         {
             var currentEmployeeId = TokenHelper.GetUserIdFromClaims(authorization);
@@ -44,7 +44,7 @@ namespace OvertimeManager.Api.Controllers
 
             return Ok(overtimeDtos);
         }
-        [HttpGet("active-requests")]
+        [HttpGet("requests/active")]
         public async Task<IActionResult> GetAllMyActiveOvertimes([FromHeader] string authorization)
         {
             var currentEmployeeId = TokenHelper.GetUserIdFromClaims(authorization);
@@ -70,7 +70,7 @@ namespace OvertimeManager.Api.Controllers
             [FromBody] CreateOvertimeDto dto)
         {
             var currentEmployeeId = TokenHelper.GetUserIdFromClaims(authorization);
-            var overtimeCommand = new CreateOvertimeCommand(authorization);
+            var overtimeCommand = new CreateOvertimeCommand(currentEmployeeId);
             _mapper.Map(dto, overtimeCommand);
             int id = await _mediator.Send(overtimeCommand);
             return CreatedAtAction(nameof(GetOvertimeById), new { id }, null);

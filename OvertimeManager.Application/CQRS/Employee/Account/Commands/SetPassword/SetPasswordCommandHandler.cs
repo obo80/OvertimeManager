@@ -20,12 +20,6 @@ namespace OvertimeManager.Application.CQRS.Employee.Account.Commands.SetPassword
         }
         public async Task<string> Handle(SetPasswordCommand request, CancellationToken cancellationToken)
         {
-            var authorizationEmail = TokenHelper.GetUserEmailFromClaims(request.AuthorizationToken);
-            if (authorizationEmail != request.Email)
-            {
-                throw new UnauthorizedException("You are not authorized to set password for this email.");
-            }
-
             var employee = await _employeeRepository.GetByEmailAsync(request.Email!);
             if (employee is null)
             {

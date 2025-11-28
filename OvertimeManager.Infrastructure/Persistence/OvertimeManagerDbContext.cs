@@ -10,7 +10,7 @@ namespace OvertimeManager.Infrastructure.Persistence
 
 
         public DbSet<OvertimeRequest> OvertimeRequests { get; set; }
-        public DbSet<OvertimeCompensationRequest> OvertimeCompensationRequests { get; set; }
+        public DbSet<CompensationRequest> OvertimeCompensationRequests { get; set; }
 
         //public DbSet<OvertimeRequestStatus> OvertimeRequestsStatusses { get; set; }
         public DbSet<EmployeeOvertimeSummary> OvertimeSummaries { get; set; }
@@ -49,7 +49,7 @@ namespace OvertimeManager.Infrastructure.Persistence
                    .OnDelete(DeleteBehavior.Restrict);
             });
 
-            modelBuilder.Entity<OvertimeCompensationRequest>(eb =>
+            modelBuilder.Entity<CompensationRequest>(eb =>
             {
                 eb.Property(r => r.RequestedByEmployeeId).IsRequired();
                 eb.Property(r => r.RequestedForEmployeeId).IsRequired();

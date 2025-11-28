@@ -40,7 +40,7 @@ namespace OvertimeManager.Infrastructure.Seeders
                     FirstName = "Szef",
                     LastName = "Wszystkich Szefów",
                     Email = "Szefuncio@company.com",
-                    RoleId = 3,
+                    RoleId = 4,
                     MustChangePassword = true,
                     OvertimeSummary = new EmployeeOvertimeSummary()                    
                 };
@@ -80,8 +80,18 @@ namespace OvertimeManager.Infrastructure.Seeders
                     ManagerId = cheefId,
                     OvertimeSummary = new EmployeeOvertimeSummary()
                 };
+                var hrEmployee2 = new Employee()
+                {
+                    FirstName = "Krystyna",
+                    LastName = "Kadrowa",
+                    Email = "Krystyna.Kadrowa@company.com",
+                    RoleId = 3,
+                    MustChangePassword = true,
+                    ManagerId = cheefId,
+                    OvertimeSummary = new EmployeeOvertimeSummary()
+                };
 
-                await _dbContext.AddRangeAsync(manager1, manager2, hrEmployee);
+                await _dbContext.AddRangeAsync(manager1, manager2, hrEmployee, hrEmployee2);
                 await _dbContext.SaveChangesAsync();
 
 

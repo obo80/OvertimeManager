@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OvertimeManager.Application.CQRS.HR.Employees.Commands.CreateEmployee;
 using OvertimeManager.Application.CQRS.HR.Employees.Commands.DeleteEmployee;
@@ -16,6 +17,7 @@ namespace OvertimeManager.Api.Controllers
 {
     [Route("api/HR/Employees")]
     [ApiController]
+    [Authorize(Roles = "HR")]
     public class HREmployeeController : ControllerBase
     {
         private readonly IMediator _mediator;

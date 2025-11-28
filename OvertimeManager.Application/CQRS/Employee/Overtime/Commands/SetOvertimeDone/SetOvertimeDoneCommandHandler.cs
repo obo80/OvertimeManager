@@ -2,6 +2,7 @@
 using OvertimeManager.Domain.Constants;
 using OvertimeManager.Domain.Exceptions;
 using OvertimeManager.Domain.Interfaces;
+using InvalidOperationException = OvertimeManager.Domain.Exceptions.InvalidOperationException;
 
 namespace OvertimeManager.Api.Controllers
 {
@@ -28,6 +29,9 @@ namespace OvertimeManager.Api.Controllers
             var employee = await _employeeRepository.GetByIdAsync(overtime.RequestedForEmployeeId);
             if (employee == null)
                 throw new NotFoundException("Employee not found.", overtime.RequestedForEmployeeId.ToString());
+
+            if (overtime.Status == ((StatusEnum)StatusEnum.Done).ToString())
+                throw new InvalidOperationException("This request was already done.");
 
             if (overtime.Status != ((StatusEnum)StatusEnum.Approved).ToString())
                 throw new InvalidOperationException("Only approved overtime requests can be done.");

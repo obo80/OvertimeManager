@@ -1,9 +1,8 @@
-﻿using AutoMapper;
-using MediatR;
-using OvertimeManager.Application.CQRS.Employee.Overtime.DTOs;
+﻿using MediatR;
 using OvertimeManager.Domain.Constants;
 using OvertimeManager.Domain.Exceptions;
 using OvertimeManager.Domain.Interfaces;
+using InvalidOperationException = OvertimeManager.Domain.Exceptions.InvalidOperationException;
 
 namespace OvertimeManager.Application.CQRS.Employee.Overtime.Commands.UpdateOvertime
 {

@@ -22,13 +22,19 @@ namespace OvertimeManager.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("OvertimeManager.Domain.Entities.Overtime.OvertimeCompensationRequest", b =>
+            modelBuilder.Entity("OvertimeManager.Domain.Entities.Overtime.CompensationRequest", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("ApprovedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ApprovedByEmployeeId")
+                        .HasColumnType("int");
 
                     b.Property<double>("CompensatedTime")
                         .HasColumnType("float");
@@ -51,7 +57,13 @@ namespace OvertimeManager.Infrastructure.Migrations
                     b.Property<double>("RequestedTime")
                         .HasColumnType("float");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ApprovedByEmployeeId");
 
                     b.HasIndex("RequestedByEmployeeId");
 
@@ -113,23 +125,6 @@ namespace OvertimeManager.Infrastructure.Migrations
                     b.HasIndex("RequestedForEmployeeId");
 
                     b.ToTable("OvertimeRequests");
-                });
-
-            modelBuilder.Entity("OvertimeManager.Domain.Entities.Overtime.OvertimeRequestStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("OvertimeRequestsStatusses");
                 });
 
             modelBuilder.Entity("OvertimeManager.Domain.Entities.User.Employee", b =>
@@ -217,8 +212,12 @@ namespace OvertimeManager.Infrastructure.Migrations
                     b.ToTable("EmployeeRoles");
                 });
 
-            modelBuilder.Entity("OvertimeManager.Domain.Entities.Overtime.OvertimeCompensationRequest", b =>
+            modelBuilder.Entity("OvertimeManager.Domain.Entities.Overtime.CompensationRequest", b =>
                 {
+                    b.HasOne("OvertimeManager.Domain.Entities.User.Employee", "ApprovedByEmployee")
+                        .WithMany()
+                        .HasForeignKey("ApprovedByEmployeeId");
+
                     b.HasOne("OvertimeManager.Domain.Entities.User.Employee", "RequestedByEmployee")
                         .WithMany()
                         .HasForeignKey("RequestedByEmployeeId")
@@ -228,6 +227,8 @@ namespace OvertimeManager.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("RequestedForEmployeeId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("ApprovedByEmployee");
 
                     b.Navigation("RequestedByEmployee");
 

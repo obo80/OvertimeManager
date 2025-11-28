@@ -1,11 +1,13 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using NuGet.Common;
 using OvertimeManager.Application.CQRS.Employee.Account.Commands.Login;
 using OvertimeManager.Application.CQRS.Employee.Account.Commands.SetPassword;
 using OvertimeManager.Application.CQRS.Employee.Account.Commands.UpdatePassword;
 using OvertimeManager.Application.CQRS.Employee.Account.DTOs;
+using OvertimeManager.Infrastructure.Authentication;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,6 +15,7 @@ namespace OvertimeManager.Api.Controllers
 {
     [Route("api/Employee/Account")]
     [ApiController]
+    [Authorize]
     public class EmployeeAccountController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -23,6 +26,7 @@ namespace OvertimeManager.Api.Controllers
         }
         // POST api/Employee/Account/login
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
             var command = new LoginCommand
@@ -38,29 +42,38 @@ namespace OvertimeManager.Api.Controllers
         [HttpPost("set-password")]
         public async Task<IActionResult> SetPassword([FromBody] SetPassowordDto dto, [FromHeader] string authorization)
         {
-            var command = new SetPasswordCommand(authorization)
+            var command = new SetPasswordCommand()
             {
                 Email = dto.Email,
                 NewPassword = dto.NewPassword,
                 ConfirmedPassword = dto.ConfirmedPassword
             };
-            var newToken = await _mediator.Send(command);
-            return Ok(newToken);
+
+            if (TokenHelper.IsEmployeeAuthorizedByEmail(authorization, command.Email!))
+            {
+                var newToken = await _mediator.Send(command);
+                return Ok(newToken);
+            }
+            return Unauthorized("You are not authorized to set password for this email.");
         }
 
         // POST api/Employee/Account/update-password
         [HttpPost("update-password")]
         public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordDto dto, [FromHeader] string authorization)
         {
-            var command = new UpdatePasswordCommand(authorization)
+            var command = new UpdatePasswordCommand()
             {
                 Email = dto.Email,
                 CurrentPassword = dto.CurrentPassword,
                 NewPassword = dto.NewPassword,
                 ConfirmedPassword = dto.ConfirmedPassword
             };
-            var newToken = await _mediator.Send(command);
-            return Ok(newToken);
+            if (TokenHelper.IsEmployeeAuthorizedByEmail(authorization, command.Email!))
+            {
+                var newToken = await _mediator.Send(command);
+                return Ok(newToken);
+            }
+            return Unauthorized("You are not authorized to update password for this email.");
         }
 
 
