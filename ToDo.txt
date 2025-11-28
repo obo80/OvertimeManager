@@ -1,0 +1,59 @@
+﻿DODAC DO PROJEKTU
+ - ErrorHandlingMiddleware z obsługą wyjątków globalnie
+ - Logowanie do pliku
+ - Swagger jako strona startowa i dokumentacja API
+ - Paginacja i sortowanie w get all
+ - Automatyczne migracje przy starcie aplikacji
+ - Automatyczne seedowanie danych przy starcie aplikacji
+ - Sprawdzić Authentication i Authorization
+ - Dodać Testy jednostokowe i integracyjne dla kontrolerów i serwisów
+
+ DODATKOWE FUNKCJONALNOŚCI
+ - Dodać możliwość zmiany daty requestu nadgodzin dla overtime i compensation (dopisać do DTO, plus ogarnąć formatowanie daty)
+ - Dodać możliwość przeniesienia nieodebranych nadgodzin do wynagrodzenia (kompensacja finansowa) 
+	- EmployeeOvertimeSummary - dodanie pól dla nadgodzin do wypłaty i nadgodziny zapłaconych
+	- HR kontroler - dodanie metody do przenoszenia nadgodzin
+ - Dodać filtrowanie w get all (np. po dacie, statusie itp.)
+ - Dodać logowanie akcji użytkowników (np. kto i kiedy zatwierdził nadgodziny)
+ - Dodać powiadomienia email/SMS przy zmianie statusu nadgodzin???
+ - Dodać możliwość eksportu danych nadgodzin do pliku CSV lub PDF???
+
+
+
+
+BIEŻĄCE ZADANIA
+ - Kontroler EmployeeCompensationController
+	- Najpierw naprawić Encje dla Copensation - zrobiłem dziedziczenie z BaseEntity dla Approwala i Statusu - DONE DZIAŁA
+	- SPRAWDIĆ CZY TO DZIAŁA POPRAWNIE W EF - Dodać migrację i przetestować w bazie, 
+		W razie problemów z migracją sprawdzić jak zrobione klucze obce w EF wcześniej
+		I Przetestować jeszcze jakieś przykłady też dla zwykłych overtime requestów
+
+   - Create Compensation Request
+   - Get Compensation Request by Id for Employee
+   - Update Compensation Request
+   - get All Compensation Requests for Employee
+   - Cancel Compensation Request
+
+   Kontroler ManagerCompensationController, tak samo jak dla Overtime
+
+- Dodać metody obliczeniowe do serwisu EmployeeOvertimeService:
+  - Add OvertimeHours to Employee Record when Overtime is Approved and Done  - DONE
+  - GetTotalOvertimeHoursForEmployee
+  - GetOvertimeHoursByDateRange?
+
+  Wszystko zrobione chyba - do sprawdzenia i przetestowania czy działa
+
+
+ WYKONANE ZADANIA
+Zrobić test dla kontrolera EmployeeOvertimeControllera - get by id, update, cancel - DONE + Fixed
+Zrobić update Validatorów z command na DTO- DONE + Fixed
+Zmienić EmployeeOvertimeController, metoda Create aby zwracała dto zamiast id - zmiana planów - to jest niezgodne z CQRS
+
+- Update EmployeeStatus - dodać aktywne requesty (pending, approved)
+- Kontroler + CQRS dla ManagerOvertime z poniższymi metodami: - In progress
+- GetStatus for Manager Subordinates - done
+- GetAll for Manager Subordinates
+- GetById
+- ApproveOvertime/RejectOvertime
+- Kontroler EmployeeOvertimeController
+- Update Overtime Request when work is done + dolicz godziny do rekordu pracownika
