@@ -26,9 +26,6 @@ namespace OvertimeManager.Application.CQRS.Manager.Overtime.Queries.GetCurrentMa
             List<EmployeeOvertimeStatusDto> statusDtos = new List<EmployeeOvertimeStatusDto>();
             foreach (var employee in employees)
             {
-                //altinative way using mediator to get each employee status, but less efficient, because of multiple calls to db, so we use direct mapping below
-                //var statusDto = await _mediator.Send(new GetCurrentManagerEmployeeByIdOvertimeStatusQuery(request.CurrentManagerId, employee.Id));
-
                 //direct mapping, more efficient way to get each employee status in a single call to db for all employees
                 var statusDto = new EmployeeOvertimeStatusDto()
                 {

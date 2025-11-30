@@ -1,6 +1,4 @@
-﻿using OvertimeManager.Domain.Entities.User;
-
-namespace OvertimeManager.Application.CQRS.HR.Employees.DTOs
+﻿namespace OvertimeManager.Application.CQRS.HR.Employees.DTOs
 {
     public class HREmployeeDto
     {

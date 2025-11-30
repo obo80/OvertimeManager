@@ -1,10 +1,4 @@
-﻿using OvertimeManager.Domain.Entities.Overtime;
-using OvertimeManager.Domain.Entities.User;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OvertimeManager.Domain.Entities.User;
 
 namespace OvertimeManager.Domain.Interfaces
 {

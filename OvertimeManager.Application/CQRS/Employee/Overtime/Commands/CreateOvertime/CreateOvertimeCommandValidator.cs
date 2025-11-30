@@ -15,11 +15,6 @@ namespace OvertimeManager.Application.CQRS.Employee.Overtime.Commands.CreateOver
 
             RuleFor(dto => dto.BusinessJustificationReason)
                 .NotEmpty().WithMessage("Business justification reason is required");
-            //RuleFor(dto => dto.Email)
-            //    .EmailAddress()
-            //    .WithMessage("Please provide a valid email address");
-            //RuleFor(dto => dto.Password)
-            //    .NotEmpty().WithMessage("Password is required");
         }
     }
 }

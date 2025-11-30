@@ -15,7 +15,6 @@ namespace OvertimeManager.Application.Mappings
                 .ForMember(dto => dto.UnsettledOvertime,  c => c.MapFrom(e => e.OvertimeSummary.UnsettledOvertime));
 
             CreateMap<CreateEmployeeCommand, Domain.Entities.User.Employee>();
-            //CreateMap<UpdateEmployeeCommand, Domain.Entities.User.Employee>();
 
             CreateMap<CreateEmployeeDto, CreateEmployeeCommand>();
             CreateMap<UpdateEmployeeDto, UpdateEmployeeCommand>();

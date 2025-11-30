@@ -27,7 +27,6 @@ namespace OvertimeManager.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> CurrentEmployeeCompensationStatus([FromHeader] string authorization)
         {
-            // to do
             var currentEmployeeId = TokenHelper.GetUserIdFromClaims(authorization);
             var statusDto = await _mediator.Send(new GetCurrentEmployeeCompensationStatusQuery(currentEmployeeId));
             return Ok(statusDto);
@@ -35,7 +34,6 @@ namespace OvertimeManager.Api.Controllers
         [HttpGet("requests")]
         public async Task<IActionResult> GetAllMyCompensations([FromHeader] string authorization)
         {
-            // to do
             var currentEmployeeId = TokenHelper.GetUserIdFromClaims(authorization);
             var compensationDtos =  await _mediator.Send(new GetAllCompensationsByEmployeIdQuery(currentEmployeeId));
 
@@ -44,7 +42,6 @@ namespace OvertimeManager.Api.Controllers
         [HttpGet("requests/active")]
         public async Task<IActionResult> GetAllMyActiveCompensations([FromHeader] string authorization)
         {
-            // to do
             var currentEmployeeId = TokenHelper.GetUserIdFromClaims(authorization);
             var compensationDtos = await _mediator.Send(new GetAllActiveCompensationsByEmployeIdQuery(currentEmployeeId));
 
@@ -54,7 +51,6 @@ namespace OvertimeManager.Api.Controllers
         [HttpGet("requests/{id}")]
         public async Task<IActionResult> GetCompensationById([FromHeader] string authorization, [FromRoute] int id)
         {
-            // to do
             var currentEmployeeId = TokenHelper.GetUserIdFromClaims(authorization);
             var compensationDto = await _mediator.Send(new GetCompensationByIdQuery(currentEmployeeId, id));
 

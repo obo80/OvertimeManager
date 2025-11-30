@@ -12,16 +12,12 @@ namespace OvertimeManager.Infrastructure.Persistence
         public DbSet<OvertimeRequest> OvertimeRequests { get; set; }
         public DbSet<CompensationRequest> OvertimeCompensationRequests { get; set; }
 
-        //public DbSet<OvertimeRequestStatus> OvertimeRequestsStatusses { get; set; }
         public DbSet<EmployeeOvertimeSummary> OvertimeSummaries { get; set; }
 
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeeRole> EmployeeRoles { get; set; }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=OvertimeManagerDb;Trusted_Connection=True;");
-        //}
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -34,7 +30,6 @@ namespace OvertimeManager.Infrastructure.Persistence
                 eb.Property(r => r.RequestedForEmployeeId).IsRequired();
                 eb.Property(r => r.CreatedForDay).IsRequired();
                 eb.Property(r => r.RequestedTime).IsRequired();
-                //eb.Property(r => r.ApprovalStatusId).IsRequired(); 
 
                 eb.HasOne(r => r.RequestedByEmployee)
                     .WithMany()
@@ -78,7 +73,7 @@ namespace OvertimeManager.Infrastructure.Persistence
                 eb.Property(e => e.FirstName).IsRequired();
                 eb.Property(e => e.LastName).IsRequired();
                 eb.Property(e => e.RoleId).IsRequired();
-                //eb.Property(e => e.ManagerId).IsRequired();
+
 
                 eb.HasOne(e => e.Manager)
                     .WithMany(e => e.Subordinates)

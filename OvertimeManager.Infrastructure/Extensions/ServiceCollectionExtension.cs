@@ -8,7 +8,6 @@ using OvertimeManager.Infrastructure.Authentication;
 using OvertimeManager.Infrastructure.Persistence;
 using OvertimeManager.Infrastructure.Repositories;
 using OvertimeManager.Infrastructure.Seeders;
-using Microsoft.AspNetCore.Authentication;
 using OvertimeManager.Application.Common;
 
 namespace OvertimeManager.Infrastructure.Extensions

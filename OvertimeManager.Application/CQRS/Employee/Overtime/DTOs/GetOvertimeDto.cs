@@ -28,7 +28,6 @@ namespace OvertimeManager.Application.CQRS.Employee.Overtime.DTOs
 
 
         //approval status is "Pending" by default on creation, approval process will update these fields
-        //public int ApprovalStatusId { get; set; } = 1;
         public string Status { get; set; } = ((StatusEnum)StatusEnum.Pending).ToString();
         public DateTime? ApprovedAt { get; set; } = null;
         public int? ApprovedByEmployeeId { get; set; } = null;

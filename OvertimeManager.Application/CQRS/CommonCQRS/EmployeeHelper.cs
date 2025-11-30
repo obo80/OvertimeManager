@@ -1,11 +1,5 @@
-﻿using MediatR;
-using OvertimeManager.Domain.Exceptions;
+﻿using OvertimeManager.Domain.Exceptions;
 using OvertimeManager.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OvertimeManager.Application.CQRS.CommonCQRS
 {
@@ -50,6 +44,16 @@ namespace OvertimeManager.Application.CQRS.CommonCQRS
             return employee;
         }
 
+
+        /// <summary>
+        /// Check if request created for employee under a specific manager
+        /// </summary>
+        /// <param name="baseRequest"></param>
+        /// <param name="requestId"></param>
+        /// <param name="currentManagerId"></param>
+        /// <param name="_employeeRepository"></param>
+        /// <returns></returns>
+        /// <exception cref="NotFoundException"></exception>
         public static async Task<bool> IsManagerEmployeeRequest(Domain.Entities.Overtime.OvertimeRequestBase baseRequest, int requestId, int currentManagerId, IEmployeeRepository _employeeRepository)
         {
             if (baseRequest == null)

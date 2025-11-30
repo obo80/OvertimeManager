@@ -35,13 +35,11 @@ namespace OvertimeManager.Api.Controllers
         [HttpGet("status")]
         public async Task<IActionResult> GetCurrentManagerEmployeesOvertimeStatus([FromHeader] string authorization)
         {
-            //dorzucić liczbe oczekujacych requestow?
             var currentManagerId = TokenHelper.GetUserIdFromClaims(authorization);
             var statusDtos = await _mediator.Send(new GetCurrentManagerEmployeesOvertimeStatusQuery(currentManagerId));
             return Ok(statusDtos);
         }
 
-        //individual request
         [HttpGet("requests/{id}")]
         public async Task<IActionResult> GetCurrentManagerEmployeesOvertimeRequestById([FromHeader] string authorization, [FromRoute] int id)
         {
@@ -52,7 +50,6 @@ namespace OvertimeManager.Api.Controllers
             return Ok(overtimeDtos);
         }
 
-        //individual request approval
         [HttpPost("requests/{id}/approve")]
         public async Task<IActionResult> UpdateApproveCurrentManagerEmployeesOvertimeRequestById([FromHeader] string authorization, [FromRoute] int id)
         {
@@ -62,7 +59,7 @@ namespace OvertimeManager.Api.Controllers
             return Ok($"Overtime Request id = {id} approved");
         }
 
-        //individual request approval
+
         [HttpPost("requests/{id}/reject")]
         public async Task<IActionResult> RejectCurrentManagerEmployeesOvertimeRequestById([FromHeader] string authorization, [FromRoute] int id)
         {

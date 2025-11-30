@@ -1,5 +1,4 @@
 ﻿using OvertimeManager.Application.CQRS.Employee.Compensation.DTOs;
-using OvertimeManager.Application.CQRS.Employee.Overtime.DTOs;
 
 namespace OvertimeManager.Api.Controllers
 {

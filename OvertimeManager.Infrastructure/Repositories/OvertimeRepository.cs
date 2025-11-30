@@ -1,14 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OvertimeManager.Application.Common;
 using OvertimeManager.Domain.Entities.Overtime;
-using OvertimeManager.Domain.Entities.User;
 using OvertimeManager.Domain.Interfaces;
 using OvertimeManager.Infrastructure.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OvertimeManager.Infrastructure.Repositories
 {
