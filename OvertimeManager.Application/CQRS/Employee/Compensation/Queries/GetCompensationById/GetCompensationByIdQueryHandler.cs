@@ -24,7 +24,7 @@ namespace OvertimeManager.Application.CQRS.Employee.Compensation.Queries.GetComp
 
             var compensationEmployeeId = compensation.RequestedForEmployeeId;
             if (compensationEmployeeId != request.CurrentEmployeeId)
-                throw new UnauthorizedException("You are not authorized to get this compensation request.");
+                throw new ForbidException("You are not authorized to get this compensation request.");
 
             var getCompensationDto = _mapper.Map<GetCompensationDto>(compensation);
             return getCompensationDto;

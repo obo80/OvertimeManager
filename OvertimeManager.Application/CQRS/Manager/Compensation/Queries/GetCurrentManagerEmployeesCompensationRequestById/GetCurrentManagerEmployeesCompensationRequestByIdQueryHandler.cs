@@ -27,7 +27,7 @@ namespace OvertimeManager.Application.CQRS.Manager.Compensation.Queries.GetCurre
 
             if (compensation == null || await EmployeeHelper.IsManagerEmployeeRequest(compensation,
                     request.CompensationId, request.CurrentManagerId, _employeeRepository))
-                throw new UnauthorizedException("You are not authorized to get this overtime request.");
+                throw new ForbidException("You are not authorized to get this overtime request.");
 
 
             var getCompensationDto = _mapper.Map<GetCompensationDto>(compensation);

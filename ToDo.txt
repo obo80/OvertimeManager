@@ -1,6 +1,6 @@
 ﻿DODAC DO PROJEKTU
  - ErrorHandlingMiddleware z obsługą wyjątków globalnie
- - Logowanie do pliku
+ - Logowanie do pliku - Serilog
  - Swagger jako strona startowa i dokumentacja API
  - Paginacja i sortowanie w get all
  - Automatyczne migracje przy starcie aplikacji

@@ -30,7 +30,7 @@ namespace OvertimeManager.Api.Controllers
 
             var canSettle = employee.OvertimeSummary.CanSettleOvertime(newCompensation.CompensatedTime);
             if (!canSettle)
-                throw new Domain.Exceptions.InvalidOperationException("Insufficient unsettled overtime to settle the requested time.");
+                throw new BadRequestException("Insufficient unsettled overtime to settle the requested time.");
 
             var id = await _compensationRepository.CreateCompensationAsync(newCompensation);
             return id;

@@ -37,11 +37,11 @@ namespace OvertimeManager.Application.CQRS.Manager.Compensation.Commands.Approve
                 throw new NotFoundException("Employee not found.", employeeId.ToString());
 
             if (employee.ManagerId != manager.Id)
-                throw new UnauthorizedException("You are not authorized to get this overtime request.");
+                throw new ForbidException("You are not authorized to get this overtime request.");
 
             var canSettle = employee.OvertimeSummary.CanSettleOvertime(compensation.CompensatedTime);
             if (!canSettle)
-                throw new Domain.Exceptions.InvalidOperationException("Insufficient unsettled overtime to settle the requested time.");
+                throw new BadRequestException("Insufficient unsettled overtime to settle the requested time.");
 
             compensation.Status = StatusEnum.Approved.ToString();
             compensation.ApprovedAt = DateTime.Now;

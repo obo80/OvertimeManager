@@ -2,8 +2,6 @@
 using OvertimeManager.Domain.Constants;
 using OvertimeManager.Domain.Exceptions;
 using OvertimeManager.Domain.Interfaces;
-using InvalidOperationException = OvertimeManager.Domain.Exceptions.InvalidOperationException;
-
 namespace OvertimeManager.Api.Controllers
 {
     class SetCompensationDoneCommandHandler : IRequestHandler<SetCompensationDoneCommand>
@@ -25,14 +23,14 @@ namespace OvertimeManager.Api.Controllers
 
             var compensationEmployeeId = compensation.RequestedForEmployeeId;
             if (compensationEmployeeId != request.CurrentEmployeeId)
-                throw new UnauthorizedException("You are not authorized to update this compensation request.");
+                throw new ForbidException("You are not authorized to update this compensation request.");
 
             var employee = await _employeeRepository.GetByIdAsync(compensation.RequestedForEmployeeId);
             if (employee == null)
                 throw new NotFoundException("Employee not found.", compensation.RequestedForEmployeeId.ToString());
 
             if (compensation.Status != ((StatusEnum)StatusEnum.Approved).ToString())
-                throw new InvalidOperationException("Only approved compensation requests can be done.");
+                throw new BadRequestException("Only approved compensation requests can be done.");
 
 
             compensation.Status = ((StatusEnum)StatusEnum.Done).ToString();

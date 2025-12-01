@@ -21,7 +21,7 @@ namespace OvertimeManager.Api.Controllers
 
             var compensationEmployeeId = compensation.RequestedForEmployeeId;
             if (compensationEmployeeId != request.CurrentEmployeeId)
-                throw new UnauthorizedException("You are not authorized to update this compensation request.");
+                throw new ForbidException("You are not authorized to update this compensation request.");
 
             compensation.Status = ((StatusEnum)StatusEnum.Cancelled).ToString();
             await _compensationRepository.SaveChangesAsync();

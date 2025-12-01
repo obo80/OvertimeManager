@@ -23,17 +23,17 @@ namespace OvertimeManager.Api.Controllers
 
             var overtimeEmployeeId = overtime.RequestedForEmployeeId;
             if (overtimeEmployeeId != request.CurrentEmployeeId)
-                throw new UnauthorizedException("You are not authorized to update this overtime request.");
+                throw new ForbidException("You are not authorized to update this overtime request.");
 
             var employee = await _employeeRepository.GetByIdAsync(overtime.RequestedForEmployeeId);
             if (employee == null)
                 throw new NotFoundException("Employee not found.", overtime.RequestedForEmployeeId.ToString());
 
             if (overtime.Status == ((StatusEnum)StatusEnum.Done).ToString())
-                throw new Domain.Exceptions.InvalidOperationException("This request was already done.");
+                throw new BadRequestException("This request was already done.");
 
             if (overtime.Status != ((StatusEnum)StatusEnum.Approved).ToString())
-                throw new Domain.Exceptions.InvalidOperationException("Only approved overtime requests can be done.");
+                throw new BadRequestException("Only approved overtime requests can be done.");
 
 
             double actualTime = 0.0;

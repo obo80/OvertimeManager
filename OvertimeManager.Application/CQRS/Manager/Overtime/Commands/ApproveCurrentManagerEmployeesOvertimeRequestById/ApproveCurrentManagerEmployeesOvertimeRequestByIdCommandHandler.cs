@@ -33,7 +33,7 @@ namespace OvertimeManager.Application.CQRS.Manager.Overtime.Commands.ApproveCurr
                 throw new NotFoundException("Manager not found", request.CurrentManagerId.ToString());
 
             if (overtime.RequestedForEmployee!.ManagerId != manager.Id)
-                throw new UnauthorizedException("You are not authorized to get this overtime request.");
+                throw new ForbidException("You are not authorized to get this overtime request.");
 
             overtime.Status = StatusEnum.Approved.ToString();
             overtime.ApprovedAt = DateTime.Now;

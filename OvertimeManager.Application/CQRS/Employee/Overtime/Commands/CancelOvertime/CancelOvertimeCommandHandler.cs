@@ -21,7 +21,7 @@ namespace OvertimeManager.Application.CQRS.Employee.Overtime.Commands.CancelOver
 
             var overtimeEmployeeId = overtime.RequestedForEmployeeId;
             if (overtimeEmployeeId != request.CurrentEmployeeId)
-                throw new UnauthorizedException("You are not authorized to update this overtime request.");
+                throw new ForbidException("You are not authorized to update this overtime request.");
 
             overtime.Status = ((StatusEnum)StatusEnum.Cancelled).ToString();
             await _overtimeRepository.SaveChangesAsync();

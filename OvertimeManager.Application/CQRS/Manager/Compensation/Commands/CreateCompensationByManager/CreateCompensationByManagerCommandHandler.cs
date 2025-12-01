@@ -27,14 +27,14 @@ namespace OvertimeManager.Application.CQRS.Manager.Compensation.Commands.CreateC
                 throw new NotFoundException("Employee not found.", request.RequestedForEmployeeId.ToString());
 
             if (!await EmployeeHelper.IsEmployeeUnderManager(request.RequestedForEmployeeId, request.RequestedByEmployeeId, _employeeRepository))
-                throw new UnauthorizedException($"You are not authorized to create compensation request for employee id={request.RequestedForEmployeeId}");
+                throw new ForbidException($"You are not authorized to create compensation request for employee id={request.RequestedForEmployeeId}");
 
             var newCompensation = _mapper.Map<CompensationRequest>(request);
             newCompensation.SetCompensation(request.IsMultiplied);
 
             var canSettle = employee.OvertimeSummary.CanSettleOvertime(newCompensation.CompensatedTime);
             if (!canSettle)
-                throw new Domain.Exceptions.InvalidOperationException("Insufficient unsettled overtime to settle the requested time.");
+                throw new BadRequestException("Insufficient unsettled overtime to settle the requested time.");
 
             var id = await _compensationRepository.CreateCompensationAsync(newCompensation);
             return id;

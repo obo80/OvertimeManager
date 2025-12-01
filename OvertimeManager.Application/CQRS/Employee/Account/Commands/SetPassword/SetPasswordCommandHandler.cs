@@ -27,7 +27,7 @@ namespace OvertimeManager.Application.CQRS.Employee.Account.Commands.SetPassword
             }
             if (!employee.MustChangePassword)
             {
-                throw new UnauthorizedException("Password change is not required for this user.");
+                throw new ForbidException("Password change is not required for this user.");
             }
 
             var newHashedPassword = _passwordHasher.HashPassword(request.NewPassword!);

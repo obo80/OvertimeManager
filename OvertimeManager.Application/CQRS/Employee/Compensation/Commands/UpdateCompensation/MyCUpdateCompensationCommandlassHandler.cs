@@ -24,10 +24,10 @@ namespace OvertimeManager.Api.Controllers
 
             var compensationEmployeeId = compensation.RequestedForEmployeeId;
             if (compensationEmployeeId != request.CurrentEmployeeId)
-                throw new UnauthorizedException("You are not authorized to update this compensation request.");
+                throw new ForbidException("You are not authorized to update this compensation request.");
 
             if (compensation.Status != ((StatusEnum)StatusEnum.Pending).ToString())
-                throw new Domain.Exceptions.InvalidOperationException("Only pending compensation requests can be updated.");
+                throw new BadRequestException("Only pending compensation requests can be updated.");
 
             var employee = await _employeeRepository.GetByIdAsync(request.CurrentEmployeeId);
             if (employee == null)
@@ -40,7 +40,7 @@ namespace OvertimeManager.Api.Controllers
             {
                 var canSettle = employee.OvertimeSummary.CanSettleOvertime(request.RequestedTime.Value);
                 if (!canSettle)
-                    throw new Domain.Exceptions.InvalidOperationException("Insufficient unsettled overtime to settle the requested time.");
+                    throw new BadRequestException("Insufficient unsettled overtime to settle the requested time.");
 
                 compensation.RequestedTime = (double)request.RequestedTime;
                 compensation.SetCompensation(request.IsMultiplied);

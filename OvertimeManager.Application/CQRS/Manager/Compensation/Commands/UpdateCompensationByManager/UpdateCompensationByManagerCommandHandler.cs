@@ -27,7 +27,7 @@ namespace OvertimeManager.Application.CQRS.Manager.Compensation.Commands.UpdateC
                 if (request.RequestedForEmployeeId != null)
                 {
                     if (await EmployeeHelper.IsEmployeeUnderManager(request.RequestedForEmployeeId.Value, request.CurrentManagerId, _employeeRepository))
-                        throw new UnauthorizedException($"You are not authorized to create compensation request for employee id={request.RequestedForEmployeeId}");
+                        throw new ForbidException($"You are not authorized to create compensation request for employee id={request.RequestedForEmployeeId}");
 
                     compensation.RequestedForEmployeeId = request.RequestedForEmployeeId.Value;
                 }
@@ -44,7 +44,7 @@ namespace OvertimeManager.Application.CQRS.Manager.Compensation.Commands.UpdateC
 
                 var canSettle = employee.OvertimeSummary.CanSettleOvertime(compensation.CompensatedTime);
                 if (!canSettle)
-                    throw new Domain.Exceptions.InvalidOperationException("Insufficient unsettled overtime to settle the requested time.");
+                    throw new BadRequestException("Insufficient unsettled overtime to settle the requested time.");
 
                 await _compensationRepository.SaveChangesAsync(); 
             }

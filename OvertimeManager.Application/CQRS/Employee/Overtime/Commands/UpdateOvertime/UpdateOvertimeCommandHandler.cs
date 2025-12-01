@@ -23,10 +23,10 @@ namespace OvertimeManager.Application.CQRS.Employee.Overtime.Commands.UpdateOver
 
             var overtimeEmployeeId = overtime.RequestedForEmployeeId;
             if (overtimeEmployeeId != request.CurrentEmployeeId)
-                throw new UnauthorizedException("You are not authorized to update this overtime request.");
+                throw new ForbidException("You are not authorized to update this overtime request.");
 
             if (overtime.Status != ((StatusEnum)StatusEnum.Pending).ToString())
-                throw new Domain.Exceptions.InvalidOperationException("Only pending overtime requests can be updated.");
+                throw new BadRequestException("Only pending overtime requests can be updated.");
 
             //if condition added to update values only with provided data and left other as they are
             if (request.Name != null)

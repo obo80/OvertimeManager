@@ -32,7 +32,7 @@ namespace OvertimeManager.Application.CQRS.Manager.Compensation.Commands.RejectC
                 throw new NotFoundException("Manager not found", request.CurrentManagerId.ToString());
 
             if (compensation.RequestedForEmployee!.ManagerId != manager.Id)
-                throw new UnauthorizedException("You are not authorized to get this overtime request.");
+                throw new ForbidException("You are not authorized to get this overtime request.");
 
             compensation.Status = StatusEnum.Rejected.ToString();
 

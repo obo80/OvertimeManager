@@ -27,7 +27,7 @@ namespace OvertimeManager.Application.CQRS.Employee.Account.Commands.Login
 
             var passwordVerificationResult = _passwordHasher.VerifyHashedPassword(employee.PasswordHash, request.Password);
             if (passwordVerificationResult == PasswordVerificationResult.Failed)
-                throw new UnauthorizedException("Current password is incorrect.");
+                throw new ForbidException("Current password is incorrect.");
 
             var token = _jwtService.GenerateJwtToken(employee);
             return token;

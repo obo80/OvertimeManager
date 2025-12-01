@@ -1,6 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using OvertimeManager.Api.Extensions;
+using OvertimeManager.Api.Middlewares;
 using OvertimeManager.Application.Extensions;
 using OvertimeManager.Infrastructure.Extensions;
 using OvertimeManager.Infrastructure.Persistence;
@@ -19,6 +20,7 @@ namespace OvertimeManager.WebApi
             builder.Services.AddControllers();
 
             //add servicess from sub projects
+            builder.AddPresentation();
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddApplication();
 
@@ -36,12 +38,13 @@ namespace OvertimeManager.WebApi
             var seeder = scope.ServiceProvider.GetRequiredService<OvertimeManagerSeeder>();
             await seeder.Seed();
 
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
             }
-
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

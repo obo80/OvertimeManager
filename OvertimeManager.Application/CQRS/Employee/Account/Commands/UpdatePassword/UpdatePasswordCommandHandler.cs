@@ -26,11 +26,11 @@ namespace OvertimeManager.Application.CQRS.Employee.Account.Commands.UpdatePassw
                 throw new NotFoundException("User not found.", request.Email!);
 
             if (employee.MustChangePassword)
-                throw new UnauthorizedException("You must set a new password before updating it.");
+                throw new ForbidException("You must set a new password before updating it.");
             
             var passwordVerificationResult = _passwordHasher.VerifyHashedPassword(employee.PasswordHash, request.CurrentPassword);
             if (passwordVerificationResult == PasswordVerificationResult.Failed)
-                throw new UnauthorizedException("Current password is incorrect.");
+                throw new ForbidException("Current password is incorrect.");
             
             var newHashedPassword = _passwordHasher.HashPassword(request.NewPassword);
             employee.PasswordHash = newHashedPassword;

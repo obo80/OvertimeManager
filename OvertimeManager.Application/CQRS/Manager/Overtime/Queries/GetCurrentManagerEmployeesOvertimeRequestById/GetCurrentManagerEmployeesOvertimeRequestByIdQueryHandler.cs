@@ -28,7 +28,7 @@ namespace OvertimeManager.Application.CQRS.Manager.Overtime.Queries.GetCurrentMa
 
             if (overtime == null || !await EmployeeHelper.IsManagerEmployeeRequest(overtime, 
                     request.OvertimeId, request.CurrentManagerId, _employeeRepository))
-                throw new UnauthorizedException("You are not authorized to get this overtime request."); 
+                throw new ForbidException("You are not authorized to get this overtime request."); 
 
 
             var getOvertimeDto = _mapper.Map<GetOvertimeDto>(overtime);
