@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OvertimeManager.Application.Common.GetFromQueryOptions;
 using OvertimeManager.Application.CQRS.HR.Employees.Commands.CreateEmployee;
 using OvertimeManager.Application.CQRS.HR.Employees.Commands.DeleteEmployee;
 using OvertimeManager.Application.CQRS.HR.Employees.Commands.UpdateEmployee;
@@ -10,8 +11,6 @@ using OvertimeManager.Application.CQRS.HR.Employees.Queries.GetAllEmployees;
 using OvertimeManager.Application.CQRS.HR.Employees.Queries.GetEmployeeById;
 using OvertimeManager.Application.CQRS.HR.Employees.Queries.GetTokenEmployeeById;
 
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace OvertimeManager.Api.Controllers
 {
@@ -30,9 +29,9 @@ namespace OvertimeManager.Api.Controllers
         }
         // GET: api/HR/Employees
         [HttpGet]
-        public async Task<IActionResult> GetAllEmployees()
+        public async Task<IActionResult> GetAllEmployees([FromQuery] FromQueryOptions queryOptions)
         {
-            var employeesDto = await _mediator.Send(new GetAllEmployeesQuery());
+            var employeesDto = await _mediator.Send(new GetAllEmployeesQuery(queryOptions));
             return Ok(employeesDto);
         }
 

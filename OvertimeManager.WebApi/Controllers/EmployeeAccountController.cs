@@ -1,15 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using NuGet.Common;
 using OvertimeManager.Application.CQRS.Employee.Account.Commands.Login;
 using OvertimeManager.Application.CQRS.Employee.Account.Commands.SetPassword;
 using OvertimeManager.Application.CQRS.Employee.Account.Commands.UpdatePassword;
 using OvertimeManager.Application.CQRS.Employee.Account.DTOs;
 using OvertimeManager.Infrastructure.Authentication;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace OvertimeManager.Api.Controllers
 {

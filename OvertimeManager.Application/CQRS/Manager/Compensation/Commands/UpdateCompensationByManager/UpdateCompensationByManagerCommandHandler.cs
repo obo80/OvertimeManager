@@ -10,7 +10,8 @@ namespace OvertimeManager.Application.CQRS.Manager.Compensation.Commands.UpdateC
         private readonly ICompensationRepository _compensationRepository;
         private readonly IEmployeeRepository _employeeRepository;
 
-        public UpdateCompensationByManagerCommandHandler(ICompensationRepository compensationRepository, IEmployeeRepository employeeRepository)
+        public UpdateCompensationByManagerCommandHandler(ICompensationRepository compensationRepository, 
+            IEmployeeRepository employeeRepository)
         {
             _compensationRepository = compensationRepository;
             _employeeRepository = employeeRepository;
@@ -26,8 +27,10 @@ namespace OvertimeManager.Application.CQRS.Manager.Compensation.Commands.UpdateC
 
                 if (request.RequestedForEmployeeId != null)
                 {
-                    if (await EmployeeHelper.IsEmployeeUnderManager(request.RequestedForEmployeeId.Value, request.CurrentManagerId, _employeeRepository))
-                        throw new ForbidException($"You are not authorized to create compensation request for employee id={request.RequestedForEmployeeId}");
+                    if (await EmployeeHelper.IsEmployeeUnderManager(request.RequestedForEmployeeId.Value, 
+                        request.CurrentManagerId, _employeeRepository))
+                        throw new ForbidException(
+                            $"You are not authorized to create compensation request for employee id={request.RequestedForEmployeeId}");
 
                     compensation.RequestedForEmployeeId = request.RequestedForEmployeeId.Value;
                 }

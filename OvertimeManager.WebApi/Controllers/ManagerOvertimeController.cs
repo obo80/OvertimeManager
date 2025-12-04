@@ -2,10 +2,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OvertimeManager.Application.CQRS.Employee.Overtime.DTOs;
+using OvertimeManager.Application.Common.GetFromQueryOptions;
 using OvertimeManager.Application.CQRS.Manager.Overtime.Commands.ApproveCurrentManagerEmployeesOvertimeRequestById;
 using OvertimeManager.Application.CQRS.Manager.Overtime.Commands.RejectCurrentManagerEmployeesOvertimeRequestById;
-using OvertimeManager.Application.CQRS.Manager.Overtime.DTOs;
 using OvertimeManager.Application.CQRS.Manager.Overtime.Queries.GetCurrentManagerEmployeeByIdActiveOvertimes;
 using OvertimeManager.Application.CQRS.Manager.Overtime.Queries.GetCurrentManagerEmployeeByIdOvertimes;
 using OvertimeManager.Application.CQRS.Manager.Overtime.Queries.GetCurrentManagerEmployeeByIdOvertimeStatus;
@@ -33,10 +32,11 @@ namespace OvertimeManager.Api.Controllers
 
         [HttpGet]
         [HttpGet("status")]
-        public async Task<IActionResult> GetCurrentManagerEmployeesOvertimeStatus([FromHeader] string authorization)
+        public async Task<IActionResult> GetCurrentManagerEmployeesOvertimeStatus([FromHeader] string authorization,
+            [FromQuery] FromQueryOptions queryOptions)
         {
             var currentManagerId = TokenHelper.GetUserIdFromClaims(authorization);
-            var statusDtos = await _mediator.Send(new GetCurrentManagerEmployeesOvertimeStatusQuery(currentManagerId));
+            var statusDtos = await _mediator.Send(new GetCurrentManagerEmployeesOvertimeStatusQuery(currentManagerId, queryOptions));
             return Ok(statusDtos);
         }
 
@@ -61,7 +61,8 @@ namespace OvertimeManager.Api.Controllers
 
 
         [HttpPost("requests/{id}/reject")]
-        public async Task<IActionResult> RejectCurrentManagerEmployeesOvertimeRequestById([FromHeader] string authorization, [FromRoute] int id)
+        public async Task<IActionResult> RejectCurrentManagerEmployeesOvertimeRequestById([FromHeader] string authorization, 
+            [FromRoute] int id)
         {
             var currentManagerId = TokenHelper.GetUserIdFromClaims(authorization);
             await _mediator.Send(new RejectCurrentManagerEmployeesOvertimeRequestByIdCommand(currentManagerId, id));
@@ -72,29 +73,31 @@ namespace OvertimeManager.Api.Controllers
 
         [HttpGet("requests")]
         [HttpGet("requests/all")]
-        public async Task<IActionResult> GetCurrentManagerEmployeesOvertimes([FromHeader] string authorization)
+        public async Task<IActionResult> GetCurrentManagerEmployeesOvertimes([FromHeader] string authorization, 
+            [FromQuery] FromQueryOptions queryOptions)
         {
             var currentManagerId = TokenHelper.GetUserIdFromClaims(authorization);
-            IEnumerable<EmployeeOvertimeRequestsDto> employeeOvertimeRequestsDtos =
-                await _mediator.Send(new GetCurrentManagerEmployeesOvertimesQuery(currentManagerId));
+            var overtimeDtos = await _mediator.Send(new GetCurrentManagerEmployeesOvertimesQuery(currentManagerId, queryOptions));
 
-            return Ok(employeeOvertimeRequestsDtos);
+            return Ok(overtimeDtos);
         }
 
 
         [HttpGet("requests/active")]
-        public async Task<IActionResult> GetCurrentManagerEmployeesActiveOvertimes([FromHeader] string authorization)
+        public async Task<IActionResult> GetCurrentManagerEmployeesActiveOvertimes([FromHeader] string authorization, 
+            [FromQuery] FromQueryOptions queryOptions)
         {
             var currentManagerId = TokenHelper.GetUserIdFromClaims(authorization);
-            IEnumerable<EmployeeOvertimeRequestsDto> overtimeDtos =
-                await _mediator.Send(new GetCurrentManagerEmployeesActiveOvertimesQuery(currentManagerId));
+            var overtimeDtos =
+                await _mediator.Send(new GetCurrentManagerEmployeesActiveOvertimesQuery(currentManagerId, queryOptions));
 
             return Ok(overtimeDtos);
         }
 
         [HttpGet("Employee/{id}")]
         [HttpGet("Employee/{id}/status")]
-        public async Task<IActionResult> GetCurrentManagerEmployeeByIdOvertimeStatus([FromHeader] string authorization, [FromRoute] int id)
+        public async Task<IActionResult> GetCurrentManagerEmployeeByIdOvertimeStatus([FromHeader] string authorization, 
+            [FromRoute] int id)
         {
             var currentManagerId = TokenHelper.GetUserIdFromClaims(authorization);
             var statusDto = await _mediator.Send(new GetCurrentManagerEmployeeByIdOvertimeStatusQuery(currentManagerId, id));
@@ -102,23 +105,21 @@ namespace OvertimeManager.Api.Controllers
         }
 
         [HttpGet("Employee/{id}/requests")]
-        public async Task<IActionResult> GetCurrentManagerEmployeeByIdOvertimes([FromHeader] string authorization, [FromRoute] int id)
+        public async Task<IActionResult> GetCurrentManagerEmployeeByIdOvertimes([FromHeader] string authorization, 
+            [FromRoute] int id, [FromQuery] FromQueryOptions queryOptions)
         {
             var currentManagerId = TokenHelper.GetUserIdFromClaims(authorization);
-            IEnumerable<GetOvertimeDto> overtimeDtos =
-                await _mediator.Send(new GetCurrentManagerEmployeeByIdOvertimesQuery(currentManagerId, id));
+            var overtimeDtos = await _mediator.Send(new GetCurrentManagerEmployeeByIdOvertimesQuery(currentManagerId, id, queryOptions));
 
             return Ok(overtimeDtos);
         }
 
         [HttpGet("Employee/{id}/requests/active")]
-        public async Task<IActionResult> GetCurrentManagerEmployeeByIdActiveOvertimes([FromHeader] string authorization, [FromRoute] int id)
+        public async Task<IActionResult> GetCurrentManagerEmployeeByIdActiveOvertimes([FromHeader] string authorization, 
+            [FromRoute] int id, [FromQuery] FromQueryOptions queryOptions)
         {
-
             var currentManagerId = TokenHelper.GetUserIdFromClaims(authorization);
-            var employeeId = id;
-            IEnumerable<GetOvertimeDto> overtimeDtos =
-                await _mediator.Send(new GetCurrentManagerEmployeeByIdActiveOvertimesQuery(currentManagerId, id));
+            var overtimeDtos = await _mediator.Send(new GetCurrentManagerEmployeeByIdActiveOvertimesQuery(currentManagerId, id, queryOptions));
 
             return Ok(overtimeDtos);
         }

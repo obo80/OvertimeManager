@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using MediatR;
+using OvertimeManager.Application.Common.GetFromQueryOptions;
 using OvertimeManager.Application.CQRS.CommonCQRS;
 using OvertimeManager.Application.CQRS.Employee.Overtime.DTOs;
 using OvertimeManager.Domain.Interfaces;
 
 namespace OvertimeManager.Application.CQRS.Manager.Overtime.Queries.GetCurrentManagerEmployeeByIdOvertimes
 {
-    class GetCurrentManagerEmployeeByIdOvertimesQueryHandler : IRequestHandler<GetCurrentManagerEmployeeByIdOvertimesQuery, IEnumerable<GetOvertimeDto>>
+    class GetCurrentManagerEmployeeByIdOvertimesQueryHandler : 
+        IRequestHandler<GetCurrentManagerEmployeeByIdOvertimesQuery, PagedResult<GetOvertimeDto>>
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IOvertimeRepository _overtimeRepository;
@@ -20,12 +22,20 @@ namespace OvertimeManager.Application.CQRS.Manager.Overtime.Queries.GetCurrentMa
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<GetOvertimeDto>> Handle(GetCurrentManagerEmployeeByIdOvertimesQuery request, CancellationToken cancellationToken)
+        public async Task<PagedResult<GetOvertimeDto>> Handle(
+            GetCurrentManagerEmployeeByIdOvertimesQuery request, CancellationToken cancellationToken)
         {
-            var employee = await EmployeeHelper.GetEmployeeIfUnderManager(request.EmployeeId, request.CurrentManagerId, _employeeRepository);
+            var employee = await EmployeeHelper.GetEmployeeIfUnderManager(
+                request.EmployeeId, request.CurrentManagerId, _employeeRepository);
 
-            var overtimes = await _overtimeRepository.GetAllForEmployeeIdAsync(employee.Id);
-            return _mapper.Map<IEnumerable<GetOvertimeDto>>(overtimes);
+            var (overtimes, totalCount) = await _overtimeRepository.GetAllForEmployeeIdAsync(
+                employee.Id, request.QueryOptions);
+            var overtimesDto = _mapper.Map<List<GetOvertimeDto>>(overtimes);
+
+            var result = new PagedResult<GetOvertimeDto>(
+                overtimesDto, totalCount, request.QueryOptions.PageSize, request.QueryOptions.PageNumber);
+
+            return result;
 
         }
     }

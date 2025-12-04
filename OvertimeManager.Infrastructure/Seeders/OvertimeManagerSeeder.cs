@@ -1,4 +1,5 @@
-﻿using OvertimeManager.Domain.Constants;
+﻿using Microsoft.EntityFrameworkCore;
+using OvertimeManager.Domain.Constants;
 using OvertimeManager.Domain.Entities.User;
 using OvertimeManager.Infrastructure.Persistence;
 
@@ -17,12 +18,19 @@ namespace OvertimeManager.Infrastructure.Seeders
         {
             if (await _dbContext.Database.CanConnectAsync())
             {
+                UpdateDatabaseForPendingMigrations();
                 await SeedRoles();
-                //await SeedOvertimeStatus();
                 await SeedEmployees();
             }
         }
-
+        private void UpdateDatabaseForPendingMigrations()
+        {
+            var pendingMigrations = _dbContext.Database.GetPendingMigrations();
+            if (pendingMigrations != null && pendingMigrations.Any())
+            {
+                _dbContext.Database.Migrate();
+            }
+        }
 
         private async Task SeedEmployees()
         {

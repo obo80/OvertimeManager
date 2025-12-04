@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OvertimeManager.Application.CQRS.Employee.Compensation.DTOs;
+using OvertimeManager.Application.Common.GetFromQueryOptions;
 using OvertimeManager.Application.CQRS.Manager.Compensation.Commands.ApproveCurrentManagerEmployeesCompensationRequestById;
 using OvertimeManager.Application.CQRS.Manager.Compensation.Commands.CreateCompensationByManager;
 using OvertimeManager.Application.CQRS.Manager.Compensation.Commands.RejectCurrentManagerEmployeesCompensationRequestById;
@@ -36,16 +36,19 @@ namespace OvertimeManager.Api.Controllers
 
         [HttpGet]
         [HttpGet("status")]
-        public async Task<IActionResult> GetCurrentManagerEmployeesCompensationStatus([FromHeader] string authorization)
+        public async Task<IActionResult> GetCurrentManagerEmployeesCompensationStatus([FromHeader] string authorization, 
+            [FromQuery] FromQueryOptions queryOptions)
         {
 
             var currentManagerId = TokenHelper.GetUserIdFromClaims(authorization);
-            var statusDtos = await _mediator.Send(new GetCurrentManagerEmployeesOvertimeStatusQuery(currentManagerId));
+            var statusDtos = await _mediator.Send(
+                new GetCurrentManagerEmployeesOvertimeStatusQuery(currentManagerId, queryOptions));
             return Ok(statusDtos);
         }
 
         [HttpGet("requests/{id}")]
-        public async Task<IActionResult> GetCurrentManagerEmployeesCompensationRequestById([FromHeader] string authorization, [FromRoute] int id)
+        public async Task<IActionResult> GetCurrentManagerEmployeesCompensationRequestById([FromHeader] string authorization, 
+            [FromRoute] int id)
         {
 
             var currentManagerId = TokenHelper.GetUserIdFromClaims(authorization);
@@ -57,24 +60,26 @@ namespace OvertimeManager.Api.Controllers
 
 
         [HttpGet("requests")]
-        public async Task<IActionResult> GetCurrentManagerEmployeesCompensations([FromHeader] string authorization)
+        public async Task<IActionResult> GetCurrentManagerEmployeesCompensations([FromHeader] string authorization,
+            [FromQuery] FromQueryOptions queryOptions)
         {
 
             var currentManagerId = TokenHelper.GetUserIdFromClaims(authorization);
-            IEnumerable<EmployeeCompensationRequestsDto> employeeCompensationRequestsDtos =
-                await _mediator.Send(new GetCurrentManagerEmployeesCompensationsQuery(currentManagerId));
+            var employeeCompensationRequestsDtos = await _mediator.Send(
+                new GetCurrentManagerEmployeesCompensationsQuery(currentManagerId, queryOptions));
 
             return Ok(employeeCompensationRequestsDtos);
         }
 
 
         [HttpGet("requests/active")]
-        public async Task<IActionResult> GetCurrentManagerEmployeesActiveCompensations([FromHeader] string authorization)
+        public async Task<IActionResult> GetCurrentManagerEmployeesActiveCompensations([FromHeader] string authorization, 
+            [FromQuery] FromQueryOptions queryOptions)
         {
 
             var currentManagerId = TokenHelper.GetUserIdFromClaims(authorization);
-            IEnumerable<EmployeeCompensationRequestsDto> compensationDtos =
-                await _mediator.Send(new GetCurrentManagerEmployeesActiveCompensationsQuery(currentManagerId));
+            var compensationDtos = await _mediator.Send(
+                new GetCurrentManagerEmployeesActiveCompensationsQuery(currentManagerId, queryOptions));
 
             return Ok(compensationDtos);
 
@@ -82,7 +87,8 @@ namespace OvertimeManager.Api.Controllers
 
         [HttpGet("Employee/{id}")]
         [HttpGet("Employee/{id}/status")]
-        public async Task<IActionResult> GetCurrentManagerEmployeeByIdCompensationStatus([FromHeader] string authorization, [FromRoute] int id)
+        public async Task<IActionResult> GetCurrentManagerEmployeeByIdCompensationStatus([FromHeader] string authorization, 
+            [FromRoute] int id)
         {
 
             var currentManagerId = TokenHelper.GetUserIdFromClaims(authorization);
@@ -91,34 +97,36 @@ namespace OvertimeManager.Api.Controllers
         }
 
         [HttpGet("Employee/{id}/requests")]
-        public async Task<IActionResult> GetCurrentManagerEmployeeByIdCompensations([FromHeader] string authorization, [FromRoute] int id)
+        public async Task<IActionResult> GetCurrentManagerEmployeeByIdCompensations([FromHeader] string authorization, 
+            [FromRoute] int id, [FromQuery] FromQueryOptions queryOptions)
         {
             var currentManagerId = TokenHelper.GetUserIdFromClaims(authorization);
-            IEnumerable<GetCompensationDto> compensationDtos =
-                await _mediator.Send(new GetCurrentManagerEmployeeByIdCompensationsQuery(currentManagerId, id));
+            var compensationDtos =
+                await _mediator.Send(new GetCurrentManagerEmployeeByIdCompensationsQuery(currentManagerId, id, queryOptions));
 
             return Ok(compensationDtos);
         }
 
         [HttpGet("Employee/{id}/requests/active")]
-        public async Task<IActionResult> GetCurrentManagerEmployeeByIdActiveCompensations([FromHeader] string authorization, [FromRoute] int id)
+        public async Task<IActionResult> GetCurrentManagerEmployeeByIdActiveCompensations([FromHeader] string authorization, 
+            [FromRoute] int id, [FromQuery] FromQueryOptions queryOptions)
         {
             var currentManagerId = TokenHelper.GetUserIdFromClaims(authorization);
-            var employeeId = id;
-            IEnumerable<GetCompensationDto> compensationDtos =
-                await _mediator.Send(new GetCurrentManagerEmployeeByIdActiveCompensationsQuery(currentManagerId, id));
+            var compensationDtos = await _mediator.Send(
+                new GetCurrentManagerEmployeeByIdActiveCompensationsQuery(currentManagerId, id, queryOptions));
 
             return Ok(compensationDtos);
         }
 
         [HttpPost("Employee/{id}")]
-        public async Task<IActionResult> CreateCompensationByManager([FromHeader] string authorization, [FromBody] CreateCompensationByManagerDto dto)
+        public async Task<IActionResult> CreateCompensationByManager([FromHeader] string authorization, [FromRoute] int id, 
+            [FromBody] CreateCompensationByManagerDto dto)
         {
             var currentManagerId = TokenHelper.GetUserIdFromClaims(authorization);
-            var compensationCommand = new CreateCompensationByManagerCommand(currentManagerId);
+            var compensationCommand = new CreateCompensationByManagerCommand(currentManagerId, id);
             _mapper.Map(dto, compensationCommand);
-            int id = await _mediator.Send(compensationCommand);
-            return CreatedAtAction(nameof(GetCurrentManagerEmployeesCompensationRequestById), new { id }, null);
+            int compensationId = await _mediator.Send(compensationCommand);
+            return CreatedAtAction(nameof(GetCurrentManagerEmployeesCompensationRequestById), new { compensationId }, null);
         }
 
         [HttpPut("Employee/{id}")]
@@ -135,7 +143,8 @@ namespace OvertimeManager.Api.Controllers
 
 
         [HttpPost("requests/{id}/approve")]
-        public async Task<IActionResult> ApproveCurrentManagerEmployeesCompensationRequestById([FromHeader] string authorization, [FromRoute] int id)
+        public async Task<IActionResult> ApproveCurrentManagerEmployeesCompensationRequestById([FromHeader] string authorization, 
+            [FromRoute] int id)
         {
             var currentManagerId = TokenHelper.GetUserIdFromClaims(authorization);
             await _mediator.Send(new ApproveCurrentManagerEmployeesCompensationRequestByIdCommand(currentManagerId, id));
@@ -145,7 +154,8 @@ namespace OvertimeManager.Api.Controllers
 
         //individual request approval
         [HttpPost("requests/{id}/reject")]
-        public async Task<IActionResult> RejectCurrentManagerEmployeesCompensationRequestById([FromHeader] string authorization, [FromRoute] int id)
+        public async Task<IActionResult> RejectCurrentManagerEmployeesCompensationRequestById([FromHeader] string authorization, 
+            [FromRoute] int id)
         {
             var currentManagerId = TokenHelper.GetUserIdFromClaims(authorization);
             await _mediator.Send(new RejectCurrentManagerEmployeesCompensationRequestByIdCommand(currentManagerId, id));

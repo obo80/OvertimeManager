@@ -1,11 +1,13 @@
 ﻿using MediatR;
+using OvertimeManager.Application.Common.GetFromQueryOptions;
 using OvertimeManager.Application.CQRS.Employee.Overtime.DTOs;
 using OvertimeManager.Domain.Exceptions;
 using OvertimeManager.Domain.Interfaces;
 
 namespace OvertimeManager.Application.CQRS.Manager.Overtime.Queries.GetCurrentManagerEmployeesOvertimeStatus
 {
-    public class GetCurrentManagerEmployeesOvertimeStatusQueryHandler : IRequestHandler<GetCurrentManagerEmployeesOvertimeStatusQuery, IEnumerable<EmployeeOvertimeStatusDto>>
+    public class GetCurrentManagerEmployeesOvertimeStatusQueryHandler : 
+        IRequestHandler<GetCurrentManagerEmployeesOvertimeStatusQuery, PagedResult<EmployeeOvertimeStatusDto>>
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IMediator _mediator;
@@ -15,15 +17,16 @@ namespace OvertimeManager.Application.CQRS.Manager.Overtime.Queries.GetCurrentMa
             _employeeRepository = employeeRepository;
             _mediator = mediator;
         }
-        public async Task<IEnumerable<EmployeeOvertimeStatusDto>> Handle(GetCurrentManagerEmployeesOvertimeStatusQuery request, CancellationToken cancellationToken)
+        public async Task<PagedResult<EmployeeOvertimeStatusDto>> Handle(
+            GetCurrentManagerEmployeesOvertimeStatusQuery request, CancellationToken cancellationToken)
         {
             var manager = await _employeeRepository.GetByIdAsync(request.CurrentManagerId);
             if (manager == null)
                 throw new NotFoundException("Manager not found", request.CurrentManagerId.ToString());
 
-            var employees = await _employeeRepository.GetAllByManagerIdAsync(manager.Id);
+            var (employees, totalCount) = await _employeeRepository.GetAllByManagerIdAsync(manager.Id, request.QueryOptions);
 
-            List<EmployeeOvertimeStatusDto> statusDtos = new List<EmployeeOvertimeStatusDto>();
+            List<EmployeeOvertimeStatusDto> employeeStatusDtos = new List<EmployeeOvertimeStatusDto>();
             foreach (var employee in employees)
             {
                 //direct mapping, more efficient way to get each employee status in a single call to db for all employees
@@ -36,9 +39,12 @@ namespace OvertimeManager.Application.CQRS.Manager.Overtime.Queries.GetCurrentMa
                     UnsettledOvertime = employee.OvertimeSummary.UnsettledOvertime
                 };
 
-                statusDtos.Add(statusDto);
+                employeeStatusDtos.Add(statusDto);
             }
-            return statusDtos;
+            var result = new PagedResult<EmployeeOvertimeStatusDto>(employeeStatusDtos, totalCount, 
+                request.QueryOptions.PageSize, request.QueryOptions.PageNumber);
+
+            return result;
         }
     }
 }

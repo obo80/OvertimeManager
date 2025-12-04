@@ -5,7 +5,8 @@ using OvertimeManager.Domain.Interfaces;
 
 namespace OvertimeManager.Application.CQRS.Manager.Compensation.Queries.GetCurrentManagerEmployeeByIdCompensationStatus
 {
-    public class GetCurrentManagerEmployeeByIdCompensationStatusQueryHandler : IRequestHandler<GetCurrentManagerEmployeeByIdCompensationStatusQuery, EmployeeCompensationStatusDto>
+    public class GetCurrentManagerEmployeeByIdCompensationStatusQueryHandler : 
+        IRequestHandler<GetCurrentManagerEmployeeByIdCompensationStatusQuery, EmployeeCompensationStatusDto>
     {
         private readonly IEmployeeRepository _employeeRepository;
 
@@ -13,7 +14,8 @@ namespace OvertimeManager.Application.CQRS.Manager.Compensation.Queries.GetCurre
         {
             _employeeRepository = employeeRepository;
         }
-        public async Task<EmployeeCompensationStatusDto> Handle(GetCurrentManagerEmployeeByIdCompensationStatusQuery request, CancellationToken cancellationToken)
+        public async Task<EmployeeCompensationStatusDto> Handle(
+            GetCurrentManagerEmployeeByIdCompensationStatusQuery request, CancellationToken cancellationToken)
         {
             var manager = await _employeeRepository.GetByIdAsync(request.CurrentManagerId);
             if (manager == null)

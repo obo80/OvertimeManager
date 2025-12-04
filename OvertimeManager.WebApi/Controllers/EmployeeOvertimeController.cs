@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OvertimeManager.Application.Common.GetFromQueryOptions;
 using OvertimeManager.Application.CQRS.Employee.Overtime.Commands.CancelOvertime;
 using OvertimeManager.Application.CQRS.Employee.Overtime.Commands.CreateOvertime;
 using OvertimeManager.Application.CQRS.Employee.Overtime.Commands.UpdateOvertime;
@@ -36,20 +37,20 @@ namespace OvertimeManager.Api.Controllers
             return Ok(statusDto);
         }
         [HttpGet("requests")]
-        public async Task<IActionResult> GetAllMyOvertimes([FromHeader] string authorization)
+        public async Task<IActionResult> GetAllMyOvertimes([FromHeader] string authorization, 
+            [FromQuery] FromQueryOptions queryOptions)
         {
             var currentEmployeeId = TokenHelper.GetUserIdFromClaims(authorization);
-            IEnumerable<GetOvertimeDto> overtimeDtos = 
-                await _mediator.Send(new GetAllOvertimesByEmployeIdQuery(currentEmployeeId));
+            var overtimeDtos = await _mediator.Send(new GetAllOvertimesByEmployeIdQuery(currentEmployeeId, queryOptions));
 
             return Ok(overtimeDtos);
         }
         [HttpGet("requests/active")]
-        public async Task<IActionResult> GetAllMyActiveOvertimes([FromHeader] string authorization)
+        public async Task<IActionResult> GetAllMyActiveOvertimes([FromHeader] string authorization, 
+            [FromQuery] FromQueryOptions queryOptions)
         {
             var currentEmployeeId = TokenHelper.GetUserIdFromClaims(authorization);
-            IEnumerable<GetOvertimeDto> overtimeDtos =
-                await _mediator.Send(new GetAllActiveOvertimesByEmployeIdQuery(currentEmployeeId));
+            var overtimeDtos = await _mediator.Send(new GetAllActiveOvertimesByEmployeIdQuery(currentEmployeeId, queryOptions));
 
             return Ok(overtimeDtos);
         }

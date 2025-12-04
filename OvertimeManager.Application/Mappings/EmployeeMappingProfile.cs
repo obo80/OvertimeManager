@@ -19,12 +19,6 @@ namespace OvertimeManager.Application.Mappings
             CreateMap<CreateEmployeeDto, CreateEmployeeCommand>();
             CreateMap<UpdateEmployeeDto, UpdateEmployeeCommand>();
 
-
-
-
-
-
-
         }
     }
 }

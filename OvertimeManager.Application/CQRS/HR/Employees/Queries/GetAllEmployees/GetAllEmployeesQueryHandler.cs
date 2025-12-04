@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using MediatR;
+using OvertimeManager.Application.Common.GetFromQueryOptions;
+using OvertimeManager.Application.CQRS.Employee.Compensation.DTOs;
 using OvertimeManager.Application.CQRS.HR.Employees.DTOs;
 using OvertimeManager.Domain.Interfaces;
 
 namespace OvertimeManager.Application.CQRS.HR.Employees.Queries.GetAllEmployees
 {
-    internal class GetAllEmployeesQueryHandler : IRequestHandler<GetAllEmployeesQuery, IEnumerable<HREmployeeWithOvetimeDataDto>>
+    internal class GetAllEmployeesQueryHandler : IRequestHandler<GetAllEmployeesQuery, PagedResult<HREmployeeWithOvetimeDataDto>>
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
@@ -15,12 +17,15 @@ namespace OvertimeManager.Application.CQRS.HR.Employees.Queries.GetAllEmployees
             _employeeRepository = employeeRepository;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<HREmployeeWithOvetimeDataDto>> Handle(GetAllEmployeesQuery request, CancellationToken cancellationToken)
+        public async Task<PagedResult<HREmployeeWithOvetimeDataDto>> Handle(GetAllEmployeesQuery request, 
+            CancellationToken cancellationToken)
         {
-            var employees = await _employeeRepository.GetAllAsync();
+            var (employees,totalCount) = await _employeeRepository.GetAllAsync(request.QueryOptions);
             var dtos = _mapper.Map<IEnumerable<HREmployeeWithOvetimeDataDto>>(employees);
 
-            return dtos;
+            var result = new PagedResult<HREmployeeWithOvetimeDataDto>(dtos, totalCount, request.QueryOptions.PageSize, 
+                request.QueryOptions.PageNumber);
+            return result;
         }
     }
 }

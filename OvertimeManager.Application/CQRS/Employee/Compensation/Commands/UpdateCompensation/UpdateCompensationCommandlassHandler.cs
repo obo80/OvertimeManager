@@ -5,12 +5,12 @@ using OvertimeManager.Domain.Interfaces;
 
 namespace OvertimeManager.Api.Controllers
 {
-    public class MyCUpdateCompensationCommandlassHandler : IRequestHandler<UpdateCompensationCommand>
+    public class UpdateCompensationCommandlassHandler : IRequestHandler<UpdateCompensationCommand>
     {
         private readonly ICompensationRepository _compensationRepository;
         private readonly IEmployeeRepository _employeeRepository;
 
-        public MyCUpdateCompensationCommandlassHandler(ICompensationRepository compensationRepository, IEmployeeRepository employeeRepository)
+        public UpdateCompensationCommandlassHandler(ICompensationRepository compensationRepository, IEmployeeRepository employeeRepository)
         {
             _compensationRepository = compensationRepository;
             _employeeRepository = employeeRepository;

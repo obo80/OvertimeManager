@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OvertimeManager.Application.Common.GetFromQueryOptions;
 using OvertimeManager.Application.CQRS.Employee.Compensation.Queries.GetAllActiveCompensationsByEmployeId;
 using OvertimeManager.Application.CQRS.Employee.Compensation.Queries.GetAllCompensationsByEmployeId;
 using OvertimeManager.Application.CQRS.Employee.Compensation.Queries.GetCompensationById;
@@ -32,18 +33,22 @@ namespace OvertimeManager.Api.Controllers
             return Ok(statusDto);
         }
         [HttpGet("requests")]
-        public async Task<IActionResult> GetAllMyCompensations([FromHeader] string authorization)
+        public async Task<IActionResult> GetAllMyCompensations([FromHeader] string authorization, 
+            [FromQuery] FromQueryOptions queryOptions)
         {
             var currentEmployeeId = TokenHelper.GetUserIdFromClaims(authorization);
-            var compensationDtos =  await _mediator.Send(new GetAllCompensationsByEmployeIdQuery(currentEmployeeId));
+            var compensationDtos =  await _mediator.Send(
+                new GetAllCompensationsByEmployeIdQuery(currentEmployeeId, queryOptions));
 
             return Ok(compensationDtos);
         }
         [HttpGet("requests/active")]
-        public async Task<IActionResult> GetAllMyActiveCompensations([FromHeader] string authorization)
+        public async Task<IActionResult> GetAllMyActiveCompensations([FromHeader] string authorization, 
+            [FromQuery] FromQueryOptions queryOptions)
         {
             var currentEmployeeId = TokenHelper.GetUserIdFromClaims(authorization);
-            var compensationDtos = await _mediator.Send(new GetAllActiveCompensationsByEmployeIdQuery(currentEmployeeId));
+            var compensationDtos = await _mediator.Send(
+                new GetAllActiveCompensationsByEmployeIdQuery(currentEmployeeId, queryOptions));
 
             return Ok(compensationDtos);
         }
@@ -98,7 +103,8 @@ namespace OvertimeManager.Api.Controllers
         }
 
         [HttpPost("requests/{id}/done")]
-        public async Task<IActionResult> SetCompensationDone([FromHeader] string authorization, int id, [FromBody] SetCompensationDoneDto dto)
+        public async Task<IActionResult> SetCompensationDone([FromHeader] string authorization, int id, 
+            [FromBody] SetCompensationDoneDto dto)
         {
             // to do
             var currentEmployeeId = TokenHelper.GetUserIdFromClaims(authorization);

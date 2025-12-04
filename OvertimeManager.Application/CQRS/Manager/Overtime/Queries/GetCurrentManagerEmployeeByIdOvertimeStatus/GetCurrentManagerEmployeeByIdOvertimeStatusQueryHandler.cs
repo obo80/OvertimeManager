@@ -5,7 +5,8 @@ using OvertimeManager.Domain.Interfaces;
 
 namespace OvertimeManager.Application.CQRS.Manager.Overtime.Queries.GetCurrentManagerEmployeeByIdOvertimeStatus
 {
-    public class GetCurrentManagerEmployeeByIdOvertimeStatusQueryHandler : IRequestHandler<GetCurrentManagerEmployeeByIdOvertimeStatusQuery, EmployeeOvertimeStatusDto>
+    public class GetCurrentManagerEmployeeByIdOvertimeStatusQueryHandler : 
+        IRequestHandler<GetCurrentManagerEmployeeByIdOvertimeStatusQuery, EmployeeOvertimeStatusDto>
     {
         private readonly IEmployeeRepository _employeeRepository;
 
@@ -13,9 +14,11 @@ namespace OvertimeManager.Application.CQRS.Manager.Overtime.Queries.GetCurrentMa
         {
             _employeeRepository = employeeRepository;
         }
-        public async Task<EmployeeOvertimeStatusDto> Handle(GetCurrentManagerEmployeeByIdOvertimeStatusQuery request, CancellationToken cancellationToken)
+        public async Task<EmployeeOvertimeStatusDto> Handle(
+            GetCurrentManagerEmployeeByIdOvertimeStatusQuery request, CancellationToken cancellationToken)
         {
-            var employee = await EmployeeHelper.GetEmployeeIfUnderManager(request.EmployeeId, request.CurrentManagerId, _employeeRepository);
+            var employee = await EmployeeHelper.GetEmployeeIfUnderManager(
+                request.EmployeeId, request.CurrentManagerId, _employeeRepository);
 
             var statusDto = new EmployeeOvertimeStatusDto()
             {

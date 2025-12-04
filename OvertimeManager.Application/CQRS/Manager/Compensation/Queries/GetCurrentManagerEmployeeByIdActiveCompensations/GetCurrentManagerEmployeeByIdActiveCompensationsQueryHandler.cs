@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using OvertimeManager.Application.Common.GetFromQueryOptions;
 using OvertimeManager.Application.CQRS.CommonCQRS;
 using OvertimeManager.Application.CQRS.Employee.Compensation.DTOs;
 using OvertimeManager.Domain.Interfaces;
@@ -7,7 +8,7 @@ using OvertimeManager.Domain.Interfaces;
 namespace OvertimeManager.Application.CQRS.Manager.Compensation.Queries.GetCurrentManagerEmployeeByIdActiveCompensations
 {
     public class GetCurrentManagerEmployeeByIdActiveCompensationsQueryHandler :
-        IRequestHandler<GetCurrentManagerEmployeeByIdActiveCompensationsQuery, IEnumerable<GetCompensationDto>>
+        IRequestHandler<GetCurrentManagerEmployeeByIdActiveCompensationsQuery, PagedResult<GetCompensationDto>>
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly ICompensationRepository _compensationRepository;
@@ -20,12 +21,15 @@ namespace OvertimeManager.Application.CQRS.Manager.Compensation.Queries.GetCurre
             _compensationRepository = compensationRepository;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<GetCompensationDto>> Handle(GetCurrentManagerEmployeeByIdActiveCompensationsQuery request, CancellationToken cancellationToken)
+        public async Task<PagedResult<GetCompensationDto>> Handle(
+            GetCurrentManagerEmployeeByIdActiveCompensationsQuery request, CancellationToken cancellationToken)
         {
             var employee = await EmployeeHelper.GetEmployeeIfUnderManager(request.EmployeeId, request.CurrentManagerId, _employeeRepository);
-            var compensations = await _compensationRepository.GetAllActiveForEmployeeIdAsync(employee.Id);
+            var (compensations, totalCount) = await _compensationRepository.GetAllActiveForEmployeeIdAsync(employee.Id, request.QueryOptions);
+            var compensationsDto = _mapper.Map<IEnumerable<GetCompensationDto>>(compensations);
 
-            return _mapper.Map<IEnumerable<GetCompensationDto>>(compensations);
+            var result = new PagedResult<GetCompensationDto>(compensationsDto, totalCount, request.QueryOptions.PageSize, request.QueryOptions.PageNumber);
+            return result;
         }
     }
 }

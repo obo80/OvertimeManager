@@ -8,7 +8,7 @@ namespace OvertimeManager.Domain.Constants
 {
     public enum SortDirection
     {
-        Ascending,
-        Descending
+        ASC,
+        DESC
     }
 }

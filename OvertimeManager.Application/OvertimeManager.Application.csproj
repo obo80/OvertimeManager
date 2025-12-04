@@ -20,11 +20,4 @@
     <ProjectReference Include="..\OvertimeManager.Domain\OvertimeManager.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="CQRS\Employee\Account\Queries\" />
-    <Folder Include="CQRS\_template\Commands\" />
-    <Folder Include="CQRS\_template\DTOs\" />
-    <Folder Include="CQRS\_template\Queries\" />
-  </ItemGroup>
-
 </Project>

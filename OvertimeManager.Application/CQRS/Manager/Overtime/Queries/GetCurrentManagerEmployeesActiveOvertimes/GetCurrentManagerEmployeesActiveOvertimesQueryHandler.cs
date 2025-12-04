@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using MediatR;
+using OvertimeManager.Application.Common.GetFromQueryOptions;
 using OvertimeManager.Application.CQRS.Employee.Overtime.DTOs;
-using OvertimeManager.Application.CQRS.Manager.Overtime.DTOs;
 using OvertimeManager.Domain.Exceptions;
 using OvertimeManager.Domain.Interfaces;
 
 namespace OvertimeManager.Application.CQRS.Manager.Overtime.Queries.GetCurrentManagerEmployeesActiveOvertimes
 {
-    class GetCurrentManagerEmployeesActiveOvertimesQueryHandler : IRequestHandler<GetCurrentManagerEmployeesActiveOvertimesQuery, IEnumerable<EmployeeOvertimeRequestsDto>>
+    class GetCurrentManagerEmployeesActiveOvertimesQueryHandler : 
+        IRequestHandler<GetCurrentManagerEmployeesActiveOvertimesQuery, PagedResult<GetOvertimeDto>>
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IOvertimeRepository _overtimeRepository;
@@ -20,29 +21,20 @@ namespace OvertimeManager.Application.CQRS.Manager.Overtime.Queries.GetCurrentMa
             _overtimeRepository = overtimeRepository;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<EmployeeOvertimeRequestsDto>> Handle(GetCurrentManagerEmployeesActiveOvertimesQuery request, CancellationToken cancellationToken)
+        public async Task<PagedResult<GetOvertimeDto>> Handle(
+            GetCurrentManagerEmployeesActiveOvertimesQuery request, CancellationToken cancellationToken)
         {
             var manager = await _employeeRepository.GetByIdAsync(request.CurrentManagerId);
             if (manager == null)
                 throw new NotFoundException("Manager not found", request.CurrentManagerId.ToString());
 
-            var employees = await _employeeRepository.GetAllByManagerIdAsync(manager.Id);
+            var (overtimes, totalCount) = await _overtimeRepository
+                .GetAllActiveForEmployeesByManagerId(manager.Id, request.QueryOptions);
+            var overtimesDto = _mapper.Map<IEnumerable<GetOvertimeDto>>(overtimes);
 
-            var employeeOvertimeRequestsDtos = new List<EmployeeOvertimeRequestsDto>();
-
-            foreach (var employee in employees)
-            {
-                var overtimes = await _overtimeRepository.GetAllActiveForEmployeeIdAsync(employee.Id);
-                var overtimesDto = _mapper.Map<List<GetOvertimeDto>>(overtimes);
-                employeeOvertimeRequestsDtos.Add(new EmployeeOvertimeRequestsDto
-                {
-                    EmployeeId = employee.Id,
-                    EmployeeEmail = employee.Email,
-                    OvertimeRequest = overtimesDto
-                });
-            }
-
-            return employeeOvertimeRequestsDtos;
+            var result = new PagedResult<GetOvertimeDto>(overtimesDto, totalCount,
+                request.QueryOptions.PageSize, request.QueryOptions.PageNumber);
+            return result;
         }
     }
     

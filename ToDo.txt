@@ -1,11 +1,13 @@
 ﻿DODAC DO PROJEKTU
- - ErrorHandlingMiddleware z obsługą wyjątków globalnie
- - Logowanie do pliku - Serilog
- - Swagger jako strona startowa i dokumentacja API
- - Paginacja i sortowanie w get all
- - Automatyczne migracje przy starcie aplikacji
- - Automatyczne seedowanie danych przy starcie aplikacji
- - Sprawdzić Authentication i Authorization
+ - ErrorHandlingMiddleware z obsługą wyjątków globalnie - DONE
+ - Logowanie do pliku - Serilog		- DONE
+ - Try-catch na main w program.cs - DONE
+ - Swagger jako strona startowa i dokumentacja API - DONA
+ - Swagger z autoryzadją - DONE
+ - Paginacja i sortowanie w get all  - In progress
+ - Automatyczne migracje przy starcie aplikacji - Dodane
+ - Automatyczne seedowanie danych przy starcie aplikacji - dodane
+ - Sprawdzić Authentication i Authorization - chyba OK
  - Dodać Testy jednostokowe i integracyjne dla kontrolerów i serwisów
 
  DODATKOWE FUNKCJONALNOŚCI

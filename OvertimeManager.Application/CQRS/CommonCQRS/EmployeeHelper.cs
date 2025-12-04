@@ -33,7 +33,8 @@ namespace OvertimeManager.Application.CQRS.CommonCQRS
         /// <param name="_employeeRepository"></param>
         /// <returns></returns>
         /// <exception cref="NotFoundException"></exception>
-        public static async Task<Domain.Entities.User.Employee> GetEmployeeIfUnderManager(int employeeId, int managerId, IEmployeeRepository _employeeRepository)
+        public static async Task<Domain.Entities.User.Employee> GetEmployeeIfUnderManager(
+            int employeeId, int managerId, IEmployeeRepository _employeeRepository)
         {
             var manager = await _employeeRepository.GetByIdAsync(managerId);
             if (manager == null)
@@ -54,7 +55,8 @@ namespace OvertimeManager.Application.CQRS.CommonCQRS
         /// <param name="_employeeRepository"></param>
         /// <returns></returns>
         /// <exception cref="NotFoundException"></exception>
-        public static async Task<bool> IsManagerEmployeeRequest(Domain.Entities.Overtime.OvertimeRequestBase baseRequest, int requestId, int currentManagerId, IEmployeeRepository _employeeRepository)
+        public static async Task<bool> IsManagerEmployeeRequest(Domain.Entities.Overtime.OvertimeRequestBase baseRequest, 
+            int requestId, int currentManagerId, IEmployeeRepository _employeeRepository)
         {
             if (baseRequest == null)
                 throw new NotFoundException("Overtime request not found.", requestId.ToString());
@@ -64,7 +66,7 @@ namespace OvertimeManager.Application.CQRS.CommonCQRS
                 throw new NotFoundException("Manager not found", currentManagerId.ToString());
 
             if (baseRequest.RequestedForEmployee!.ManagerId != manager.Id)
-                return false; //throw new UnauthorizedException("You are not authorized to get this overtime request."); 
+                return false; 
 
             return true;
         }

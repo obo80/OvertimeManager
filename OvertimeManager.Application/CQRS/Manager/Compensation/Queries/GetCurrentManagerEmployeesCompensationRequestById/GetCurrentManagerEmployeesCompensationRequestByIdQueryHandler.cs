@@ -21,11 +21,12 @@ namespace OvertimeManager.Application.CQRS.Manager.Compensation.Queries.GetCurre
             _compensationRepository = compensationRepository;
             _mapper = mapper;
         }
-        public async Task<GetCompensationDto> Handle(GetCurrentManagerEmployeesCompensationRequestByIdQuery request, CancellationToken cancellationToken)
+        public async Task<GetCompensationDto> Handle(
+            GetCurrentManagerEmployeesCompensationRequestByIdQuery request, CancellationToken cancellationToken)
         {
             var compensation = await _compensationRepository.GetByIdAsync(request.CompensationId);
 
-            if (compensation == null || await EmployeeHelper.IsManagerEmployeeRequest(compensation,
+            if (compensation == null || !await EmployeeHelper.IsManagerEmployeeRequest(compensation,
                     request.CompensationId, request.CurrentManagerId, _employeeRepository))
                 throw new ForbidException("You are not authorized to get this overtime request.");
 

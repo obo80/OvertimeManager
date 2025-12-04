@@ -6,6 +6,7 @@ using OvertimeManager.Application.Extensions;
 using OvertimeManager.Infrastructure.Extensions;
 using OvertimeManager.Infrastructure.Persistence;
 using OvertimeManager.Infrastructure.Seeders;
+using Serilog;
 
 namespace OvertimeManager.WebApi
 {
@@ -30,7 +31,7 @@ namespace OvertimeManager.WebApi
 
 
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
+            //builder.Services.AddOpenApi();
 
             var app = builder.Build();
 
@@ -38,13 +39,32 @@ namespace OvertimeManager.WebApi
             var seeder = scope.ServiceProvider.GetRequiredService<OvertimeManagerSeeder>();
             await seeder.Seed();
 
+            app.UseMiddleware<ErrorHandlingMiddleware>();
+
+            app.UseSerilogRequestLogging();
+
+            // Redirect root "/" to Swagger UI
+            app.Use(async (context, next) =>
+            {
+                if (context.Request.Path == "/" || string.IsNullOrEmpty(context.Request.Path.Value))
+                {
+                    context.Response.Redirect("/swagger");
+                    return;
+                }
+                await next();
+            });
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.MapOpenApi();
+                //app.MapOpenApi();
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "MusicWeb API");
+                });
             }
-            app.UseMiddleware<ErrorHandlingMiddleware>();
+
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

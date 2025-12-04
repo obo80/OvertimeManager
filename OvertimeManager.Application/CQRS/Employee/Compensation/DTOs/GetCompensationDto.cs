@@ -26,6 +26,6 @@ namespace OvertimeManager.Application.CQRS.Employee.Compensation.DTOs
         public string Status { get; set; } = ((StatusEnum)StatusEnum.Pending).ToString();
         public DateTime? ApprovedAt { get; set; } = null;
         public int? ApprovedByEmployeeId { get; set; } = null;
-        public string ApprovedByEmployeeEmail { get; set; }
+        public string? ApprovedByEmployeeEmail { get; set; }
     }
 }

@@ -12,7 +12,8 @@ namespace OvertimeManager.Application.CQRS.Employee.Account.Commands.SetPassword
         private readonly IPasswordHasher _passwordHasher;
         private readonly IJwtService _jwtService;
 
-        public SetPasswordCommandHandler(IEmployeeRepository employeeRepository, IPasswordHasher passwordHasher, IJwtService jwtService)
+        public SetPasswordCommandHandler(IEmployeeRepository employeeRepository, IPasswordHasher passwordHasher, 
+            IJwtService jwtService)
         {
             _employeeRepository = employeeRepository;
             _passwordHasher = passwordHasher;
