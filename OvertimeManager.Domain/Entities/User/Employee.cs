@@ -11,16 +11,15 @@ namespace OvertimeManager.Domain.Entities.User
     public class Employee
     {
         public int Id { get; set; }
-        public string Email { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public required string Email { get; set; }
+        public required string FirstName { get; set; }
+        public required string LastName { get; set; }
 
         public bool MustChangePassword { get; set; } = true;
-
         public string? PasswordHash { get; set; }
 
         public int RoleId { get; set; } = 1;        //default role - Employee
-        public virtual EmployeeRole Role { get; set; }
+        public virtual EmployeeRole? Role { get; set; }
 
         public int? ManagerId { get; set; }
         public virtual Employee? Manager { get; set; }
@@ -28,6 +27,6 @@ namespace OvertimeManager.Domain.Entities.User
         public virtual ICollection<Employee>? Subordinates { get; set; }
 
         public int OvertimeSummaryId { get; set; }
-        public virtual EmployeeOvertimeSummary OvertimeSummary { get; set; }
+        public virtual EmployeeOvertimeSummary? OvertimeSummary { get; set; }
     }
 }
