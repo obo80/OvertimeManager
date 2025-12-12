@@ -6,40 +6,56 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OvertimeManager.Domain.Constants;
+using System.Runtime.CompilerServices;
 
-namespace OvertimeManager.Domain.Entities.Overtime.Tests
+namespace OvertimeManager.Domain.Tests.Entities.Overtime
 {
     public class CompensationRequestTests
     {
         [Theory]
-        [InlineData(1.0, false)]
-        [InlineData(1.0, true)]
-        [InlineData(1.5, false)]
-        [InlineData(1.5, true)]
-        [InlineData(2.0, false)]
-        [InlineData(2.0, true)]
-        [InlineData(2.5, false)]
-        [InlineData(2.5, true)]
-        [InlineData(5.0, false)]
-        [InlineData(5.0, true)]
-        [InlineData(7.5, false)]
-        [InlineData(7.5, true)]
-
-        public void SetCompensationTest(double requestedTime, bool isMultiplied)
+        [InlineData(0.0, 0.0)]
+        [InlineData(1.0, 1.0)]
+        [InlineData(1.5, 1.5)]
+        [InlineData(2.0, 2.0)]
+        [InlineData(7.5, 7.5)]
+        public void SetCompensation_Return_NormalCompensationTime(double requestedTime, double expectedResult)
         {
             //arrange
-            CompensationRequest request = new CompensationRequest();
-
+            const bool isMultiplied = false;
+            var request = new CompensationRequest
+            {
+                RequestedTime = requestedTime
+            };
 
             //act
-            request.RequestedTime = requestedTime;
             request.SetCompensation(isMultiplied);
             var compensatedTime = request.CompensatedTime;
-            var expectedResult = requestedTime * Multiplier.GetMultipliedValue(isMultiplied);
 
             //assert
-            Assert.Equal(expectedResult, compensatedTime);
+            Assert.Equal(compensatedTime, expectedResult);
+        }
 
+        [Theory]
+        [InlineData(0.0, 0.0)]
+        [InlineData(1.0, 1.5)]
+        [InlineData(1.5, 2.25)]
+        [InlineData(2.0, 3.0)]
+        [InlineData(7.5, 11.25)]
+        public void SetCompensation_Return_MultipliedCompensationTime(double requestedTime, double expectedResult)
+        {
+            //arrange
+            const bool isMultiplied = true;
+            var request = new CompensationRequest
+            {
+                RequestedTime = requestedTime
+            };
+
+            //act
+            request.SetCompensation(isMultiplied);
+            var compensatedTime = request.CompensatedTime;
+
+            //assert
+            Assert.Equal(compensatedTime, expectedResult);
         }
     }
 
