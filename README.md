@@ -1,4 +1,4 @@
-# OvertimeManager
+ï»¿# OvertimeManager
 
 A simple, maintainable solution for tracking and managing employee overtime.  
 This README provides an overview, prerequisites, quick start, development and testing instructions, and contribution guidelines for the repository located at `C:\Users\adam_\source\repos\_projects\OvertimeManager`.
@@ -30,7 +30,7 @@ This README provides an overview, prerequisites, quick start, development and te
 4. Run the application (adjust the project path as necessary):
    dotnet run --project ./src/OvertimeManager.Api/OvertimeManager.Api.csproj
 
-## Quick Start (Visual Studio)
+## Quick Start(Visual Studio)
 1. Open the solution in __Visual Studio 2022__.
 2. Right-click the solution and select __Restore NuGet Packages__.
 3. Set the startup project (e.g., the API project) and ensure the correct launch profile is selected.
@@ -54,10 +54,10 @@ dotnet test --configuration Release
 
 This repository follows a Clean Architecture-style separation of concerns across four main layers:
 
-- `Domain` — core entities, value objects, domain exceptions and interfaces (no external dependencies).
-- `Application` — application logic: CQRS commands/queries, MediatR handlers, DTOs, mapping profiles (AutoMapper), validators (FluentValidation) and application-level helpers.
-- `Infrastructure` — persistence (EF Core `OvertimeManagerDbContext`), repository implementations, authentication, seeders, and external integrations.
-- `WebApi` / Presentation — ASP.NET Core API surface (controllers), middleware (global error handling), logging and OpenAPI configuration.
+- `Domain` ï¿½ core entities, value objects, domain exceptions and interfaces (no external dependencies).
+- `Application` ï¿½ application logic: CQRS commands/queries, MediatR handlers, DTOs, mapping profiles (AutoMapper), validators (FluentValidation) and application-level helpers.
+- `Infrastructure` ï¿½ persistence (EF Core `OvertimeManagerDbContext`), repository implementations, authentication, seeders, and external integrations.
+- `WebApi` / Presentation ï¿½ ASP.NET Core API surface (controllers), middleware (global error handling), logging and OpenAPI configuration.
 
 ### Key design patterns and technologies used
 
@@ -77,7 +77,7 @@ This repository follows a Clean Architecture-style separation of concerns across
 - **CancellationTokens**: pass `CancellationToken` through from controllers to MediatR handlers and repository calls to allow graceful request cancellation.
 - **Query filtering/specifications**: `FromQueryOptionsHandler` implements paging, sorting and search but contains duplicated overloads per entity. Consider a Specification or Expression-based approach to centralize filtering and reduce duplication. Also avoid long runtime type-checking; use generics with configurable column selectors or a Specification pattern.
 - **Repositories return materialized results** (IEnumerable) which is good for encapsulation. If advanced querying is needed, add explicit query methods or a read-model layer rather than exposing IQueryable from infrastructure.
-- **Error handling**: custom domain exceptions (NotFound, Forbid, BadRequest) are surfaced — ensure `ErrorHandlingMiddleware` maps them to the correct HTTP status codes and logs contextual details without leaking sensitive info.
+- **Error handling**: custom domain exceptions (NotFound, Forbid, BadRequest) are surfaced ï¿½ ensure `ErrorHandlingMiddleware` maps them to the correct HTTP status codes and logs contextual details without leaking sensitive info.
 - **Tests**: add unit tests for MediatR handlers, validators and mapping profiles. Add integration tests that run against an in-memory or disposable test database (EF Core InMemory or SQLite in-memory) and exercise controller endpoints, authentication and middleware.
 - **Security**: keep JWT keys and connection strings out of source control. Use __User Secrets__ for local development and environment variables in CI/CD or container deployments.
 - **Configuration**: provide a `global.json` to lock SDK version for contributors and include sample `appsettings.Development.json` (or document required keys) to make first-run setup predictable.
@@ -88,20 +88,20 @@ This repository follows a Clean Architecture-style separation of concerns across
 The WebApi exposes REST controllers grouped by responsibility. Below are the main controllers and the most important endpoints they provide. Use these as a quick reference when adding features or writing integration tests.
 
 - `api/HR/Employees` (HREmployeeController)
-  - GET `/api/HR/Employees` — get paginated list of employees (query: `FromQueryOptions`).
-  - GET `/api/HR/Employees/{id}` — get employee details by id.
-  - GET `/api/HR/Employees/{id}/get-token` — generate a JWT for a specific employee (HR only).
-  - POST `/api/HR/Employees` — create employee (returns 201).
-  - PUT `/api/HR/Employees/{id}` — update employee.
-  - DELETE `/api/HR/Employees/{id}` — delete employee.
+  - GET `/api/HR/Employees` ï¿½ get paginated list of employees (query: `FromQueryOptions`).
+  - GET `/api/HR/Employees/{id}` ï¿½ get employee details by id.
+  - GET `/api/HR/Employees/{id}/get-token` ï¿½ generate a JWT for a specific employee (HR only).
+  - POST `/api/HR/Employees` ï¿½ create employee (returns 201).
+  - PUT `/api/HR/Employees/{id}` ï¿½ update employee.
+  - DELETE `/api/HR/Employees/{id}` ï¿½ delete employee.
 
 - `api/Manager/Overtime` (ManagerOvertimeController)
-  - GET `/api/Manager/Overtime/status` — overall overtime status for subordinates (paginated).
-  - GET `/api/Manager/Overtime/requests` — list overtime requests for manager's employees (supports paging/sorting/search via `FromQueryOptions`).
-  - GET `/api/Manager/Overtime/requests/{id}` — get request by id.
-  - POST `/api/Manager/Overtime/requests/{id}/approve` — approve a request.
-  - POST `/api/Manager/Overtime/requests/{id}/reject` — reject a request.
-  - GET `/api/Manager/Overtime/Employee/{id}/requests` — get requests for a specific employee under current manager.
+  - GET `/api/Manager/Overtime/status` ï¿½ overall overtime status for subordinates (paginated).
+  - GET `/api/Manager/Overtime/requests` ï¿½ list overtime requests for manager's employees (supports paging/sorting/search via `FromQueryOptions`).
+  - GET `/api/Manager/Overtime/requests/{id}` ï¿½ get request by id.
+  - POST `/api/Manager/Overtime/requests/{id}/approve` ï¿½ approve a request.
+  - POST `/api/Manager/Overtime/requests/{id}/reject` ï¿½ reject a request.
+  - GET `/api/Manager/Overtime/Employee/{id}/requests` ï¿½ get requests for a specific employee under current manager.
 
 - `api/Manager/Compensation` (ManagerCompensationController)
   - Similar endpoints to manager overtime controller but for compensation requests; includes POST `/Employee/{id}` to create a compensation request on behalf of an employee.
@@ -157,11 +157,27 @@ The WebApi exposes REST controllers grouped by responsibility. Below are the mai
 
 ### Example curl request (login + get protected resource)
 
+Use a base URL variable or relative paths so examples are environment-agnostic.
+
+# Option A ï¿½ use a {BASE_URL} placeholder (recommended)
+
 # login
-curl -X POST https://localhost:5001/api/Auth/Login -H "Content-Type: application/json" -d '{"email":"Jan.Kowalski@company.com","password":"password"}'
+curl -X POST "{BASE_URL}/api/Auth/Login" -H "Content-Type: application/json" -d '{"email":"Jan.Kowalski@company.com","password":"password"}'
 
 # authorized request (replace TOKEN)
-curl -H "Authorization: Bearer TOKEN" https://localhost:5001/api/HR/Employees
+curl -H "Authorization: Bearer TOKEN" "{BASE_URL}/api/HR/Employees"
+
+Replace `{BASE_URL}` with your runtime base URL (for local development typically `http://localhost:5001`).
+
+# Option B ï¿½ use relative paths with curl's --url (when running against a specific host)
+
+# login
+curl -X POST --url "http://localhost:5001" -H "Content-Type: application/json" -d '{"email":"Jan.Kowalski@company.com","password":"password"}' /api/Auth/Login
+
+# authorized request (replace TOKEN)
+curl -H "Authorization: Bearer TOKEN" --url "http://localhost:5001" /api/HR/Employees
+
+Note: curl typically requires a full URL. Prefer the `{BASE_URL}` placeholder in docs so readers substitute their environment-specific host or use tools that support relative paths (e.g., browsers, API clients).
 
 ## License
 This repository does not include a license file. Add a `LICENSE` file to specify terms if you are the repository owner.
