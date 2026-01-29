@@ -1,12 +1,4 @@
-﻿using Xunit;
-using OvertimeManager.Domain.Constants;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OvertimeManager.Domain.Constants.Tests
+﻿namespace OvertimeManager.Domain.Constants.Tests
 {
     public class MultiplierTests
     {
@@ -16,7 +8,7 @@ namespace OvertimeManager.Domain.Constants.Tests
         public void GetMultipliedValueTest(double value, bool isTrue)
         {
 
-            var isMultiplied = Domain.Constants.Multiplier.GetMultipliedValue(isTrue);
+            var isMultiplied = Multiplier.GetMultipliedValue(isTrue);
 
             Assert.Equal(value, isMultiplied);
         }
