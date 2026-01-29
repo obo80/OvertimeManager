@@ -157,7 +157,7 @@ The WebApi exposes REST controllers grouped by responsibility. Below are the mai
 - Ensure rounding rules are enforced consistently (e.g., how 1.5 multiplier is rounded) and add unit tests for edge cases (zero, negative, high precision values).
 - Add integration tests verifying full end-to-end flows: create overtime -> approve -> mark done -> summary updated -> create compensation -> unsettled decreased.
 
-### Testing & Observability
+### Testing & Observability (in progress)
 
 - Write unit tests for:
   - MediatR handlers (happy path + error cases), using mocked repositories.
