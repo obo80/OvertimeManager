@@ -1,12 +1,5 @@
-﻿using Xunit;
+﻿using FluentAssertions;
 using OvertimeManager.Domain.Entities.Overtime;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OvertimeManager.Domain.Constants;
-using System.Runtime.CompilerServices;
 
 namespace OvertimeManager.Domain.Tests.Entities.Overtime
 {
@@ -32,7 +25,7 @@ namespace OvertimeManager.Domain.Tests.Entities.Overtime
             var compensatedTime = request.CompensatedTime;
 
             //assert
-            Assert.Equal(compensatedTime, expectedResult);
+            compensatedTime.Should().Be(expectedResult);
         }
 
         [Theory]
@@ -55,7 +48,7 @@ namespace OvertimeManager.Domain.Tests.Entities.Overtime
             var compensatedTime = request.CompensatedTime;
 
             //assert
-            Assert.Equal(compensatedTime, expectedResult);
+            compensatedTime.Should().Be(expectedResult);
         }
     }
 

@@ -6,7 +6,7 @@ using OvertimeManager.Domain.Interfaces;
 
 namespace OvertimeManager.Application.CQRS.Employee.Account.Commands.UpdatePassword
 {
-    class UpdatePasswordCommandHandler : IRequestHandler<UpdatePasswordCommand, string>
+    public class UpdatePasswordCommandHandler : IRequestHandler<UpdatePasswordCommand, string>
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IPasswordHasher _passwordHasher;
@@ -24,7 +24,7 @@ namespace OvertimeManager.Application.CQRS.Employee.Account.Commands.UpdatePassw
             
             var employee = await _employeeRepository.GetByEmailAsync(request.Email!);
             if (employee is null)
-                throw new NotFoundException("User not found.", request.Email!);
+                throw new NotFoundException($"Employee not found for given email: {request.Email}");
 
             if (employee.MustChangePassword)
                 throw new ForbidException("You must set a new password before updating it.");

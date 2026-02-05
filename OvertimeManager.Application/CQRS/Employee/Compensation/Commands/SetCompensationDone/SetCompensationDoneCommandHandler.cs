@@ -2,9 +2,9 @@
 using OvertimeManager.Domain.Constants;
 using OvertimeManager.Domain.Exceptions;
 using OvertimeManager.Domain.Interfaces;
-namespace OvertimeManager.Api.Controllers
+namespace OvertimeManager.Application.CQRS.Employee.Compensation.Commands.SetCompensationDone
 {
-    class SetCompensationDoneCommandHandler : IRequestHandler<SetCompensationDoneCommand>
+    public class SetCompensationDoneCommandHandler : IRequestHandler<SetCompensationDoneCommand>
     {
         private readonly ICompensationRepository _compensationRepository;
         private readonly IEmployeeRepository _employeeRepository;
@@ -19,7 +19,7 @@ namespace OvertimeManager.Api.Controllers
         {
             var compensation = await _compensationRepository.GetByIdAsync(request.CompensationId);
             if (compensation == null)
-                throw new NotFoundException("Compensation request not found.", request.CompensationId.ToString());
+                throw new NotFoundException("Compensation request", request.CompensationId.ToString());
 
             var compensationEmployeeId = compensation.RequestedForEmployeeId;
             if (compensationEmployeeId != request.CurrentEmployeeId)
@@ -27,18 +27,18 @@ namespace OvertimeManager.Api.Controllers
 
             var employee = await _employeeRepository.GetByIdAsync(compensation.RequestedForEmployeeId);
             if (employee == null)
-                throw new NotFoundException("Employee not found.", compensation.RequestedForEmployeeId.ToString());
+                throw new NotFoundException("Employee", compensation.RequestedForEmployeeId.ToString());
 
-            if (compensation.Status != ((StatusEnum)StatusEnum.Approved).ToString())
+            if (compensation.Status != StatusEnum.Approved.ToString())
                 throw new BadRequestException("Only approved compensation requests can be done.");
 
 
-            compensation.Status = ((StatusEnum)StatusEnum.Done).ToString();
+            compensation.Status = StatusEnum.Done.ToString();
             await _compensationRepository.SaveChangesAsync();
 
             if (compensation.RequestedTime > 0)
             {
-                employee.OvertimeSummary.SettleOvertime(compensation.RequestedTime);
+                employee.OvertimeSummary!.SettleOvertime(compensation.RequestedTime);
                 await _employeeRepository.SaveChangesAsync();
             }
         }

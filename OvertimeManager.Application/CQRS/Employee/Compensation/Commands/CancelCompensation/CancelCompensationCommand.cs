@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace OvertimeManager.Api.Controllers
+namespace OvertimeManager.Application.CQRS.Employee.Compensation.Commands.CancelCompensation
 {
     public class CancelCompensationCommand : IRequest
     {

@@ -4,7 +4,7 @@ using OvertimeManager.Domain.Entities.Overtime;
 using OvertimeManager.Domain.Exceptions;
 using OvertimeManager.Domain.Interfaces;
 
-namespace OvertimeManager.Api.Controllers
+namespace OvertimeManager.Application.CQRS.Employee.Compensation.Commands.CreateCompensation
 {
     public class CreateCompensationCommandHandler : IRequestHandler<CreateCompensationCommand, int>
     {
@@ -23,12 +23,12 @@ namespace OvertimeManager.Api.Controllers
         {
             var employee = await _employeeRepository.GetByIdAsync(request.RequestedForEmployeeId);
             if (employee == null)
-                throw new NotFoundException("Employee not found.", request.RequestedForEmployeeId.ToString());
+                throw new NotFoundException("Employee", request.RequestedForEmployeeId.ToString());
 
             var newCompensation = _mapper.Map<CompensationRequest>(request);
             newCompensation.SetCompensation(request.IsMultiplied);
 
-            var canSettle = employee.OvertimeSummary.CanSettleOvertime(newCompensation.CompensatedTime);
+            var canSettle = employee.OvertimeSummary!.CanSettleOvertime(newCompensation.CompensatedTime);
             if (!canSettle)
                 throw new BadRequestException("Insufficient unsettled overtime to settle the requested time.");
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OvertimeManager.Application.CQRS.Employee.Account.DTOs
 {
-    public class SetPassowordDto
+    public class SetPasswordDto
     {
         public string? Email { get; set; }
         public string? NewPassword { get; set; }

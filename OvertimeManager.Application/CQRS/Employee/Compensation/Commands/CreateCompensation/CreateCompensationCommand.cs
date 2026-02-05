@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using OvertimeManager.Domain.Constants;
 
-namespace OvertimeManager.Api.Controllers
+namespace OvertimeManager.Application.CQRS.Employee.Compensation.Commands.CreateCompensation
 {
     public class CreateCompensationCommand : IRequest<int>
     {
@@ -13,7 +13,7 @@ namespace OvertimeManager.Api.Controllers
 
         public double RequestedTime { get; set; }
 
-        public string Status { get; set; } = ((StatusEnum)StatusEnum.Pending).ToString();
+        public string Status { get; set; } = StatusEnum.Pending.ToString();
 
         public bool IsMultiplied { get; set; } = false; // Employee requests are not multiplied
 

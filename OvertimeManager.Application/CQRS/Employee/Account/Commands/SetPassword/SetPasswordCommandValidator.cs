@@ -3,7 +3,7 @@ using OvertimeManager.Application.CQRS.Employee.Account.DTOs;
 
 namespace OvertimeManager.Application.CQRS.Employee.Account.Commands.SetPassword
 {
-    public class SetPasswordCommandValidator :AbstractValidator<SetPassowordDto>
+    public class SetPasswordCommandValidator :AbstractValidator<SetPasswordDto>
     {
         public SetPasswordCommandValidator()
         {

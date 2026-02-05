@@ -24,11 +24,11 @@ namespace OvertimeManager.Application.CQRS.Employee.Account.Commands.SetPassword
             var employee = await _employeeRepository.GetByEmailAsync(request.Email!);
             if (employee is null)
             {
-                throw new NotFoundException("User not found.", request.Email!);
+                throw new NotFoundException($"User not found for given email: {request.Email}");
             }
             if (!employee.MustChangePassword)
             {
-                throw new ForbidException("Password change is not required for this user.");
+                throw new ForbidException("Password is already set for this user.");
             }
 
             var newHashedPassword = _passwordHasher.HashPassword(request.NewPassword!);

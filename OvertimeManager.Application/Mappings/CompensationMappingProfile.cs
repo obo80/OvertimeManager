@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
-using OvertimeManager.Api.Controllers;
+using OvertimeManager.Application.CQRS.Employee.Compensation.Commands.CreateCompensation;
+using OvertimeManager.Application.CQRS.Employee.Compensation.Commands.SetCompensationDone;
+using OvertimeManager.Application.CQRS.Employee.Compensation.Commands.UpdateCompensation;
 using OvertimeManager.Application.CQRS.Employee.Compensation.DTOs;
 using OvertimeManager.Application.CQRS.Manager.Compensation.Commands.CreateCompensationByManager;
 using OvertimeManager.Application.CQRS.Manager.Compensation.Commands.UpdateCompensationByManager;

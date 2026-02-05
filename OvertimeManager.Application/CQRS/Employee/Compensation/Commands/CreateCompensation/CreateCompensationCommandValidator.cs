@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
+using OvertimeManager.Application.CQRS.Employee.Compensation.DTOs;
 
-namespace OvertimeManager.Api.Controllers
+namespace OvertimeManager.Application.CQRS.Employee.Compensation.Commands.CreateCompensation
 {
     public class CreateCompensationCommandValidator :AbstractValidator<CreateCompensationDto>
     {

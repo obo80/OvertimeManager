@@ -22,8 +22,7 @@ namespace OvertimeManager.Application.CQRS.Employee.Account.Commands.Login
         {
             var employee = await _employeeRepository.GetByEmailAsync(request.Email!);
             if (employee is null)
-                throw new NotFoundException("User not found.", request.Email!);
-
+                throw new NotFoundException($"User not found for given email: {request.Email}");
 
             var passwordVerificationResult = _passwordHasher.VerifyHashedPassword(employee.PasswordHash, request.Password);
             if (passwordVerificationResult == PasswordVerificationResult.Failed)

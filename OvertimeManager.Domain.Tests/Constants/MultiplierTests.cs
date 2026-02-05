@@ -1,4 +1,6 @@
-﻿namespace OvertimeManager.Domain.Constants.Tests
+﻿using FluentAssertions;
+
+namespace OvertimeManager.Domain.Constants.Tests
 {
     public class MultiplierTests
     {
@@ -7,10 +9,11 @@
         [InlineData(1.5, true)]
         public void GetMultipliedValueTest(double value, bool isTrue)
         {
+            //act
+            var result = Multiplier.GetMultipliedValue(isTrue) == value;
 
-            var isMultiplied = Multiplier.GetMultipliedValue(isTrue);
-
-            Assert.Equal(value, isMultiplied);
+            //assert
+            result.Should().BeTrue();
         }
     }
 }

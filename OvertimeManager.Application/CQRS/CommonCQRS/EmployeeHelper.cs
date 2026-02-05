@@ -17,7 +17,7 @@ namespace OvertimeManager.Application.CQRS.CommonCQRS
         {
             var manager = await _employeeRepository.GetByIdAsync(managerId);
             if (manager == null)
-                throw new NotFoundException("Manager not found", managerId.ToString());
+                throw new NotFoundException("Manager", managerId.ToString());
 
             var employee = await _employeeRepository.GetByIdAsync(employeeId);
             if (employee == null || employee.ManagerId != manager.Id)
@@ -38,10 +38,12 @@ namespace OvertimeManager.Application.CQRS.CommonCQRS
         {
             var manager = await _employeeRepository.GetByIdAsync(managerId);
             if (manager == null)
-                throw new NotFoundException("Manager not found", managerId.ToString());
+                throw new NotFoundException("Manager", managerId.ToString());
+
             var employee = await _employeeRepository.GetByIdAsync(employeeId);
             if (employee == null || employee.ManagerId != manager.Id)
-                throw new NotFoundException("Employee not found under the current manager", employeeId.ToString());
+                throw new NotFoundException($"Employee with id: {employeeId} not found under the current manager");
+
             return employee;
         }
 
@@ -59,11 +61,11 @@ namespace OvertimeManager.Application.CQRS.CommonCQRS
             int requestId, int currentManagerId, IEmployeeRepository _employeeRepository)
         {
             if (baseRequest == null)
-                throw new NotFoundException("Overtime request not found.", requestId.ToString());
+                throw new NotFoundException("Overtime request", requestId.ToString());
 
             var manager = await _employeeRepository.GetByIdAsync(currentManagerId);
             if (manager == null)
-                throw new NotFoundException("Manager not found", currentManagerId.ToString());
+                throw new NotFoundException("Manager", currentManagerId.ToString());
 
             if (baseRequest.RequestedForEmployee!.ManagerId != manager.Id)
                 return false; 

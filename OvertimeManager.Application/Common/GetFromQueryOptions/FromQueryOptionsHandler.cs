@@ -22,7 +22,7 @@ namespace OvertimeManager.Application.Common.GetFromQueryOptions
             return result;
         }
 
-        public IQueryable<T> ApplyQueryOptions(IQueryable<T> inputQuery)
+        private IQueryable<T> ApplyQueryOptions(IQueryable<T> inputQuery)
         {
 
             if (_queryOptions is not null)

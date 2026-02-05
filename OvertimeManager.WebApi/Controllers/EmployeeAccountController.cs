@@ -37,7 +37,7 @@ namespace OvertimeManager.Api.Controllers
         }
         // POST api/Employee/Account/set-password
         [HttpPost("set-password")]
-        public async Task<IActionResult> SetPassword([FromBody] SetPassowordDto dto, [FromHeader] string authorization)
+        public async Task<IActionResult> SetPassword([FromBody] SetPasswordDto dto, [FromHeader] string authorization)
         {
             var command = new SetPasswordCommand()
             {

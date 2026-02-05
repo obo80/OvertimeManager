@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OvertimeManager.Application.Common.GetFromQueryOptions;
+using OvertimeManager.Application.CQRS.Employee.Compensation.DTOs;
 using OvertimeManager.Application.CQRS.Manager.Compensation.Commands.ApproveCurrentManagerEmployeesCompensationRequestById;
 using OvertimeManager.Application.CQRS.Manager.Compensation.Commands.CreateCompensationByManager;
 using OvertimeManager.Application.CQRS.Manager.Compensation.Commands.RejectCurrentManagerEmployeesCompensationRequestById;

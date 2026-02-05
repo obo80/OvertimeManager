@@ -3,7 +3,7 @@ using OvertimeManager.Domain.Constants;
 using OvertimeManager.Domain.Exceptions;
 using OvertimeManager.Domain.Interfaces;
 
-namespace OvertimeManager.Api.Controllers
+namespace OvertimeManager.Application.CQRS.Employee.Compensation.Commands.CancelCompensation
 {
     public class CancelCompensationCommandHandler : IRequestHandler<CancelCompensationCommand>
     {
@@ -17,13 +17,13 @@ namespace OvertimeManager.Api.Controllers
         {
             var compensation = await _compensationRepository.GetByIdAsync(request.CompensationId);
             if (compensation == null)
-                throw new NotFoundException("Compensation request not found.", request.CompensationId.ToString());
+                throw new NotFoundException("Compensation request", request.CompensationId.ToString());
 
             var compensationEmployeeId = compensation.RequestedForEmployeeId;
             if (compensationEmployeeId != request.CurrentEmployeeId)
                 throw new ForbidException("You are not authorized to update this compensation request.");
 
-            compensation.Status = ((StatusEnum)StatusEnum.Cancelled).ToString();
+            compensation.Status = StatusEnum.Cancelled.ToString();
             await _compensationRepository.SaveChangesAsync();
         }
     }
