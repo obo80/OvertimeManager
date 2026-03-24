@@ -5,7 +5,7 @@ using OvertimeManager.Domain.Interfaces;
 
 namespace OvertimeManager.Application.CQRS.Employee.Overtime.Commands.UpdateOvertime
 {
-    class UpdateOvertimeCommandHandler : IRequestHandler<UpdateOvertimeCommand>
+    public class UpdateOvertimeCommandHandler : IRequestHandler<UpdateOvertimeCommand>
     {
         private readonly IOvertimeRepository _overtimeRepository;
         

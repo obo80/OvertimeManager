@@ -1,13 +1,6 @@
-﻿using Xunit;
-using OvertimeManager.Application.CQRS.Employee.Compensation.Commands.CreateCompensation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation.TestHelper;
 using OvertimeManager.Application.CQRS.Employee.Compensation.DTOs;
-using FluentAssertions;
-using FluentValidation.TestHelper;
+using Xunit;
 
 namespace OvertimeManager.Application.CQRS.Employee.Compensation.Commands.CreateCompensation.Tests
 {

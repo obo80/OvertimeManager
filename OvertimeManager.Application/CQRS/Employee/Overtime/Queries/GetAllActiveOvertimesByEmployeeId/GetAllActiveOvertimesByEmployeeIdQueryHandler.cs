@@ -4,18 +4,18 @@ using OvertimeManager.Application.Common.GetFromQueryOptions;
 using OvertimeManager.Application.CQRS.Employee.Overtime.DTOs;
 using OvertimeManager.Domain.Interfaces;
 
-namespace OvertimeManager.Api.Controllers
+namespace OvertimeManager.Application.CQRS.Employee.Overtime.Queries.GetAllActiveOvertimesByEmployeeId
 {
-    class GetAllActiveOvertimesByEmployeIdQueryHandler : IRequestHandler<GetAllActiveOvertimesByEmployeIdQuery, PagedResult<GetOvertimeDto>>
+    class GetAllActiveOvertimesByEmployeeIdQueryHandler : IRequestHandler<GetAllActiveOvertimesByEmployeeIdQuery, PagedResult<GetOvertimeDto>>
     {
         private readonly IOvertimeRepository _overtimeRepository;
         private readonly IMapper _mapper;
-        public GetAllActiveOvertimesByEmployeIdQueryHandler(IOvertimeRepository overtimeRepository, IMapper mapper)
+        public GetAllActiveOvertimesByEmployeeIdQueryHandler(IOvertimeRepository overtimeRepository, IMapper mapper)
         {
             _overtimeRepository = overtimeRepository;
             _mapper = mapper;
         }
-        public async Task<PagedResult<GetOvertimeDto>> Handle(GetAllActiveOvertimesByEmployeIdQuery request, CancellationToken cancellationToken)
+        public async Task<PagedResult<GetOvertimeDto>> Handle(GetAllActiveOvertimesByEmployeeIdQuery request, CancellationToken cancellationToken)
         {
             var (overtimes, totalCount) = await _overtimeRepository.GetAllActiveForEmployeeIdAsync(request.EmployeeId, request.QueryOptions);
             var overtimesDto = _mapper.Map<List<GetOvertimeDto>>(overtimes);

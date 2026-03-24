@@ -65,8 +65,8 @@ namespace OvertimeManager.ApplicationTests.CQRS.Employee.Compensation.Commands.C
         public async Task Handle_InvalidEmployee_ThrowsForbidExceptionAsync()
         {
             //arrange
-            var incorrectEmployeeId = 2; //change employee id to simulate invalid employee
-            _command = new CancelCompensationCommand(incorrectEmployeeId, requestId);
+            var invalidEmployeeId = 2; //change employee id to simulate invalid employee
+            _command = new CancelCompensationCommand(invalidEmployeeId, requestId);
             _compensationRepositoryMock.Setup(repo => repo.GetByIdAsync(_command.CompensationId))
                 .ReturnsAsync(_compensationRequest);
 

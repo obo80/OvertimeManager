@@ -3,7 +3,7 @@ using OvertimeManager.Domain.Constants;
 using OvertimeManager.Domain.Exceptions;
 using OvertimeManager.Domain.Interfaces;
 
-namespace OvertimeManager.Api.Controllers
+namespace OvertimeManager.Application.CQRS.Employee.Overtime.Commands.SetOvertimeDone
 {
     public class SetOvertimeDoneCommandHandler : IRequestHandler<SetOvertimeDoneCommand>
     {
@@ -29,10 +29,10 @@ namespace OvertimeManager.Api.Controllers
             if (employee == null)
                 throw new NotFoundException("Employee not found.", overtime.RequestedForEmployeeId.ToString());
 
-            if (overtime.Status == ((StatusEnum)StatusEnum.Done).ToString())
+            if (overtime.Status == StatusEnum.Done.ToString())
                 throw new BadRequestException("This request was already done.");
 
-            if (overtime.Status != ((StatusEnum)StatusEnum.Approved).ToString())
+            if (overtime.Status != StatusEnum.Approved.ToString())
                 throw new BadRequestException("Only approved overtime requests can be done.");
 
 
@@ -43,7 +43,7 @@ namespace OvertimeManager.Api.Controllers
                 actualTime = overtime.RequestedTime;
 
             overtime.ActualTime = actualTime;
-            overtime.Status = ((StatusEnum)StatusEnum.Done).ToString();
+            overtime.Status = StatusEnum.Done.ToString();
             await _overtimeRepository.SaveChangesAsync();
 
             //update employee's overtime hours

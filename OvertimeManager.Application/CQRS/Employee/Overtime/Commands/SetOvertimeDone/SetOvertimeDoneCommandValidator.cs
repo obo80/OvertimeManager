@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using OvertimeManager.Application.CQRS.Employee.Overtime.DTOs;
 
 namespace OvertimeManager.Api.Controllers
 {
@@ -11,7 +12,7 @@ namespace OvertimeManager.Api.Controllers
                 {
                     if (value.HasValue && value <= 0)
                     {
-                        context.AddFailure("ActualTime must be greater than zero.");
+                        context.AddFailure("Actual time must be greater than zero.");
                     }
                 });
         }

@@ -17,7 +17,7 @@ namespace OvertimeManager.Application.CQRS.Employee.Overtime.Commands.CancelOver
         {
             var overtime = await _overtimeRepository.GetByIdAsync(request.OvertimeId);
             if (overtime == null)
-                throw new NotFoundException("Overtime request not found.", request.OvertimeId.ToString());
+                throw new NotFoundException("Overtime request", request.OvertimeId.ToString());
 
             var overtimeEmployeeId = overtime.RequestedForEmployeeId;
             if (overtimeEmployeeId != request.CurrentEmployeeId)

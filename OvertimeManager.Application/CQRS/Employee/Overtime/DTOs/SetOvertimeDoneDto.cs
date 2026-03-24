@@ -1,4 +1,4 @@
-﻿namespace OvertimeManager.Api.Controllers
+﻿namespace OvertimeManager.Application.CQRS.Employee.Overtime.DTOs
 {
     public class SetOvertimeDoneDto
     {

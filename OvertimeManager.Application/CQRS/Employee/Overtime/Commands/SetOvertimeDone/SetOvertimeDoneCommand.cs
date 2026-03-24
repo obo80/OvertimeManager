@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace OvertimeManager.Api.Controllers
+namespace OvertimeManager.Application.CQRS.Employee.Overtime.Commands.SetOvertimeDone
 {
     public class SetOvertimeDoneCommand : IRequest
     {

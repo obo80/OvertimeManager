@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using OvertimeManager.Application.Common.GetFromQueryOptions;
 using OvertimeManager.Application.CQRS.Employee.Overtime.Commands.CancelOvertime;
 using OvertimeManager.Application.CQRS.Employee.Overtime.Commands.CreateOvertime;
+using OvertimeManager.Application.CQRS.Employee.Overtime.Commands.SetOvertimeDone;
 using OvertimeManager.Application.CQRS.Employee.Overtime.Commands.UpdateOvertime;
 using OvertimeManager.Application.CQRS.Employee.Overtime.DTOs;
+using OvertimeManager.Application.CQRS.Employee.Overtime.Queries.GetAllActiveOvertimesByEmployeId;
 using OvertimeManager.Application.CQRS.Employee.Overtime.Queries.GetAllOvertimesByEmployeId;
 using OvertimeManager.Application.CQRS.Employee.Overtime.Queries.GetCurrentEmployeeOvertimeStatus;
 using OvertimeManager.Application.CQRS.Employee.Overtime.Queries.GetOvertimeById;
@@ -41,7 +43,7 @@ namespace OvertimeManager.Api.Controllers
             [FromQuery] FromQueryOptions queryOptions)
         {
             var currentEmployeeId = TokenHelper.GetUserIdFromClaims(authorization);
-            var overtimeDtos = await _mediator.Send(new GetAllOvertimesByEmployeIdQuery(currentEmployeeId, queryOptions));
+            var overtimeDtos = await _mediator.Send(new GetAllOvertimesByEmployeeIdQuery(currentEmployeeId, queryOptions));
 
             return Ok(overtimeDtos);
         }
@@ -50,7 +52,7 @@ namespace OvertimeManager.Api.Controllers
             [FromQuery] FromQueryOptions queryOptions)
         {
             var currentEmployeeId = TokenHelper.GetUserIdFromClaims(authorization);
-            var overtimeDtos = await _mediator.Send(new GetAllActiveOvertimesByEmployeIdQuery(currentEmployeeId, queryOptions));
+            var overtimeDtos = await _mediator.Send(new GetAllActiveOvertimesByEmployeeIdQuery(currentEmployeeId, queryOptions));
 
             return Ok(overtimeDtos);
         }
