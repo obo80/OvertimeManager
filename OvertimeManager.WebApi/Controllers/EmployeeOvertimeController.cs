@@ -8,8 +8,8 @@ using OvertimeManager.Application.CQRS.Employee.Overtime.Commands.CreateOvertime
 using OvertimeManager.Application.CQRS.Employee.Overtime.Commands.SetOvertimeDone;
 using OvertimeManager.Application.CQRS.Employee.Overtime.Commands.UpdateOvertime;
 using OvertimeManager.Application.CQRS.Employee.Overtime.DTOs;
-using OvertimeManager.Application.CQRS.Employee.Overtime.Queries.GetAllActiveOvertimesByEmployeId;
-using OvertimeManager.Application.CQRS.Employee.Overtime.Queries.GetAllOvertimesByEmployeId;
+using OvertimeManager.Application.CQRS.Employee.Overtime.Queries.GetAllActiveOvertimesByEmployeeId;
+using OvertimeManager.Application.CQRS.Employee.Overtime.Queries.GetAllOvertimesByEmployeeId;
 using OvertimeManager.Application.CQRS.Employee.Overtime.Queries.GetCurrentEmployeeOvertimeStatus;
 using OvertimeManager.Application.CQRS.Employee.Overtime.Queries.GetOvertimeById;
 using OvertimeManager.Infrastructure.Authentication;
