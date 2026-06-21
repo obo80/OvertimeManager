@@ -4,7 +4,7 @@
     {
 
         public int EmployeeId { get; set; }
-        public string EmployeeEmail { get; set; }
+        public required string EmployeeEmail { get; set; }
 
         public double TakenOvertime { get; set; } = 0;      //time added to amount after overtime dome
         public double SettledOvertime { get; set; } = 0;   //time paid or reveived 

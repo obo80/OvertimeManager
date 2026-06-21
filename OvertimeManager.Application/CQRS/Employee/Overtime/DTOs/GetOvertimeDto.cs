@@ -31,7 +31,7 @@ namespace OvertimeManager.Application.CQRS.Employee.Overtime.DTOs
         public string Status { get; set; } = ((StatusEnum)StatusEnum.Pending).ToString();
         public DateTime? ApprovedAt { get; set; } = null;
         public int? ApprovedByEmployeeId { get; set; } = null;
-        public string ApprovedByEmployeeEmail { get; set; }
+        public required string ApprovedByEmployeeEmail { get; set; }
 
         //actual time worked will be set after the overtime is completed
         public double? ActualTime { get; set; } = null;
