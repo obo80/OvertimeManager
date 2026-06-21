@@ -33,6 +33,16 @@ namespace OvertimeManager.WebApi
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             //builder.Services.AddOpenApi();
 
+
+            //add cors policy to allow all origins, methods and headers (for development purposes)
+            builder.Services.AddCors(options => {
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
             var app = builder.Build();
 
             var scope = app.Services.CreateScope();
@@ -61,7 +71,7 @@ namespace OvertimeManager.WebApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "MusicWeb API");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "OvertimeManager API V1");
                 });
             }
 
@@ -71,6 +81,7 @@ namespace OvertimeManager.WebApi
 
 
             app.MapControllers();
+            app.UseCors("AllowAll");
 
             app.Run();
         }
